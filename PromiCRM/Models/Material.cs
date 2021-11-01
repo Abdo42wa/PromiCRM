@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PromiCRM.Data
+namespace PromiCRM.Models
 {
     public class Material
     {

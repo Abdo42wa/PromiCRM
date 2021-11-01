@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PromiCRM.Data
+namespace PromiCRM.Models
 {
-    public class Currency
+    public class Services
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Time { get; set; }
     }
 }

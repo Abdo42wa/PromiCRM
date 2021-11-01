@@ -4,17 +4,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PromiCRM.Data
+namespace PromiCRM.Models
 {
-    public class WeeklyWorkSchedule
+    public class Bonus
     {
         public int id { get; set; }
-
-        // we need to get the user name 
         [ForeignKey(nameof(ApiUser))]
         public ApiUser ApiUser { get; set; }
         public int UserId { get; set; }
-        public string DarbasApibūdinimas { get; set; }
-        public bool Atlikta { get; set; }
+        public int Kiekis { get; set; }
+        public int Sukaupta { get; set; }
+        public int Bounuas { get; set; }
+        public int LikoIKI { get; set; }
     }
 }
