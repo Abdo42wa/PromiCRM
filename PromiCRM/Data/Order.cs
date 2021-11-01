@@ -8,7 +8,7 @@ namespace PromiCRM.Data
 {
     public class Order
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
         // we need to conect the user table some how with the order tab
         [ForeignKey(nameof(ApiUser))]
