@@ -8,13 +8,13 @@ namespace PromiCRM.Models
 {
     public class Bonus
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         [ForeignKey(nameof(ApiUser))]
         public ApiUser ApiUser { get; set; }
         public int UserId { get; set; }
-        public int Kiekis { get; set; }
-        public int Sukaupta { get; set; }
-        public int Bounuas { get; set; }
-        public int LikoIKI { get; set; }
+        public int Quantity { get; set; }
+        public int Accumulated { get; set; }
+        public int Bonuas { get; set; }
+        public int LeftUntil { get; set; }
     }
 }
