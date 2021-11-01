@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PromiCRM.Models
 {
-    public class Non_standardWorks
+    public class NonStandardWorks
     {
         public int Id { get; set; }
 

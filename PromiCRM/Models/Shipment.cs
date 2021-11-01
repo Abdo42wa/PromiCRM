@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace PromiCRM.Models
 {
-    public class ShipmentType
+    public class Shipment
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Type { get; set; }
         public int Period { get; set; }
         public double ShippingCost { get; set; }
         public int ShippingNumber { get; set; }

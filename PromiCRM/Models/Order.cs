@@ -23,7 +23,7 @@ namespace PromiCRM.Models
         public string productCode { get; set; }
 
         [ForeignKey(nameof(shipmentType))]
-        public ShipmentType shipmentType { get; set; }
+        public Shipment shipmentType { get; set; }
         public int ShipmentTypeId { get; set; }
 
         [ForeignKey(nameof(Customer))]
