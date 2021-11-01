@@ -14,7 +14,8 @@ namespace PromiCRM.Models
         public DateTime LastTimeChanging  { get; set; }
 
         [ForeignKey(nameof(Order))]
-        public Order Order { get; set; }
         public int OrderId { get; set; }
+        public Order Order { get; set; }
+        
     }
 }

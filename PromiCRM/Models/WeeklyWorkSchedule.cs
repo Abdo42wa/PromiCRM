@@ -12,8 +12,9 @@ namespace PromiCRM.Models
 
         // we need to get the user name 
         [ForeignKey(nameof(ApiUser))]
-        public ApiUser ApiUser { get; set; }
         public int UserId { get; set; }
+        public ApiUser ApiUser { get; set; }
+        
         public string DarbasApibūdinimas { get; set; }
         public bool Atlikta { get; set; }
     }

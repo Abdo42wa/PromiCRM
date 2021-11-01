@@ -16,15 +16,17 @@ namespace PromiCRM.Models
         public int DaysUntilDeadline { get; set; }
 
         [ForeignKey(nameof(Customer))]
-        public Customer Customer { get; set; }
         public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
+        
         public string Device { get; set; }
         public int PlannedProductionTime { get; set; }
         public string Comment { get; set; }
 
         [ForeignKey(nameof(Material))]
-        public Material Material { get; set; }
         public int MaterialId { get; set; }
+        public Material Material { get; set; }
+        
 
         public bool Status { get; set; }
     }

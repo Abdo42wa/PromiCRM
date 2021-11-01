@@ -7,5 +7,6 @@ namespace PromiCRM.Models
 {
     public class ApiUser
     {
+        public int Id { get; set; }
     }
 }

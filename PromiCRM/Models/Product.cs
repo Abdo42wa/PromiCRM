@@ -11,8 +11,9 @@ namespace PromiCRM.Models
         public int Id { get; set; }
 
         [ForeignKey(nameof(Order))]
-        public Order Order { get; set; }
         public int OrderId { get; set; }
+        public Order Order { get; set; }
+        
 
         public string Photo { get; set; }
         public string Link { get; set; }
@@ -39,8 +40,9 @@ namespace PromiCRM.Models
 
 
         [ForeignKey(nameof(Services))]
-        public Services Services { get; set; }
         public int ServiceId { get; set; }
+        public Services Services { get; set; }
+        
 
     }
 }
