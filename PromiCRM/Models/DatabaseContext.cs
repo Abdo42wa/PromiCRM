@@ -17,6 +17,7 @@ namespace PromiCRM.Models
         public DbSet<Country> Countries { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Material> Materials { get; set; }
         public DbSet<NonStandardWorks> NonStandardWorks { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
