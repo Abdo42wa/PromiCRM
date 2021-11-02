@@ -78,6 +78,9 @@ namespace PromiCRM
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PromiCRM v1"));
 
+            //adding GLOBAL exceptions handler that i defined in ServiceExtensions
+            app.ConfigureExceptionHandler();
+
             app.UseHttpsRedirection();
 
             app.UseCors("AllowAll");
