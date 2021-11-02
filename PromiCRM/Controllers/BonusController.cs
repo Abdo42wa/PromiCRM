@@ -54,7 +54,7 @@ namespace PromiCRM.Controllers
             return Ok(result);
         }
         /// <summary>
-        /// Get record from bonus table by userId. Convert to dto
+        /// Get all records from bonus table by userId. Convert to dto
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -63,8 +63,8 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetBonusByUserId(Guid id)
         {
-            var bonus = await _unitOfWork.Bonus.Get(b => b.UserId == id);
-            var result = _mapper.Map<BonusDTO>(bonus);
+            var bonuses = await _unitOfWork.Bonus.GetAll(b => b.UserId == id);
+            var result = _mapper.Map<IList<BonusDTO>>(bonuses);
             return Ok(result);
         }
         /// <summary>
