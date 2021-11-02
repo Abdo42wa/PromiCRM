@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PromiCRM.Models;
 using System;
@@ -22,6 +24,40 @@ namespace PromiCRM
             //specify where it should store or which database for identity services to happen
             //passing DatabaseContext that we are using as our database and AddDefaultToken
             builder.AddEntityFrameworkStores<DatabaseContext>().AddDefaultTokenProviders();
+        }
+
+
+        //configuration for JWT in Startup. we also need IConfiguration
+        public static void ConfigureJWT(this IServiceCollection services, IConfiguration Configuration)
+        {
+            //gettings "Jwt" section from appsettings.json
+            var jwtSettings = Configuration.GetSection("Jwt");
+            //getting key that i set with Command line
+            var key = Environment.GetEnvironmentVariable("KEY");
+
+            //basically adding authentication to app. and default scheme that i want is JWT
+            //when somebody tries to authenticate check for bearer token
+            //THEN i set up parameters. ValidateIssuer means we want to validate token, validate lifetime and issuer key
+            //then we set ValidIssuer for any JWT token will be string from appsettings.json 
+            //then goes key that we hash. most important thing dont put KEY in appsettings
+            //based on your situation you may need more validation
+            //VALIDATE AUDIENCE TOO. to validate users
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings.GetSection("Issuer").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+                };
+            });
         }
     }
 }

@@ -8,7 +8,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PromiCRM.Configurations;
+using PromiCRM.IRepository;
 using PromiCRM.Models;
+using PromiCRM.Repository;
+using PromiCRM.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +35,12 @@ namespace PromiCRM
             services.AddDbContext<DatabaseContext>(
                options => options.UseSqlServer(Configuration.GetConnectionString("lukasConnection")));
 
-            services.AddControllers();
+
+            services.AddAuthentication();
+            //calling method from ServiceExtensions to configure Identity
+            services.ConfigureIdentity();
+            //Configuration for JWT from ServiceExtensions. It requers to pass Configuration
+            services.ConfigureJWT(Configuration);
 
             services.AddCors(o =>
             {
@@ -41,11 +50,21 @@ namespace PromiCRM
                    .AllowAnyHeader());
             });
 
+            // Add autoMapper. For type providing MapperInitializer that i created in Configurations
+            services.AddAutoMapper(typeof(MapperInitilizer));
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            //adding new serivice. IAuthManager mapped to AuthManager. AuthManager has methods implementation.
+            services.AddScoped<IAuthManager, AuthManager>();
+
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PromiCRM", Version = "v1" });
             });
+
+            services.AddControllers().AddNewtonsoftJson(op =>
+                op.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +84,7 @@ namespace PromiCRM
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
