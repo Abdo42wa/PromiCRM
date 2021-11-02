@@ -55,6 +55,12 @@ namespace PromiCRM.ModelsDTO
         [Required]
         public DateTime OrderFinishDate { get; set; }
     }
+
+    public class UpdateOrderDTO : CreateOrderDTO
+    {
+
+    }
+
     public class OrderDTO
     {
         public int Id { get; set; }

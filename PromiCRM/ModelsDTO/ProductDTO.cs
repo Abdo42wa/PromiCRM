@@ -37,6 +37,11 @@ namespace PromiCRM.ModelsDTO
         public Services Services { get; set; }
         public int ServiceId { get; set; }*/
     }
+
+    public class UpdateProductDTO : CreateProductDTO
+    {
+
+    }
     public class ProductDTO
     {
         public int Id { get; set; }

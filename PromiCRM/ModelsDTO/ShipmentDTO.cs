@@ -20,7 +20,10 @@ namespace PromiCRM.ModelsDTO
         public int ShippingNumber { get; set; }
         public string ShipmentInfo { get; set; }
     }
+    public class UpdateShipmentDTO: CreateShipmentDTO
+    {
 
+    }
     public class ShipmentDTO
     {
         public int Id { get; set; }

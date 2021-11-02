@@ -20,7 +20,10 @@ namespace PromiCRM.ModelsDTO
         public bool Atlikta { get; set; }
 
     }
+    public class UpdateWeeklyWorkScheduleDTO : CreateWeeklyWorkScheduleDTO
+    {
 
+    }
     public class WeeklyWorkScheduleDTO
     {
         public int id { get; set; }

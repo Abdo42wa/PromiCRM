@@ -22,6 +22,10 @@ namespace PromiCRM.ModelsDTO
         [Range(1, 365, ErrorMessage = "Your maxima is 365")]
         public int LeftUntil { get; set; }
     }
+    public class UpdateBonusDTO : CreateBonusDTO
+    {
+
+    }
     public class BonusDTO : CreateBonusDTO
     {
         public int Id { get; set; }

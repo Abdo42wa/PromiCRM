@@ -18,6 +18,11 @@ namespace PromiCRM.ModelsDTO
         public Product Product { get; set; }
         public int ProductId { get; set; }*/
     }
+    public class UpdateMaterialDTO : CreateMaterialDTO
+    {
+
+    }
+
     public class MaterialDTO : CreateMaterialDTO
     {
         public int Id { get; set; }

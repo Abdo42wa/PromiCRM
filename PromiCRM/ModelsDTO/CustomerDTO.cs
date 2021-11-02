@@ -24,6 +24,11 @@ namespace PromiCRM.ModelsDTO
         [StringLength(maximumLength: 100, MinimumLength = 5, ErrorMessage = "The Customer  Company Name cannot be more than 100 or less than 5 ")]
         public string CompanyName { get; set; }
     }
+
+    public class UpdateCustomerDTO : CreateCustomerDTO
+    {
+
+    }
     public class CustomerDTO : CreateCustomerDTO
     {
         public int Id { get; set; }

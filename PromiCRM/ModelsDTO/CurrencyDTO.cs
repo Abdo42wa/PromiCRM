@@ -13,6 +13,11 @@ namespace PromiCRM.ModelsDTO
         public string Name { get; set; }
 
     }
+
+    public class UpdateCurrencyDTO : CreateCurrencyDTO
+    {
+
+    }
     public class CurrencyDTO : CreateCurrencyDTO
     {
         public int Id { get; set; }

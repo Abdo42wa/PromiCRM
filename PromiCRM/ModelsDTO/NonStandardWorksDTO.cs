@@ -35,6 +35,11 @@ namespace PromiCRM.ModelsDTO
         public bool Status { get; set; }
     }
 
+    public class UpdateNonStandardWorksDTO : CreateNonStandardWorksDTO
+    {
+
+    }
+
     public class NonStandardWorksDTO : CreateNonStandardWorksDTO
     {
         public int Id { get; set; }

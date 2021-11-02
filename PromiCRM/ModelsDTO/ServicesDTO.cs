@@ -15,6 +15,10 @@ namespace PromiCRM.ModelsDTO
         [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "The Service  Time cannot be more than 50 or less than 3 ")]
         public string Time { get; set; }
     }
+    public class UpdateServicesDTO : CreateServicesDTO
+    {
+
+    }
     public class ServicesDTO
     {
         public int Id { get; set; }

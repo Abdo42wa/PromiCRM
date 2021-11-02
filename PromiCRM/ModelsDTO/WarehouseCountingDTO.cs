@@ -21,6 +21,11 @@ namespace PromiCRM.ModelsDTO
         public int OrderId { get; set; }*/
     }
 
+    public class UpdateWarehouseCountingDTO : CreateWarehouseCountingDTO
+    {
+
+    }
+
     public class WarehouseCountingDTO : CreateWarehouseCountingDTO
     {
         public int Id { get; set; }

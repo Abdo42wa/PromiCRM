@@ -13,7 +13,6 @@ namespace PromiCRM.Models
         : base(options)
         {
         }
-
         public DbSet<Bonus> Bonus { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Currency> Currencies { get; set; }
