@@ -58,7 +58,7 @@ namespace PromiCRM.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Invalid CREATE attempt in {nameof(CreateSeervice)}");
+                _logger.LogError($"Invalid CREATE attempt in {nameof(CreateService)}");
                 return BadRequest("Submited invalid data");
             }
             var service = _mapper.Map<Service>(serviceDTO);
