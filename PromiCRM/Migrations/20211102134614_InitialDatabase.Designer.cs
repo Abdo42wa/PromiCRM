@@ -10,7 +10,7 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211102115103_InitialDatabase")]
+    [Migration("20211102134614_InitialDatabase")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -341,7 +341,7 @@ namespace PromiCRM.Migrations
                     b.ToTable("Materials");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.NonStandardWorks", b =>
+            modelBuilder.Entity("PromiCRM.Models.NonStandardWork", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -381,6 +381,8 @@ namespace PromiCRM.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("MaterialId");
 
                     b.ToTable("NonStandardWorks");
                 });
@@ -474,6 +476,9 @@ namespace PromiCRM.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("HeightWithoutPackaging")
                         .HasColumnType("float");
 
@@ -506,9 +511,6 @@ namespace PromiCRM.Migrations
 
                     b.Property<double>("WidthWithoutPackaging")
                         .HasColumnType("float");
-
-                    b.Property<string>("code")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -683,11 +685,17 @@ namespace PromiCRM.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.NonStandardWorks", b =>
+            modelBuilder.Entity("PromiCRM.Models.NonStandardWork", b =>
                 {
                     b.HasOne("PromiCRM.Models.Customer", null)
                         .WithMany("NonStandardWorks")
                         .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PromiCRM.Models.Material", null)
+                        .WithMany("NonStandardWorks")
+                        .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -776,6 +784,11 @@ namespace PromiCRM.Migrations
                     b.Navigation("NonStandardWorks");
 
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("PromiCRM.Models.Material", b =>
+                {
+                    b.Navigation("NonStandardWorks");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Order", b =>

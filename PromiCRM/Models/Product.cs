@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,8 +9,8 @@ namespace PromiCRM.Models
 {
     public class Product
     {
+        [Key]
         public int Id { get; set; }
-
         [ForeignKey(nameof(Order))]
         public int OrderId { get; set; }
         [NotMapped]
@@ -18,7 +19,7 @@ namespace PromiCRM.Models
 
         public string Photo { get; set; }
         public string Link { get; set; }
-        public string code { get; set; }
+        public string Code { get; set; }
         public string Category { get; set; }
         public string Name { get; set; }
         public double LengthWithoutPackaging { get; set; }
@@ -38,16 +39,11 @@ namespace PromiCRM.Models
         public double GrindingTime { get; set; }
         public double MillingTime { get; set; }
         public double laseringTime { get; set; }*/
-
-
         [ForeignKey(nameof(Services))]
         public int ServiceId { get; set; }
         [NotMapped]
         public Service Services { get; set; }
-
         //relationship one to many with Material
         public virtual IList<Material> Materials { get; set; }
-        
-
     }
 }

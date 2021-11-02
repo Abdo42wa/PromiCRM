@@ -33,6 +33,6 @@ namespace PromiCRM.ModelsDTO
     {
         public int Id { get; set; }
         public virtual IList<OrderDTO> Orders { get; set; }
-        public virtual IList<NonStandardWorksDTO> NonStandardWorks { get; set; }
+        public virtual IList<NonStandardWorkDTO> NonStandardWorks { get; set; }
     }
 }

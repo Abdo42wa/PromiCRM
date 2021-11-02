@@ -277,34 +277,6 @@ namespace PromiCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NonStandardWorks",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderNumber = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrderDeadline = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DaysUntilDeadline = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
-                    Device = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PlannedProductionTime = table.Column<int>(type: "int", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MaterialId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NonStandardWorks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_NonStandardWorks_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -374,7 +346,7 @@ namespace PromiCRM.Migrations
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Link = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LengthWithoutPackaging = table.Column<double>(type: "float", nullable: false),
@@ -445,6 +417,40 @@ namespace PromiCRM.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "NonStandardWorks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderNumber = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OrderDeadline = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DaysUntilDeadline = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    Device = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PlannedProductionTime = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NonStandardWorks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NonStandardWorks_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_NonStandardWorks_Materials_MaterialId",
+                        column: x => x.MaterialId,
+                        principalTable: "Materials",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -498,6 +504,11 @@ namespace PromiCRM.Migrations
                 name: "IX_NonStandardWorks_CustomerId",
                 table: "NonStandardWorks",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NonStandardWorks_MaterialId",
+                table: "NonStandardWorks",
+                column: "MaterialId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_ApiUserId",
@@ -566,9 +577,6 @@ namespace PromiCRM.Migrations
                 name: "Bonus");
 
             migrationBuilder.DropTable(
-                name: "Materials");
-
-            migrationBuilder.DropTable(
                 name: "NonStandardWorks");
 
             migrationBuilder.DropTable(
@@ -579,6 +587,9 @@ namespace PromiCRM.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Materials");
 
             migrationBuilder.DropTable(
                 name: "Products");

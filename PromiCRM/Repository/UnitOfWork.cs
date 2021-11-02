@@ -15,7 +15,7 @@ namespace PromiCRM.Repository
         private IGenericRepository<Currency> _currencies;
         private IGenericRepository<Customer> _customers;
         private IGenericRepository<Material> _materials;
-        private IGenericRepository<NonStandardWorks> _nonStandardWorks;
+        private IGenericRepository<NonStandardWork> _nonStandardWorks;
         private IGenericRepository<Order> _orders;
         private IGenericRepository<Product> _products;
         private IGenericRepository<Service> _services;
@@ -37,7 +37,7 @@ namespace PromiCRM.Repository
 
         public IGenericRepository<Material> Materials => _materials ??= new GenericRepository<Material>(_context);
 
-        public IGenericRepository<NonStandardWorks> NonStandardWorks => _nonStandardWorks ??= new GenericRepository<NonStandardWorks>(_context);
+        public IGenericRepository<NonStandardWork> NonStandardWorks => _nonStandardWorks ??= new GenericRepository<NonStandardWork>(_context);
 
         public IGenericRepository<Order> Orders => _orders ??= new GenericRepository<Order>(_context);
 

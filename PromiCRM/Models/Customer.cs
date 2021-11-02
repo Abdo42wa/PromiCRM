@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,6 +8,7 @@ namespace PromiCRM.Models
 {
     public class Customer
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
@@ -15,6 +17,6 @@ namespace PromiCRM.Models
         public string CompanyName { get; set; }
         //relationship one to many. Each Customer can have  multiple orders.
         public virtual IList<Order> Orders { get; set; }
-        public virtual IList<NonStandardWorks> NonStandardWorks { get; set; }
+        public virtual IList<NonStandardWork> NonStandardWorks { get; set; }
     }
 }

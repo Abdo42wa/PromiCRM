@@ -40,7 +40,7 @@ namespace PromiCRM.ModelsDTO
 
     }
 
-    public class NonStandardWorksDTO : CreateNonStandardWorksDTO
+    public class NonStandardWorkDTO : CreateNonStandardWorksDTO
     {
         public int Id { get; set; }
         public CustomerDTO Customer { get; set; }
