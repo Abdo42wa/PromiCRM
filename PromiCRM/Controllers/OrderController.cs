@@ -14,13 +14,13 @@ namespace PromiCRM.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NonStandardWorkController : ControllerBase
+    public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<NonStandardWorkController> _logger;
+        private readonly ILogger<OrderController> _logger;
 
-        public NonStandardWorkController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<NonStandardWorkController> logger)
+        public OrderController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<OrderController> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -31,21 +31,21 @@ namespace PromiCRM.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetNonStandardWorks()
+        public async Task<IActionResult> GetOrders()
         {
-            var NonStandardWorks = await _unitOfWork.NonStandardWorks.GetAll();
-            var results = _mapper.Map<IList<NonStandardWorkDTO>>(NonStandardWorks);
+            var orders = await _unitOfWork.Orders.GetAll();
+            var results = _mapper.Map<IList<OrderController>>(orders);
             return Ok(results);
         }
 
 
-        [HttpGet("{id:int}", Name = "GetNonStandardWork")]
+        [HttpGet("{id:int}", Name = "GetOrder")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetNonStandardWork(int id)
+        public async Task<IActionResult> GetOrder(int id)
         {
-            var NonStandardWork = await _unitOfWork.NonStandardWorks.Get(c => c.Id == id);
-            var result = _mapper.Map<NonStandardWorkDTO>(NonStandardWork);
+            var order = await _unitOfWork.Orders.Get(c => c.Id == id);
+            var result = _mapper.Map<OrderDTO>(order);
             return Ok(result);
         }
 
@@ -54,62 +54,63 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateNonStandardWork([FromBody] CreateNonStandardWorksDTO createNonStandardWorksDTO)
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO createOrderDTO)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Invalid CREATE attempt in {nameof(CreateNonStandardWork)}");
+                _logger.LogError($"Invalid CREATE attempt in {nameof(CreateOrder)}");
                 return BadRequest("Submited invalid data");
             }
-            var nonStandardWork = _mapper.Map<NonStandardWork>(createNonStandardWorksDTO);
-            await _unitOfWork.NonStandardWorks.Insert(nonStandardWork);
+            var order = _mapper.Map<Order>(createOrderDTO);
+            await _unitOfWork.Orders.Insert(order);
             await _unitOfWork.Save();
-            
-            return CreatedAtRoute("GetNonStandardWork", new { id = nonStandardWork.Id }, nonStandardWork);
+
+            return CreatedAtRoute("GetOrder", new { id = order.Id }, order);
         }
-       
+
 
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateNonStandardWork([FromBody] UpdateNonStandardWorksDTO nonStandardWorksDTO, int id)
+        public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderDTO orderDTO, int id)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateNonStandardWork)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrder)}");
                 return BadRequest("Submited invalid data");
             }
-            var nonStandardWork = await _unitOfWork.NonStandardWorks.Get(c => c.Id == id);
-            if (nonStandardWork == null)
+            var order = await _unitOfWork.Orders.Get(c => c.Id == id);
+            if (order == null)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateNonStandardWork)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrder)}");
                 return BadRequest("Submited invalid data");
             }
 
-            
-            _mapper.Map(nonStandardWorksDTO, nonStandardWork);
-            _unitOfWork.NonStandardWorks.Update(nonStandardWork);
+
+            _mapper.Map(orderDTO, order);
+            _unitOfWork.Orders.Update(order);
             await _unitOfWork.Save();
             return NoContent();
         }
 
-      
+
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> DeleteNStandardWork(int id)
+        public async Task<IActionResult> DeleteOrder(int id)
         {
-            var nonStandardWork = _unitOfWork.NonStandardWorks.Get(c => c.Id == id);
-            if (nonStandardWork == null)
+            var order = _unitOfWork.Orders.Get(c => c.Id == id);
+            if (order == null)
             {
-                _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteNStandardWork)}");
+                _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteOrder)}");
                 return BadRequest("Submited invalid data");
             }
-            await _unitOfWork.NonStandardWorks.Delete(id);
+            await _unitOfWork.Orders.Delete(id);
             await _unitOfWork.Save();
             return NoContent();
         }
+
     }
 }
