@@ -21,7 +21,7 @@ namespace PromiCRM.Models
         public DbSet<NonStandardWorks> NonStandardWorks { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Services> Services { get; set; }
+        public DbSet<Service> Services { get; set; }
         public DbSet<Shipment> Shipments { get; set; }
         public DbSet<WarehouseCounting> WarehouseCountings { get; set; }
         public DbSet<WeeklyWorkSchedule> WeeklyWorkSchedules { get; set; }

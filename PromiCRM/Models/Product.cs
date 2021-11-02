@@ -41,7 +41,7 @@ namespace PromiCRM.Models
 
         [ForeignKey(nameof(Services))]
         public int ServiceId { get; set; }
-        public Services Services { get; set; }
+        public Service Services { get; set; }
         
 
     }
