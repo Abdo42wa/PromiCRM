@@ -43,7 +43,7 @@ namespace PromiCRM.ModelsDTO
     public class NonStandardWorksDTO : CreateNonStandardWorksDTO
     {
         public int Id { get; set; }
-        public virtual IList<CustomerDTO> Customer { get; set; }
-        public virtual IList<MaterialDTO> Material { get; set; }
+        public CustomerDTO Customer { get; set; }
+        public MaterialDTO Material { get; set; }
     }
 }

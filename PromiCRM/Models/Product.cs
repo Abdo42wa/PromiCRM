@@ -44,6 +44,9 @@ namespace PromiCRM.Models
         public int ServiceId { get; set; }
         [NotMapped]
         public Service Services { get; set; }
+
+        //relationship one to many with Material
+        public virtual IList<Material> Materials { get; set; }
         
 
     }

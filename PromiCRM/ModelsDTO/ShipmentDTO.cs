@@ -27,5 +27,6 @@ namespace PromiCRM.ModelsDTO
     public class ShipmentDTO
     {
         public int Id { get; set; }
+        public virtual IList<OrderDTO> Orders { get; set; }
     }
 }

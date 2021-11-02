@@ -8,7 +8,7 @@ namespace PromiCRM.Models
 {
     public class WeeklyWorkSchedule
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
         // we need to get the user name 
         [ForeignKey(nameof(ApiUser))]

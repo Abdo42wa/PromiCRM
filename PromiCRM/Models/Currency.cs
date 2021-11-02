@@ -9,5 +9,7 @@ namespace PromiCRM.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        //relationship one to many. one currency can have multiple orders.
+        public virtual IList<Order> Orders { get; set; }
     }
 }

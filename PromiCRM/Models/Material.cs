@@ -16,6 +16,7 @@ namespace PromiCRM.Models
         public int ProductId { get; set; }
         [NotMapped]
         public Product Product { get; set; }
+        //public virtual IList<NonStandardWorks> NonStandardWorks { get; set; }
         
     }
 }

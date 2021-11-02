@@ -26,6 +26,7 @@ namespace PromiCRM.ModelsDTO
     public class MaterialDTO : CreateMaterialDTO
     {
         public int Id { get; set; }
-        public virtual IList<ProductDTO> Product { get; set; }
+        public ProductDTO Product { get; set; }
+        public virtual IList<NonStandardWorksDTO> NonStandardWorks { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace PromiCRM.ModelsDTO
         public string ShortName { get; set; }
         [Required]
         [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = "The Continent  Name cannot be more than 3 or less than 2 ")]
-        public string continent { get; set; }
+        public string Continent { get; set; }
     }
 
     public class UpdateCountryDTO
@@ -26,5 +26,6 @@ namespace PromiCRM.ModelsDTO
     public class CountryDTO : CreateCountryDTO
     {
         public int Id { get; set; }
+        public virtual IList<OrderDTO> Orders { get; set; }
     }
 }

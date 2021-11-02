@@ -29,6 +29,7 @@ namespace PromiCRM.ModelsDTO
     public class WarehouseCountingDTO : CreateWarehouseCountingDTO
     {
         public int Id { get; set; }
-        public virtual IList<OrderDTO> Order { get; set; }
+        public OrderDTO Order { get; set; }
+
     }
 }

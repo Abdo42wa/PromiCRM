@@ -20,14 +20,14 @@ namespace PromiCRM.Models
         public DateTime Data { get; set; }
         public string Platformas { get; set; }
         public string MoreInfo { get; set; }
-        public int quantity { get; set; }
+        public int Quantity { get; set; }
         public string Photo { get; set; }
-        public string productCode { get; set; }
+        public string ProductCode { get; set; }
 
-        [ForeignKey(nameof(shipmentType))]
+        [ForeignKey(nameof(Shipment))]
         public int ShipmentTypeId { get; set; }
         [NotMapped]
-        public Shipment shipmentType { get; set; }
+        public Shipment Shipment { get; set; }
         
 
         [ForeignKey(nameof(Customer))]
@@ -35,7 +35,6 @@ namespace PromiCRM.Models
         [NotMapped]
         public Customer Customer { get; set; }
         
-
         public string Address { get; set; }
 
         [ForeignKey(nameof(Country))]
@@ -59,7 +58,8 @@ namespace PromiCRM.Models
         public DateTime OrderFinishDate { get; set; }
 
 
-
+        public virtual IList<WarehouseCounting> WarehouseCountings { get; set; }
+        public virtual IList<Product> Products { get; set; }
 
     }
 }

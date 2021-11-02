@@ -9,7 +9,6 @@ namespace PromiCRM.Models
     public class NonStandardWorks
     {
         public int Id { get; set; }
-
         public int OrderNumber { get; set; }
         public DateTime Date { get; set; }
         public DateTime OrderDeadline { get; set; }
@@ -19,7 +18,6 @@ namespace PromiCRM.Models
         public int CustomerId { get; set; }
         [NotMapped]
         public Customer Customer { get; set; }
-        
         public string Device { get; set; }
         public int PlannedProductionTime { get; set; }
         public string Comment { get; set; }
@@ -28,8 +26,6 @@ namespace PromiCRM.Models
         public int MaterialId { get; set; }
         [NotMapped]
         public Material Material { get; set; }
-        
-
         public bool Status { get; set; }
     }
 }

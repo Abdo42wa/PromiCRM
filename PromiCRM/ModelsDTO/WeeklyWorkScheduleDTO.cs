@@ -26,7 +26,7 @@ namespace PromiCRM.ModelsDTO
     }
     public class WeeklyWorkScheduleDTO
     {
-        public int id { get; set; }
-        public virtual IList<UserDTO> User { get; set; }
+        public int Id { get; set; }
+        public UserDTO ApiUser { get; set; }
     }
 }

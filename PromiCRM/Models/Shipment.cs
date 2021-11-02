@@ -13,5 +13,7 @@ namespace PromiCRM.Models
         public double ShippingCost { get; set; }
         public int ShippingNumber { get; set; }
         public string ShipmentInfo { get; set; }
+        //relationship one to many. each shipment can have multiple orders
+        public virtual IList<Order> Orders { get; set; }
     }
 }

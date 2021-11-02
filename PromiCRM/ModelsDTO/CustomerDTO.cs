@@ -32,5 +32,7 @@ namespace PromiCRM.ModelsDTO
     public class CustomerDTO : CreateCustomerDTO
     {
         public int Id { get; set; }
+        public virtual IList<OrderDTO> Orders { get; set; }
+        public virtual IList<NonStandardWorksDTO> NonStandardWorks { get; set; }
     }
 }

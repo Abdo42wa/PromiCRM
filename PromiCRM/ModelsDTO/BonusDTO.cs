@@ -17,7 +17,7 @@ namespace PromiCRM.ModelsDTO
         public int Accumulated { get; set; }
         [Required]
         [Range(100, 1000, ErrorMessage = "Your maxima is 1000")]
-        public int Bonuas { get; set; }
+        public int Bonusas { get; set; }
         [Required]
         [Range(1, 365, ErrorMessage = "Your maxima is 365")]
         public int LeftUntil { get; set; }
@@ -29,6 +29,6 @@ namespace PromiCRM.ModelsDTO
     public class BonusDTO : CreateBonusDTO
     {
         public int Id { get; set; }
-        public virtual IList<UserDTO> Users { get; set; }
+        public UserDTO ApiUser { get; set; }
     }
 }
