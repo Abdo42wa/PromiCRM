@@ -54,6 +54,20 @@ namespace PromiCRM.Controllers
             return Ok(result);
         }
         /// <summary>
+        /// Get record from bonus table by userId. Convert to dto
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("user/{id:Guid}")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetBonusByUserId(Guid id)
+        {
+            var bonus = await _unitOfWork.Bonus.Get(b => b.UserId == id);
+            var result = _mapper.Map<BonusDTO>(bonus);
+            return Ok(result);
+        }
+        /// <summary>
         /// Check if model is valid. Convert to Bonus model and insert
         /// </summary>
         /// <param name="bonusDTO"></param>
