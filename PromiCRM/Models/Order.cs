@@ -12,7 +12,8 @@ namespace PromiCRM.Models
 
         // we need to conect the user table some how with the order tab
         [ForeignKey(nameof(ApiUser))]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
+        [NotMapped]
         public ApiUser ApiUser { get; set; }
         
         public int OrderNumber { get; set; }
@@ -25,11 +26,13 @@ namespace PromiCRM.Models
 
         [ForeignKey(nameof(shipmentType))]
         public int ShipmentTypeId { get; set; }
+        [NotMapped]
         public Shipment shipmentType { get; set; }
         
 
         [ForeignKey(nameof(Customer))]
         public int CustomerId { get; set; }
+        [NotMapped]
         public Customer Customer { get; set; }
         
 
@@ -37,6 +40,7 @@ namespace PromiCRM.Models
 
         [ForeignKey(nameof(Country))]
         public int CountryId { get; set; }
+        [NotMapped]
         public Country Country { get; set; }
         
 
@@ -46,6 +50,7 @@ namespace PromiCRM.Models
 
         [ForeignKey(nameof(Currency))]
         public int CurrencyId { get; set; }
+        [NotMapped]
         public Currency Currency { get; set; }
         
 

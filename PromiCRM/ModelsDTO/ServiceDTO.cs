@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PromiCRM.ModelsDTO
 {
-    public class CreateServicesDTO
+    public class CreateServiceDTO
     {
         [Required]
         [StringLength(maximumLength: 100, MinimumLength = 10, ErrorMessage = "The Service  Name cannot be more than 100 or less than 10 ")]
@@ -15,11 +15,11 @@ namespace PromiCRM.ModelsDTO
         [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "The Service  Time cannot be more than 50 or less than 3 ")]
         public string Time { get; set; }
     }
-    public class UpdateServicesDTO : CreateServicesDTO
+    public class UpdateServiceDTO : CreateServiceDTO
     {
 
     }
-    public class ServicesDTO
+    public class ServiceDTO
     {
         public int Id { get; set; }
     }

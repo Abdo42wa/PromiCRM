@@ -12,7 +12,8 @@ namespace PromiCRM.Models
 
         // we need to get the user name 
         [ForeignKey(nameof(ApiUser))]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
+        [NotMapped]
         public ApiUser ApiUser { get; set; }
         
         public string DarbasApibūdinimas { get; set; }

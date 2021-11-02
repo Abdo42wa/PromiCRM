@@ -12,6 +12,7 @@ namespace PromiCRM.Models
 
         [ForeignKey(nameof(Order))]
         public int OrderId { get; set; }
+        [NotMapped]
         public Order Order { get; set; }
         
 
@@ -41,6 +42,7 @@ namespace PromiCRM.Models
 
         [ForeignKey(nameof(Services))]
         public int ServiceId { get; set; }
+        [NotMapped]
         public Service Services { get; set; }
         
 

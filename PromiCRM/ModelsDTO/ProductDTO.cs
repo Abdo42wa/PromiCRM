@@ -46,7 +46,7 @@ namespace PromiCRM.ModelsDTO
     {
         public int Id { get; set; }
         public virtual IList<OrderDTO> Order { get; set; }
-        public virtual IList<ServicesDTO> Services { get; set; }
+        public virtual IList<ServiceDTO> Services { get; set; }
 
 
     }

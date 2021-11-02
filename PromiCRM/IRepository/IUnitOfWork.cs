@@ -17,7 +17,7 @@ namespace PromiCRM.IRepository
         IGenericRepository<NonStandardWorks> NonStandardWorks { get;  }
         IGenericRepository<Order> Orders { get;  }
         IGenericRepository<Product> Products { get;  }
-        IGenericRepository<Services> Services { get;  }
+        IGenericRepository<Service> Services { get;  }
         IGenericRepository<Shipment> Shipments { get;  }
         IGenericRepository<WarehouseCounting> WarehouseCountings { get; }
         IGenericRepository<WeeklyWorkSchedule> WeeklyWorkSchedules { get;  }

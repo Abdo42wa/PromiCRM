@@ -10,7 +10,7 @@ namespace PromiCRM.Models
     public class DatabaseContext : IdentityDbContext<ApiUser>
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
-        : base(options)
+       : base(options)
         {
         }
         public DbSet<Bonus> Bonus { get; set; }

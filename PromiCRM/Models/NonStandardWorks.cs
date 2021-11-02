@@ -17,6 +17,7 @@ namespace PromiCRM.Models
 
         [ForeignKey(nameof(Customer))]
         public int CustomerId { get; set; }
+        [NotMapped]
         public Customer Customer { get; set; }
         
         public string Device { get; set; }
@@ -25,6 +26,7 @@ namespace PromiCRM.Models
 
         [ForeignKey(nameof(Material))]
         public int MaterialId { get; set; }
+        [NotMapped]
         public Material Material { get; set; }
         
 
