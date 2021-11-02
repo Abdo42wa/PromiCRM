@@ -56,7 +56,7 @@ namespace PromiCRM.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateCurrency([FromBody]CreateCurrencyDTO currencyDTO)
         {
