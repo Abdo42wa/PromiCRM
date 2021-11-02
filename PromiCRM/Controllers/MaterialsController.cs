@@ -54,6 +54,20 @@ namespace PromiCRM.Controllers
             return Ok(result);
         }
         /// <summary>
+        /// GET all records from materials table by productId. convert to dto's
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("product/{id:int}")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetMaterialByProductId(int id)
+        {
+            var materials = await _unitOfWork.Materials.GetAll(m => m.ProductId == id);
+            var results = _mapper.Map<IList<MaterialDTO>>(materials);
+            return Ok(results);
+        }
+        /// <summary>
         /// Check if model valid, convert to dto and insert
         /// </summary>
         /// <param name="materialDTO"></param>
