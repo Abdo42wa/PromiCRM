@@ -29,7 +29,7 @@ namespace PromiCRM
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DatabaseContext>(
-               options => options.UseSqlServer(Configuration.GetConnectionString("abdoConnection")));
+               options => options.UseSqlServer(Configuration.GetConnectionString("lukasConnection")));
 
             services.AddControllers();
 

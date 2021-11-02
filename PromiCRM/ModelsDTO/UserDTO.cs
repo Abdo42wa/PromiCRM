@@ -5,7 +5,20 @@ using System.Threading.Tasks;
 
 namespace PromiCRM.ModelsDTO
 {
-    public class UserDTO
+    public class LoginUserDTO
     {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+
+    public class UserDTO : LoginUserDTO
+    {
+        public string PhoneNumber { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public ICollection<string> Roles { get; set; }
+        public virtual IList<BonusDTO> Bonus { get; set; }
+        public virtual IList<OrderDTO> Orders { get; set; }
+        public virtual IList<WeeklyWorkScheduleDTO> WeeklyWorkSchedules { get; set; }
     }
 }
