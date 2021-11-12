@@ -10,7 +10,7 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211102134614_InitialDatabase")]
+    [Migration("20211112134153_InitialDatabase")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PromiCRM.Models;
 using PromiCRM.ModelsDTO;
@@ -31,15 +33,21 @@ namespace PromiCRM.Controllers
             _authManager = authManager;
         }
 
+         /// <summary>
+        /// get all users convert to dtos and return
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUserId()
+        public async Task<IActionResult> GetUsers()
         {
-            Console.WriteLine("ITS HERERERER");
-            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            return Ok(userId);
+            var users = await _userManager.Users.ToListAsync();
+            var results = _mapper.Map<IList<UserDTO>>(users);
+
+            return Ok(results);
         }
 
         /// <summary>
