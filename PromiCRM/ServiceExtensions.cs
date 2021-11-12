@@ -34,25 +34,25 @@ namespace PromiCRM
         }
 
 
-        //configuration for JWT in Startup. we also need IConfiguration
+        // Configuration for JWT in Startup . We also need IConfiguration
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration Configuration)
         {
-            //gettings "Jwt" section from appsettings.json
+            //getting 'JWT" section from appsettings.json
             var jwtSettings = Configuration.GetSection("Jwt");
-            //getting key that i set with Command line
+            //getting key that i set with Command Line
             var key = Environment.GetEnvironmentVariable("KEY");
 
-            //basically adding authentication to app. and default scheme that i want is JWT
-            //when somebody tries to authenticate check for bearer token
-            //THEN i set up parameters. ValidateIssuer means we want to validate token, validate lifetime and issuer key
-            //then we set ValidIssuer for any JWT token will be string from appsettings.json 
-            //then goes key that we hash. most important thing dont put KEY in appsettings
+            //basically adding authentication to app. and default scheme that i want  is JWT
+            //when somebody tires to authenticate check for bearer token
+            //then i set up parameters. ValidatieIssuer means we want to validate token. validate lifetime
+            //and issuer key. Then we set ValidIssuer for any JWT token will be string from appsettings.json
+            //then goes key that we hash. most important thing dont put key in appsettings.json
             //based on your situation you may need more validation
             //VALIDATE AUDIENCE TOO. to validate users
             services.AddAuthentication(o =>
             {
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(o =>
             {
                 o.TokenValidationParameters = new TokenValidationParameters
