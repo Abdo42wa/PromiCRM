@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using PromiCRM.Configurations.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,12 @@ namespace PromiCRM.Models
         public DbSet<Shipment> Shipments { get; set; }
         public DbSet<WarehouseCounting> WarehouseCountings { get; set; }
         public DbSet<WeeklyWorkSchedule> WeeklyWorkSchedules { get; set; }
-       
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.ApplyConfiguration(new RolesConfiguration());
+        }
     }
 }

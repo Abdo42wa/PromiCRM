@@ -10,7 +10,7 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211112134153_InitialDatabase")]
+    [Migration("20211112140814_InitialDatabase")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,6 +46,22 @@ namespace PromiCRM.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "46ea37f2-5f16-4fe7-8aea-48c790bc9c6e",
+                            ConcurrencyStamp = "693bea87-71bd-430b-902e-d6e00850039b",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "473a5f0a-1d03-4194-883d-065f551ed5b6",
+                            ConcurrencyStamp = "0974462b-9480-4ee3-a2bb-4a2e0b226f4c",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

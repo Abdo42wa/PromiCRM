@@ -451,6 +451,16 @@ namespace PromiCRM.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "46ea37f2-5f16-4fe7-8aea-48c790bc9c6e", "693bea87-71bd-430b-902e-d6e00850039b", "User", "USER" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "473a5f0a-1d03-4194-883d-065f551ed5b6", "0974462b-9480-4ee3-a2bb-4a2e0b226f4c", "Administrator", "ADMINISTRATOR" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
