@@ -14,13 +14,13 @@ namespace PromiCRM.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WarehouseCountingController : ControllerBase
+    public class WarehouseCountingsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<WarehouseCountingController> _logger;
+        private readonly ILogger<WarehouseCountingsController> _logger;
 
-        public WarehouseCountingController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<WarehouseCountingController> logger)
+        public WarehouseCountingsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<WarehouseCountingsController> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -33,7 +33,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetWarehouseCountings ()
         {
             var warehouseCounting = await _unitOfWork.WarehouseCountings.GetAll();
-            var result = _mapper.Map<IList<WarehouseCountingController>>(warehouseCounting);
+            var result = _mapper.Map<IList<WarehouseCountingsController>>(warehouseCounting);
 
             return Ok(result);
         }

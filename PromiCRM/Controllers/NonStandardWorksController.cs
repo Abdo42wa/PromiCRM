@@ -14,13 +14,13 @@ namespace PromiCRM.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NonStandardWorkController : ControllerBase
+    public class NonStandardWorksController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<NonStandardWorkController> _logger;
+        private readonly ILogger<NonStandardWorksController> _logger;
 
-        public NonStandardWorkController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<NonStandardWorkController> logger)
+        public NonStandardWorksController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<NonStandardWorksController> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
