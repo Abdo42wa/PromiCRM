@@ -13,10 +13,7 @@ namespace PromiCRM.ModelsDTO
         public string Name { get; set; }
 
         public string MaterialUsed { get; set; }
-
-       /* [ForeignKey(nameof(Product))]
-        public Product Product { get; set; }
-        public int ProductId { get; set; }*/
+        public int ProductId { get; set; }
     }
     public class UpdateMaterialDTO : CreateMaterialDTO
     {
