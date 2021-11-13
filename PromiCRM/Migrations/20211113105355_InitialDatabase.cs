@@ -100,7 +100,7 @@ namespace PromiCRM.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Time = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Time = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -454,12 +454,85 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "46ea37f2-5f16-4fe7-8aea-48c790bc9c6e", "693bea87-71bd-430b-902e-d6e00850039b", "User", "USER" });
+                values: new object[,]
+                {
+                    { "b75243f9-b3ba-4bb2-b1a7-7cfe4028f95e", "b75243f9-b3ba-4bb2-b1a7-7cfe4028f95e", "Administrator", "ADMINISTRATOR" },
+                    { "7d542787-a2e6-4dde-ad22-f271953b05eb", "db6fe51b-1f5b-490d-b60d-bd23b6703690", "User", "USER" }
+                });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "473a5f0a-1d03-4194-883d-065f551ed5b6", "0974462b-9480-4ee3-a2bb-4a2e0b226f4c", "Administrator", "ADMINISTRATOR" });
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "c9490c27-1b89-4e39-8f2e-99b48dcc709e", 0, "b93ee2fa-9458-46c8-b0aa-d78f3df1fc5d", "primoadmin@gmail.com", true, "Abdo", "Lukas", false, null, null, "PRIMOADMIN@GMAIL.COM", "AQAAAAEAACcQAAAAEN47iMsMlY5KK/vUULceZib44xG3fOoPR2AHnBzCx9rb9DOPzk9X/TdS8GOoaR/vqA==", null, false, "5dcee982-566e-4bfd-97b9-f45f36cc040d", false, "primoadmin@gmail.com" });
+
+            migrationBuilder.InsertData(
+                table: "Bonus",
+                columns: new[] { "Id", "Accumulated", "ApiUserId", "Bonusas", "LeftUntil", "Quantity", "UserId" },
+                values: new object[] { 1, 100, null, 600, 400, 1000, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
+
+            migrationBuilder.InsertData(
+                table: "Countries",
+                columns: new[] { "Id", "Continent", "Name", "ShortName" },
+                values: new object[] { 1, "Europa", "Lietuva", "LT" });
+
+            migrationBuilder.InsertData(
+                table: "Currencies",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Euras" },
+                    { 2, "Doleris" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Customers",
+                columns: new[] { "Id", "CompanyName", "Email", "LastName", "Name", "PhoneNumber" },
+                values: new object[] { 1, "telia", "jonasv@gmail.com", "Vaiciulis", "Jonas", "860855183" });
+
+            migrationBuilder.InsertData(
+                table: "Services",
+                columns: new[] { "Id", "Name", "Time" },
+                values: new object[] { 1, "Lazeriavimas", 15 });
+
+            migrationBuilder.InsertData(
+                table: "Shipments",
+                columns: new[] { "Id", "Period", "ShipmentInfo", "ShippingCost", "ShippingNumber", "Type" },
+                values: new object[] { 1, 2, "atidaryk ta", 20.399999999999999, 252, "Express" });
+
+            migrationBuilder.InsertData(
+                table: "WeeklyWorkSchedules",
+                columns: new[] { "Id", "ApiUserId", "Atlikta", "DarbasApibūdinimas", "UserId" },
+                values: new object[] { 1, null, false, "yeee", new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "b75243f9-b3ba-4bb2-b1a7-7cfe4028f95e", "c9490c27-1b89-4e39-8f2e-99b48dcc709e" });
+
+            migrationBuilder.InsertData(
+                table: "Orders",
+                columns: new[] { "Id", "Address", "ApiUserId", "Comment", "CountryId", "CurrencyId", "CustomerId", "Data", "MoreInfo", "OrderFinishDate", "OrderNumber", "Photo", "Platformas", "Price", "ProductCode", "Quantity", "ShipmentId", "ShipmentTypeId", "UserId", "Vat" },
+                values: new object[] { 1, "Justiniskiu", null, "great", 1, 1, 1, new DateTime(2021, 11, 13, 12, 53, 54, 261, DateTimeKind.Local).AddTicks(3148), "eeeee", new DateTime(2021, 11, 13, 12, 53, 54, 265, DateTimeKind.Local).AddTicks(7421), 200, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", "yeee", 99.989999999999995, "123rr", 2, null, 1, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Category", "Code", "HeightWithoutPackaging", "LengthWithoutPackaging", "Link", "Name", "OrderId", "PackagingBoxCode", "PackingTime", "Photo", "ServiceId", "WeightGross", "WidthWithoutPackaging" },
+                values: new object[] { 1, "Good", "8582262s", 3.0, 10.0, "sss", "Produktas", 1, "pspspsp", 10.0, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 1, 10.199999999999999, 5.0 });
+
+            migrationBuilder.InsertData(
+                table: "WarehouseCountings",
+                columns: new[] { "Id", "LastTimeChanging", "OrderId", "Photo", "QuantityProductWarehouse" },
+                values: new object[] { 1, new DateTime(2021, 11, 13, 12, 53, 54, 266, DateTimeKind.Local).AddTicks(1406), 1, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 2 });
+
+            migrationBuilder.InsertData(
+                table: "Materials",
+                columns: new[] { "Id", "MaterialUsed", "Name", "ProductId" },
+                values: new object[] { 1, "lsls", "Stiklas", 1 });
+
+            migrationBuilder.InsertData(
+                table: "NonStandardWorks",
+                columns: new[] { "Id", "Comment", "CustomerId", "Date", "DaysUntilDeadline", "Device", "MaterialId", "OrderDeadline", "OrderNumber", "PlannedProductionTime", "Status" },
+                values: new object[] { 1, "Komentaras", 1, new DateTime(2021, 11, 13, 12, 53, 54, 267, DateTimeKind.Local).AddTicks(2977), 2, "Device", 1, new DateTime(2021, 11, 13, 12, 53, 54, 267, DateTimeKind.Local).AddTicks(3248), 255, 40, false });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

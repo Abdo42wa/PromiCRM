@@ -10,7 +10,7 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211112140814_InitialDatabase")]
+    [Migration("20211113105355_InitialDatabase")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,17 +50,17 @@ namespace PromiCRM.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "46ea37f2-5f16-4fe7-8aea-48c790bc9c6e",
-                            ConcurrencyStamp = "693bea87-71bd-430b-902e-d6e00850039b",
-                            Name = "User",
-                            NormalizedName = "USER"
+                            Id = "b75243f9-b3ba-4bb2-b1a7-7cfe4028f95e",
+                            ConcurrencyStamp = "b75243f9-b3ba-4bb2-b1a7-7cfe4028f95e",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "473a5f0a-1d03-4194-883d-065f551ed5b6",
-                            ConcurrencyStamp = "0974462b-9480-4ee3-a2bb-4a2e0b226f4c",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
+                            Id = "7d542787-a2e6-4dde-ad22-f271953b05eb",
+                            ConcurrencyStamp = "db6fe51b-1f5b-490d-b60d-bd23b6703690",
+                            Name = "User",
+                            NormalizedName = "USER"
                         });
                 });
 
@@ -147,6 +147,13 @@ namespace PromiCRM.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "c9490c27-1b89-4e39-8f2e-99b48dcc709e",
+                            RoleId = "b75243f9-b3ba-4bb2-b1a7-7cfe4028f95e"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -237,6 +244,25 @@ namespace PromiCRM.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c9490c27-1b89-4e39-8f2e-99b48dcc709e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b93ee2fa-9458-46c8-b0aa-d78f3df1fc5d",
+                            Email = "primoadmin@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Abdo",
+                            LastName = "Lukas",
+                            LockoutEnabled = false,
+                            NormalizedUserName = "PRIMOADMIN@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN47iMsMlY5KK/vUULceZib44xG3fOoPR2AHnBzCx9rb9DOPzk9X/TdS8GOoaR/vqA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5dcee982-566e-4bfd-97b9-f45f36cc040d",
+                            TwoFactorEnabled = false,
+                            UserName = "primoadmin@gmail.com"
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Bonus", b =>
@@ -269,6 +295,17 @@ namespace PromiCRM.Migrations
                     b.HasIndex("ApiUserId");
 
                     b.ToTable("Bonus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Accumulated = 100,
+                            Bonusas = 600,
+                            LeftUntil = 400,
+                            Quantity = 1000,
+                            UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Country", b =>
@@ -290,6 +327,15 @@ namespace PromiCRM.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Continent = "Europa",
+                            Name = "Lietuva",
+                            ShortName = "LT"
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Currency", b =>
@@ -305,6 +351,18 @@ namespace PromiCRM.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Currencies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Euras"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Doleris"
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Customer", b =>
@@ -332,6 +390,17 @@ namespace PromiCRM.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CompanyName = "telia",
+                            Email = "jonasv@gmail.com",
+                            LastName = "Vaiciulis",
+                            Name = "Jonas",
+                            PhoneNumber = "860855183"
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Material", b =>
@@ -355,6 +424,15 @@ namespace PromiCRM.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Materials");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            MaterialUsed = "lsls",
+                            Name = "Stiklas",
+                            ProductId = 1
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.NonStandardWork", b =>
@@ -401,6 +479,22 @@ namespace PromiCRM.Migrations
                     b.HasIndex("MaterialId");
 
                     b.ToTable("NonStandardWorks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Comment = "Komentaras",
+                            CustomerId = 1,
+                            Date = new DateTime(2021, 11, 13, 12, 53, 54, 267, DateTimeKind.Local).AddTicks(2977),
+                            DaysUntilDeadline = 2,
+                            Device = "Device",
+                            MaterialId = 1,
+                            OrderDeadline = new DateTime(2021, 11, 13, 12, 53, 54, 267, DateTimeKind.Local).AddTicks(3248),
+                            OrderNumber = 255,
+                            PlannedProductionTime = 40,
+                            Status = false
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Order", b =>
@@ -480,6 +574,29 @@ namespace PromiCRM.Migrations
                     b.HasIndex("ShipmentId");
 
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Justiniskiu",
+                            Comment = "great",
+                            CountryId = 1,
+                            CurrencyId = 1,
+                            CustomerId = 1,
+                            Data = new DateTime(2021, 11, 13, 12, 53, 54, 261, DateTimeKind.Local).AddTicks(3148),
+                            MoreInfo = "eeeee",
+                            OrderFinishDate = new DateTime(2021, 11, 13, 12, 53, 54, 265, DateTimeKind.Local).AddTicks(7421),
+                            OrderNumber = 200,
+                            Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
+                            Platformas = "yeee",
+                            Price = 99.989999999999995,
+                            ProductCode = "123rr",
+                            Quantity = 2,
+                            ShipmentTypeId = 1,
+                            UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
+                            Vat = 21.100000000000001
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Product", b =>
@@ -535,6 +652,25 @@ namespace PromiCRM.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Category = "Good",
+                            Code = "8582262s",
+                            HeightWithoutPackaging = 3.0,
+                            LengthWithoutPackaging = 10.0,
+                            Link = "sss",
+                            Name = "Produktas",
+                            OrderId = 1,
+                            PackagingBoxCode = "pspspsp",
+                            PackingTime = 10.0,
+                            Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
+                            ServiceId = 1,
+                            WeightGross = 10.199999999999999,
+                            WidthWithoutPackaging = 5.0
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Service", b =>
@@ -547,12 +683,20 @@ namespace PromiCRM.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Time")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Time")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Services");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Lazeriavimas",
+                            Time = 15
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Shipment", b =>
@@ -580,6 +724,17 @@ namespace PromiCRM.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Shipments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Period = 2,
+                            ShipmentInfo = "atidaryk ta",
+                            ShippingCost = 20.399999999999999,
+                            ShippingNumber = 252,
+                            Type = "Express"
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.WarehouseCounting", b =>
@@ -606,6 +761,16 @@ namespace PromiCRM.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("WarehouseCountings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            LastTimeChanging = new DateTime(2021, 11, 13, 12, 53, 54, 266, DateTimeKind.Local).AddTicks(1406),
+                            OrderId = 1,
+                            Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
+                            QuantityProductWarehouse = 2
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.WeeklyWorkSchedule", b =>
@@ -632,6 +797,15 @@ namespace PromiCRM.Migrations
                     b.HasIndex("ApiUserId");
 
                     b.ToTable("WeeklyWorkSchedules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Atlikta = false,
+                            DarbasApibūdinimas = "yeee",
+                            UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

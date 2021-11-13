@@ -11,7 +11,7 @@ namespace PromiCRM.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Time { get; set; }
+        public int Time { get; set; }
 
         //relationship one to many. service can have many products
         public virtual IList<Product> Products { get; set; }
