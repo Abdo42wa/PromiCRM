@@ -14,13 +14,13 @@ namespace PromiCRM.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ServiceController : ControllerBase
+    public class ServicesController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<ServiceController> _logger;
+        private readonly ILogger<ServicesController> _logger;
 
-        public ServiceController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ServiceController> logger)
+        public ServicesController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ServicesController> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -34,7 +34,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetServices()
         {
             var services = await _unitOfWork.Services.GetAll();
-            var results = _mapper.Map<IList<ServiceController>>(services);
+            var results = _mapper.Map<IList<ServicesController>>(services);
             return Ok(results);
         }
 

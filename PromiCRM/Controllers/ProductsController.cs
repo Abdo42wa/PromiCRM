@@ -14,13 +14,13 @@ namespace PromiCRM.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : Controller
+    public class ProductsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<OrderController> _logger;
+        private readonly ILogger<ProductsController> _logger;
 
-        public OrderController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<OrderController> logger)
+        public ProductsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ProductsController> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -31,21 +31,21 @@ namespace PromiCRM.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetOrders()
+        public async Task<IActionResult> GetProducts()
         {
-            var orders = await _unitOfWork.Orders.GetAll();
-            var results = _mapper.Map<IList<OrderController>>(orders);
+            var products = await _unitOfWork.Products.GetAll();
+            var results = _mapper.Map<IList<ProductDTO>>(products);
             return Ok(results);
         }
 
 
-        [HttpGet("{id:int}", Name = "GetOrder")]
+        [HttpGet("{id:int}", Name = "GetProduct")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetOrder(int id)
+        public async Task<IActionResult> GetProduct(int id)
         {
-            var order = await _unitOfWork.Orders.Get(c => c.Id == id);
-            var result = _mapper.Map<OrderDTO>(order);
+            var product = await _unitOfWork.Products.Get(c => c.Id == id);
+            var result = _mapper.Map<ProductDTO>(product);
             return Ok(result);
         }
 
@@ -54,18 +54,18 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO createOrderDTO)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductDTO productDTO)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Invalid CREATE attempt in {nameof(CreateOrder)}");
+                _logger.LogError($"Invalid CREATE attempt in {nameof(CreateProduct)}");
                 return BadRequest("Submited invalid data");
             }
-            var order = _mapper.Map<Order>(createOrderDTO);
-            await _unitOfWork.Orders.Insert(order);
+            var product = _mapper.Map<Product>(productDTO);
+            await _unitOfWork.Products.Insert(product);
             await _unitOfWork.Save();
 
-            return CreatedAtRoute("GetOrder", new { id = order.Id }, order);
+            return CreatedAtRoute("GetProduct", new { id = product.Id }, product);
         }
 
 
@@ -73,23 +73,23 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderDTO orderDTO, int id)
+        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDTO productDTO, int id)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrder)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateProduct)}");
                 return BadRequest("Submited invalid data");
             }
-            var order = await _unitOfWork.Orders.Get(c => c.Id == id);
-            if (order == null)
+            var product = await _unitOfWork.Products.Get(c => c.Id == id);
+            if (product == null)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrder)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateProduct)}");
                 return BadRequest("Submited invalid data");
             }
 
 
-            _mapper.Map(orderDTO, order);
-            _unitOfWork.Orders.Update(order);
+            _mapper.Map(productDTO, product);
+            _unitOfWork.Products.Update(product);
             await _unitOfWork.Save();
             return NoContent();
         }
@@ -99,18 +99,17 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> DeleteOrder(int id)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
-            var order = _unitOfWork.Orders.Get(c => c.Id == id);
-            if (order == null)
+            var product = _unitOfWork.Products.Get(c => c.Id == id);
+            if (product == null)
             {
-                _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteOrder)}");
+                _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteProduct)}");
                 return BadRequest("Submited invalid data");
             }
-            await _unitOfWork.Orders.Delete(id);
+            await _unitOfWork.Products.Delete(id);
             await _unitOfWork.Save();
             return NoContent();
         }
-
     }
 }

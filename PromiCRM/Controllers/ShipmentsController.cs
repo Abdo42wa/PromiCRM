@@ -14,13 +14,13 @@ namespace PromiCRM.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ShipmentsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<ProductController> _logger;
+        private readonly ILogger<ShipmentsController> _logger;
 
-        public ProductController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ProductController> logger)
+        public ShipmentsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ShipmentsController> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -31,21 +31,21 @@ namespace PromiCRM.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetShipments()
         {
-            var products = await _unitOfWork.Products.GetAll();
-            var results = _mapper.Map<IList<ProductController>>(products);
+            var shipment = await _unitOfWork.Shipments.GetAll();
+            var results = _mapper.Map<IList<ShipmentsController>>(shipment);
             return Ok(results);
         }
 
 
-        [HttpGet("{id:int}", Name = "GetProduct")]
+        [HttpGet("{id:int}", Name = "GetShipment")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetProduct(int id)
+        public async Task<IActionResult> GetShipment(int id)
         {
-            var product = await _unitOfWork.Products.Get(c => c.Id == id);
-            var result = _mapper.Map<ProductDTO>(product);
+            var shipment = await _unitOfWork.Shipments.Get(c => c.Id == id);
+            var result = _mapper.Map<ShipmentDTO>(shipment);
             return Ok(result);
         }
 
@@ -54,18 +54,18 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateProduct([FromBody] CreateProductDTO productDTO)
+        public async Task<IActionResult> CreateShipment([FromBody] CreateShipmentDTO shipmentDTO)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Invalid CREATE attempt in {nameof(CreateProduct)}");
+                _logger.LogError($"Invalid CREATE attempt in {nameof(CreateShipment)}");
                 return BadRequest("Submited invalid data");
             }
-            var product = _mapper.Map<Product>(productDTO);
-            await _unitOfWork.Products.Insert(product);
+            var shipment = _mapper.Map<Shipment>(shipmentDTO);
+            await _unitOfWork.Shipments.Insert(shipment);
             await _unitOfWork.Save();
 
-            return CreatedAtRoute("GetProduct", new { id = product.Id }, product);
+            return CreatedAtRoute("GetShipment", new { id = shipment.Id }, shipment);
         }
 
 
@@ -73,23 +73,23 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDTO productDTO, int id)
+        public async Task<IActionResult> UpdateShipment([FromBody] UpdateShipmentDTO shipmentDTO, int id)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateProduct)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateShipment)}");
                 return BadRequest("Submited invalid data");
             }
-            var product = await _unitOfWork.Products.Get(c => c.Id == id);
-            if (product == null)
+            var shipment = await _unitOfWork.Shipments.Get(c => c.Id == id);
+            if (shipment == null)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateProduct)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateShipment)}");
                 return BadRequest("Submited invalid data");
             }
 
 
-            _mapper.Map(productDTO, product);
-            _unitOfWork.Products.Update(product);
+            _mapper.Map(shipmentDTO, shipment);
+            _unitOfWork.Shipments.Update(shipment);
             await _unitOfWork.Save();
             return NoContent();
         }
@@ -99,15 +99,15 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public async Task<IActionResult> DeleteShipment(int id)
         {
-            var product = _unitOfWork.Products.Get(c => c.Id == id);
-            if (product == null)
+            var shipment = _unitOfWork.Shipments.Get(c => c.Id == id);
+            if (shipment == null)
             {
-                _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteProduct)}");
+                _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteShipment)}");
                 return BadRequest("Submited invalid data");
             }
-            await _unitOfWork.Products.Delete(id);
+            await _unitOfWork.Shipments.Delete(id);
             await _unitOfWork.Save();
             return NoContent();
         }

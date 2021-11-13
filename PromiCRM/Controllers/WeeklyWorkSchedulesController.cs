@@ -14,13 +14,13 @@ namespace PromiCRM.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WeeklyWorkScheduleController : ControllerBase
+    public class WeeklyWorkSchedulesController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<WeeklyWorkScheduleController> _logger;
+        private readonly ILogger<WeeklyWorkSchedulesController> _logger;
 
-        public WeeklyWorkScheduleController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<WeeklyWorkScheduleController> logger)
+        public WeeklyWorkSchedulesController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<WeeklyWorkSchedulesController> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -33,7 +33,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GeWeeklyWorkSchedules()
         {
             var weeklyWorkSchedule = await _unitOfWork.WeeklyWorkSchedules.GetAll();
-            var result = _mapper.Map<IList<WeeklyWorkScheduleController>>(weeklyWorkSchedule);
+            var result = _mapper.Map<IList<WeeklyWorkSchedulesController>>(weeklyWorkSchedule);
 
             return Ok(result);
         }
