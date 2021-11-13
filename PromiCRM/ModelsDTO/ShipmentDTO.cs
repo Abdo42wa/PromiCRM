@@ -9,10 +9,8 @@ namespace PromiCRM.ModelsDTO
     public class CreateShipmentDTO
     {
         [Required]
-        [StringLength(maximumLength: 50, MinimumLength = 10, ErrorMessage = "The Shipment  Type cannot be more than 50 or less than 10 ")]
         public string Type { get; set; }
         [Required]
-        [Range( 20,1, ErrorMessage = "The Shipment  Period cannot be more than 20 or less than 1 ")]
         public int Period { get; set; }
         [Required]
         public double ShippingCost { get; set; }
