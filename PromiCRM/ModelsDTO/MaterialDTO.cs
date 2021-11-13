@@ -9,7 +9,6 @@ namespace PromiCRM.ModelsDTO
     public class CreateMaterialDTO
     {
         [Required]
-        [StringLength(maximumLength: 700, MinimumLength = 10, ErrorMessage = "The Material  Name cannot be more than 70 or less than 10 ")]
         public string Name { get; set; }
 
         public string MaterialUsed { get; set; }
