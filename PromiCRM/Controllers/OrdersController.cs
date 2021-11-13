@@ -34,7 +34,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetOrders()
         {
             var orders = await _unitOfWork.Orders.GetAll();
-            var results = _mapper.Map<IList<OrdersController>>(orders);
+            var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
 

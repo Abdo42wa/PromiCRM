@@ -34,7 +34,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetServices()
         {
             var services = await _unitOfWork.Services.GetAll();
-            var results = _mapper.Map<IList<ServicesController>>(services);
+            var results = _mapper.Map<IList<ServiceDTO>>(services);
             return Ok(results);
         }
 

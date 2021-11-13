@@ -33,7 +33,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetWarehouseCountings ()
         {
             var warehouseCounting = await _unitOfWork.WarehouseCountings.GetAll();
-            var result = _mapper.Map<IList<WarehouseCountingsController>>(warehouseCounting);
+            var result = _mapper.Map<IList<WarehouseCountingDTO>>(warehouseCounting);
 
             return Ok(result);
         }

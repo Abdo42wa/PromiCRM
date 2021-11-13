@@ -45,7 +45,7 @@ namespace PromiCRM.ModelsDTO
 
     }
 
-    public class OrderDTO
+    public class OrderDTO : CreateOrderDTO
     {
         public int Id { get; set; }
         public UserDTO ApiUser { get; set; }

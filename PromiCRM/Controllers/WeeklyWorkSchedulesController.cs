@@ -33,7 +33,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GeWeeklyWorkSchedules()
         {
             var weeklyWorkSchedule = await _unitOfWork.WeeklyWorkSchedules.GetAll();
-            var result = _mapper.Map<IList<WeeklyWorkSchedulesController>>(weeklyWorkSchedule);
+            var result = _mapper.Map<IList<WeeklyWorkScheduleDTO>>(weeklyWorkSchedule);
 
             return Ok(result);
         }
