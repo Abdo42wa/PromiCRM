@@ -15,10 +15,7 @@ namespace PromiCRM.ModelsDTO
         public string Photo { get; set; }
         [Required]
         public DateTime LastTimeChanging { get; set; }
-
-       /* [ForeignKey(nameof(Order))]
-        public Order Order { get; set; }
-        public int OrderId { get; set; }*/
+        public int OrderId { get; set; }
     }
 
     public class UpdateWarehouseCountingDTO : CreateWarehouseCountingDTO
@@ -30,6 +27,5 @@ namespace PromiCRM.ModelsDTO
     {
         public int Id { get; set; }
         public OrderDTO Order { get; set; }
-
     }
 }

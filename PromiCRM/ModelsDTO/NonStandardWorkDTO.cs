@@ -17,19 +17,15 @@ namespace PromiCRM.ModelsDTO
         public DateTime OrderDeadline { get; set; }
         [Required]
         public int DaysUntilDeadline { get; set; }
-
-        /* [ForeignKey(nameof(Customer))]
-         public Customer Customer { get; set; }
-         public int CustomerId { get; set; }*/
+        [Required]
+         public int CustomerId { get; set; }
         [Required]
         public string Device { get; set; }
         [Required]
         public int PlannedProductionTime { get; set; }
         public string Comment { get; set; }
-        /*
-        [ForeignKey(nameof(Material))]
-        public Material Material { get; set; }
-        public int MaterialId { get; set; }*/
+        [Required]
+        public int MaterialId { get; set; }
 
         [Required]
         public bool Status { get; set; }
