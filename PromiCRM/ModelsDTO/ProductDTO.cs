@@ -8,9 +8,8 @@ namespace PromiCRM.ModelsDTO
 {
     public class CreateProductDTO
     {
-        /* [ForeignKey(nameof(Order))]
-         public Order Order { get; set; }
-         public int OrderId { get; set; }*/
+        [Required]
+        public int OrderId { get; set; }
         [Required]
         public string Photo { get; set; }
         public string Link { get; set; }
@@ -32,10 +31,8 @@ namespace PromiCRM.ModelsDTO
         public string PackagingBoxCode { get; set; }
         [Required]
         public double PackingTime { get; set; }
-
-     /*   [ForeignKey(nameof(Services))]
-        public Services Services { get; set; }
-        public int ServiceId { get; set; }*/
+        [Required]
+        public int ServiceId { get; set; }
     }
 
     public class UpdateProductDTO : CreateProductDTO
@@ -47,7 +44,7 @@ namespace PromiCRM.ModelsDTO
         public int Id { get; set; }
         public OrderDTO Order { get; set; }
         public ServiceDTO Services { get; set; }
-        public virtual IList<MaterialDTO> Materials { get; set; }
+        //public virtual IList<MaterialDTO> Materials { get; set; }
 
     }
 }
