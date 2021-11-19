@@ -11,13 +11,11 @@ namespace PromiCRM.Models
     {
         [Key]
         public int Id { get; set; }
-
         // we need to get the user name 
         [ForeignKey(nameof(ApiUser))]
         public Guid UserId { get; set; }
         [NotMapped]
         public ApiUser ApiUser { get; set; }
-        
         public string DarbasApibūdinimas { get; set; }
         public bool Atlikta { get; set; }
     }

@@ -8,14 +8,11 @@ namespace PromiCRM.ModelsDTO
 {
     public class CreateWeeklyWorkScheduleDTO
     {
+        
 
-
-        // we need to get the user name 
-        /* [ForeignKey(nameof(ApiUser))]
-         public ApiUser ApiUser { get; set; }
-         public int UserId { get; set; }*/
         [Required]
         public string DarbasApibūdinimas { get; set; }
+
         [Required]
         public bool Atlikta { get; set; }
 
@@ -24,7 +21,7 @@ namespace PromiCRM.ModelsDTO
     {
 
     }
-    public class WeeklyWorkScheduleDTO
+    public class WeeklyWorkScheduleDTO : CreateWeeklyWorkScheduleDTO
     {
         public int Id { get; set; }
         public UserDTO ApiUser { get; set; }
