@@ -35,23 +35,14 @@ namespace PromiCRM.Models
         {
             base.OnModelCreating(builder);
 
-            string ADMIN_ID = "c9490c27-1b89-4e39-8f2e-99b48dcc709e";
-            string ROLE_ID = "b75243f9-b3ba-4bb2-b1a7-7cfe4028f95e";
-
-            //create role and user
-
-            //set user role to admin
-            builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
-            {
-                RoleId = ROLE_ID,
-                UserId = ADMIN_ID
-            });
+            builder.ApplyConfiguration(new UserTypesConfiguration());
+            builder.ApplyConfiguration(new UsersConfiguration());
             builder.ApplyConfiguration(new CountriesConfiguration());
             builder.ApplyConfiguration(new CurrenciesConfiguration());
             builder.ApplyConfiguration(new CustomerConfiguration());
             builder.ApplyConfiguration(new ServicesConfiguration());
             builder.ApplyConfiguration(new ShipmentsConfiguration());
-            builder.ApplyConfiguration(new BonusConfiguration());
+            builder.ApplyConfiguration(new UserTypesConfiguration());
             builder.ApplyConfiguration(new WeeklyWorkSchedulesConfiguration());
             builder.ApplyConfiguration(new OrdersConfiguration());
             builder.ApplyConfiguration(new WarehouseCountingsConfiguration());

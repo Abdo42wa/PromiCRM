@@ -26,7 +26,6 @@ namespace PromiCRM.ModelsDTO
         [Required]
         public int CustomerId { get; set; }
         [Required]
-        [StringLength(maximumLength: 150, MinimumLength = 10, ErrorMessage = "The Order  Address cannot be more than 150 or less than 10 ")]
         public string Address { get; set; }
         [Required]
         public int CountryId { get; set; }
