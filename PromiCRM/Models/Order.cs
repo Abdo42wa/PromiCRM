@@ -17,9 +17,11 @@ namespace PromiCRM.Models
         [NotMapped]
         public User User { get; set; }
         
+        public string OrderType { get; set; }
+        public bool Status { get; set; }
         public int OrderNumber { get; set; }
-        public DateTime Data { get; set; }
-        public string Platformas { get; set; }
+        public DateTime Date { get; set; }
+        public string Platforma { get; set; }
         public string MoreInfo { get; set; }
         public int Quantity { get; set; }
         public string Photo { get; set; }
@@ -32,10 +34,13 @@ namespace PromiCRM.Models
         
 
         [ForeignKey(nameof(Customer))]
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         [NotMapped]
         public Customer Customer { get; set; }
         
+        public string Device { get; set; }
+
+        public int? ProductionTime { get; set; }
         public string Address { get; set; }
 
         [ForeignKey(nameof(Country))]
@@ -43,7 +48,6 @@ namespace PromiCRM.Models
         [NotMapped]
         public Country Country { get; set; }
         
-
         public string Comment { get; set; }
 
         public double Price { get; set; }

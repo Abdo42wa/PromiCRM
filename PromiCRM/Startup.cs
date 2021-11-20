@@ -38,7 +38,7 @@ namespace PromiCRM
 
             services.AddAuthentication();
             //calling method from ServiceExtensions to configure Identity
-            services.ConfigureIdentity();
+            //services.ConfigureIdentity();
             //Configuration for JWT from ServiceExtensions. It requers to pass Configuration
             services.ConfigureJWT(Configuration);
 

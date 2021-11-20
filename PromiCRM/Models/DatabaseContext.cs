@@ -23,7 +23,7 @@ namespace PromiCRM.Models
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Material> Materials { get; set; }
-        public DbSet<NonStandardWork> NonStandardWorks { get; set; }
+       
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Service> Services { get; set; }
@@ -48,7 +48,6 @@ namespace PromiCRM.Models
             builder.ApplyConfiguration(new WarehouseCountingsConfiguration());
             builder.ApplyConfiguration(new ProductsConfiguration());
             builder.ApplyConfiguration(new MaterialsConfiguration());
-            builder.ApplyConfiguration(new NonStandartWorksConfiguration());
         }
     }
 }

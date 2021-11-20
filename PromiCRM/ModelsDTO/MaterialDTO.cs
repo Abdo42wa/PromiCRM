@@ -23,6 +23,6 @@ namespace PromiCRM.ModelsDTO
     {
         public int Id { get; set; }
         public ProductDTO Product { get; set; }
-        public virtual IList<NonStandardWorkDTO> NonStandardWorks { get; set; }
+        
     }
 }

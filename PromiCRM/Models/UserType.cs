@@ -11,7 +11,6 @@ namespace PromiCRM.Models
     public class UserType
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]

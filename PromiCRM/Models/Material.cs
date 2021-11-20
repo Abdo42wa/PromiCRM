@@ -19,7 +19,6 @@ namespace PromiCRM.Models
         [NotMapped]
         public Product Product { get; set; }
 
-        public virtual IList<NonStandardWork> NonStandardWorks { get; set; }
         
     }
 }
