@@ -8,7 +8,7 @@ namespace PromiCRM.IRepository
 {
     public interface IUnitOfWork : IDisposable
     {
-       
+        IGenericRepository<User> Users { get; }
         IGenericRepository<Bonus> Bonus { get;  }
         IGenericRepository<Country> Countries { get;  }
         IGenericRepository<Currency> Currencies { get; }

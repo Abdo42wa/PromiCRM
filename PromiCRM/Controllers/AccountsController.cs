@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PromiCRM.IRepository;
 using PromiCRM.Models;
 using PromiCRM.ModelsDTO;
 using PromiCRM.Services;
@@ -20,14 +21,14 @@ namespace PromiCRM.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        private readonly UserManager<ApiUser> _userManager;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<AccountsController> _logger;
         private readonly IAuthManager _authManager;
 
-        public AccountsController(UserManager<ApiUser> userManager, IMapper mapper, ILogger<AccountsController> logger, IAuthManager authManager)
+        public AccountsController(IUnitOfWork unitOfWork,IMapper mapper, ILogger<AccountsController> logger, IAuthManager authManager)
         {
-            _userManager = userManager;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
             _authManager = authManager;
@@ -44,7 +45,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _unitOfWork.Users.GetAll();
             var results = _mapper.Map<IList<UserDTO>>(users);
 
             return Ok(results);
@@ -62,6 +63,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] UserDTO userDTO)
         {
+            /*
             _logger.LogInformation($"Registration Attempt for {userDTO.Email}");
             //check if it's valid state. if you didnt include email or smth,
             //according to our standarts that we set in dto
@@ -92,6 +94,8 @@ namespace PromiCRM.Controllers
 
             //return anything in 200 range. means it was succesful
             return Accepted();
+            */
+            return Ok();
         }
 
         [HttpPost("login")]
@@ -101,6 +105,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> LoginUser([FromBody] UserDTO userDTO)
         {
+            /*
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -117,6 +122,8 @@ namespace PromiCRM.Controllers
             // authManager method CrateToken which will return Token
 
             return Accepted(new { Token = await _authManager.CreateToken() });
+            */
+            return Ok();
         }
 
     }

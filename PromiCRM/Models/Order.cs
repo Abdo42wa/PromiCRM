@@ -12,10 +12,10 @@ namespace PromiCRM.Models
         [Key]
         public int Id { get; set; }
         // we need to conect the user table some how with the order tab
-        [ForeignKey(nameof(ApiUser))]
+        [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
         [NotMapped]
-        public ApiUser ApiUser { get; set; }
+        public User User { get; set; }
         
         public int OrderNumber { get; set; }
         public DateTime Data { get; set; }

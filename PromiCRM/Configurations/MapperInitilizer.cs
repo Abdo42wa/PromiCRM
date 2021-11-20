@@ -13,7 +13,7 @@ namespace PromiCRM.Configurations
     {
         public MapperInitilizer()
         {
-            CreateMap<ApiUser, UserDTO>().ReverseMap();
+            CreateMap<User, UserDTO>().ReverseMap();
 
             CreateMap<Bonus, BonusDTO>().ReverseMap();
             CreateMap<Bonus, CreateBonusDTO>().ReverseMap();

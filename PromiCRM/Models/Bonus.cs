@@ -11,10 +11,10 @@ namespace PromiCRM.Models
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey(nameof(ApiUser))]
+        [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
         [NotMapped]
-        public ApiUser ApiUser { get; set; }
+        public User User { get; set; }
         public int Quantity { get; set; }
         public int Accumulated { get; set; }
         public int Bonusas { get; set; }

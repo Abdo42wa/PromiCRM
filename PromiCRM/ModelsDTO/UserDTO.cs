@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PromiCRM.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,8 @@ namespace PromiCRM.ModelsDTO
         public string PhoneNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public ICollection<string> Roles { get; set; }
+        public int TypeId { get; set; }
+        public UserType Type { get; set; }
         public virtual IList<BonusDTO> Bonus { get; set; }
         public virtual IList<OrderDTO> Orders { get; set; }
         public virtual IList<WeeklyWorkScheduleDTO> WeeklyWorkSchedules { get; set; }
