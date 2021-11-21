@@ -21,8 +21,7 @@ namespace PromiCRM.Configurations.Entities
                     Surname = "Admin",
                     Email = "abdo@gmail.com",
                     PhoneNumber = "860855183",
-                    PasswordHash = "Password1",
-                    Salt = "llll",
+                    Password = BCrypt.Net.BCrypt.HashPassword("Password1"),
                     TypeId = 1
                 }
             );

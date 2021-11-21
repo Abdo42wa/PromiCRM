@@ -103,10 +103,9 @@ namespace PromiCRM.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TypeId = table.Column<int>(type: "int", nullable: false),
                     UserPhoto = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     UserTypeId = table.Column<int>(type: "int", nullable: true)
@@ -350,13 +349,13 @@ namespace PromiCRM.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Email", "Name", "PasswordHash", "PhoneNumber", "Salt", "Surname", "TypeId", "UserPhoto", "UserTypeId" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "abdo@gmail.com", "Adminas", "Password1", "860855183", "llll", "Admin", 1, null, null });
+                columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto", "UserTypeId" },
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "abdo@gmail.com", "Adminas", "$2a$11$66Oydjlk2ufTTXxt88b3XuJPNXFFh2ZINAEbv6MCxBFx427t919Gu", "860855183", "Admin", 1, null, null });
 
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "Id", "Address", "Comment", "CountryId", "CurrencyId", "CustomerId", "Date", "Device", "MoreInfo", "OrderFinishDate", "OrderNumber", "OrderType", "Photo", "Platforma", "Price", "ProductCode", "ProductionTime", "Quantity", "ShipmentId", "ShipmentTypeId", "Status", "UserId", "Vat" },
-                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 11, 20, 15, 42, 29, 954, DateTimeKind.Local).AddTicks(5236), null, "eeeee", new DateTime(2021, 11, 20, 15, 42, 29, 957, DateTimeKind.Local).AddTicks(2042), 200, null, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", "yeee", 99.989999999999995, "123rr", null, 2, null, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
+                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 11, 20, 17, 40, 50, 291, DateTimeKind.Local).AddTicks(3022), null, "eeeee", new DateTime(2021, 11, 20, 17, 40, 50, 293, DateTimeKind.Local).AddTicks(8173), 200, null, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", "yeee", 99.989999999999995, "123rr", null, 2, null, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
 
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
@@ -371,7 +370,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "WarehouseCountings",
                 columns: new[] { "Id", "LastTimeChanging", "OrderId", "Photo", "QuantityProductWarehouse" },
-                values: new object[] { 1, new DateTime(2021, 11, 20, 15, 42, 29, 957, DateTimeKind.Local).AddTicks(5560), 1, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 2 });
+                values: new object[] { 1, new DateTime(2021, 11, 20, 17, 40, 50, 294, DateTimeKind.Local).AddTicks(1448), 1, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 2 });
 
             migrationBuilder.InsertData(
                 table: "Materials",
@@ -422,6 +421,12 @@ namespace PromiCRM.Migrations
                 name: "IX_Products_ServiceId",
                 table: "Products",
                 column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserTypeId",
