@@ -10,7 +10,7 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211120154051_createDB")]
+    [Migration("20211120134230_createDB")]
     partial class createDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -273,9 +273,9 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 11, 20, 17, 40, 50, 291, DateTimeKind.Local).AddTicks(3022),
+                            Date = new DateTime(2021, 11, 20, 15, 42, 29, 954, DateTimeKind.Local).AddTicks(5236),
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 11, 20, 17, 40, 50, 293, DateTimeKind.Local).AddTicks(8173),
+                            OrderFinishDate = new DateTime(2021, 11, 20, 15, 42, 29, 957, DateTimeKind.Local).AddTicks(2042),
                             OrderNumber = 200,
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             Platforma = "yeee",
@@ -435,17 +435,21 @@ namespace PromiCRM.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salt")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -464,9 +468,6 @@ namespace PromiCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
                     b.HasIndex("UserTypeId");
 
                     b.ToTable("Users");
@@ -477,8 +478,9 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "abdo@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$66Oydjlk2ufTTXxt88b3XuJPNXFFh2ZINAEbv6MCxBFx427t919Gu",
+                            PasswordHash = "Password1",
                             PhoneNumber = "860855183",
+                            Salt = "llll",
                             Surname = "Admin",
                             TypeId = 1
                         });
@@ -541,7 +543,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 11, 20, 17, 40, 50, 294, DateTimeKind.Local).AddTicks(1448),
+                            LastTimeChanging = new DateTime(2021, 11, 20, 15, 42, 29, 957, DateTimeKind.Local).AddTicks(5560),
                             OrderId = 1,
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             QuantityProductWarehouse = 2

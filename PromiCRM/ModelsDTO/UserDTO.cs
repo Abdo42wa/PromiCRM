@@ -14,10 +14,9 @@ namespace PromiCRM.ModelsDTO
 
     public class UserDTO : LoginUserDTO
     {
-        public int Id { get; set; }
         public string PhoneNumber { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public int TypeId { get; set; }
         public UserType Type { get; set; }
         public virtual IList<BonusDTO> Bonus { get; set; }

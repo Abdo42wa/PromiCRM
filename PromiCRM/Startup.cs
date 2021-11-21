@@ -54,7 +54,6 @@ namespace PromiCRM
             services.AddAutoMapper(typeof(MapperInitilizer));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             //adding new serivice. IAuthManager mapped to AuthManager. AuthManager has methods implementation.
-            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthManager, AuthManager>();
 
 

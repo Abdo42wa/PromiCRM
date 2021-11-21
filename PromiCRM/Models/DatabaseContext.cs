@@ -33,10 +33,8 @@ namespace PromiCRM.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
             base.OnModelCreating(builder);
-            // make email unique
-            builder.Entity<User>(entity => { entity.HasIndex(e => e.Email).IsUnique(); });
+
             builder.ApplyConfiguration(new UserTypesConfiguration());
             builder.ApplyConfiguration(new UsersConfiguration());
             builder.ApplyConfiguration(new CountriesConfiguration());

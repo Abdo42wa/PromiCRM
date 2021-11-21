@@ -21,7 +21,10 @@ namespace PromiCRM.Models
         [Required]
         public string PhoneNumber { get; set; }
         [Required]
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
+
+        [Required]
+        public string Salt { get; set; }
         [Required]
         [ForeignKey(nameof(UserType))]
         public int TypeId { get; set; }
