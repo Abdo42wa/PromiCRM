@@ -42,6 +42,7 @@ namespace PromiCRM.Models
             builder.ApplyConfiguration(new CustomerConfiguration());
             builder.ApplyConfiguration(new ServicesConfiguration());
             builder.ApplyConfiguration(new ShipmentsConfiguration());
+            builder.ApplyConfiguration(new UserTypesConfiguration());
             builder.ApplyConfiguration(new WeeklyWorkSchedulesConfiguration());
             builder.ApplyConfiguration(new OrdersConfiguration());
             builder.ApplyConfiguration(new WarehouseCountingsConfiguration());
