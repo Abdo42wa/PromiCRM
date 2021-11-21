@@ -22,6 +22,16 @@ namespace PromiCRM.Configurations.Entities
                 {
                     Id = 2,
                     Title = "USER"
+                },
+                new UserType
+                {
+                    Id = 3,
+                    Title = "GAMYBA"
+                },
+                new UserType
+                {
+                    Id = 4,
+                    Title = "VADYBA"
                 }
             );
         }

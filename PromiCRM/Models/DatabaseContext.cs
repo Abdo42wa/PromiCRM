@@ -17,6 +17,7 @@ namespace PromiCRM.Models
        : base(options)
         {
         }
+        public DbSet<UserType> UserTypes { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Bonus> Bonus { get; set; }
         public DbSet<Country> Countries { get; set; }
@@ -34,7 +35,8 @@ namespace PromiCRM.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+            // make email unique
+            builder.Entity<User>(entity => { entity.HasIndex(e => e.Email).IsUnique(); });
             builder.ApplyConfiguration(new UserTypesConfiguration());
             builder.ApplyConfiguration(new UsersConfiguration());
             builder.ApplyConfiguration(new CountriesConfiguration());
@@ -42,7 +44,6 @@ namespace PromiCRM.Models
             builder.ApplyConfiguration(new CustomerConfiguration());
             builder.ApplyConfiguration(new ServicesConfiguration());
             builder.ApplyConfiguration(new ShipmentsConfiguration());
-            builder.ApplyConfiguration(new UserTypesConfiguration());
             builder.ApplyConfiguration(new WeeklyWorkSchedulesConfiguration());
             builder.ApplyConfiguration(new OrdersConfiguration());
             builder.ApplyConfiguration(new WarehouseCountingsConfiguration());

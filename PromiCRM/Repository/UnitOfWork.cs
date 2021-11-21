@@ -10,6 +10,7 @@ namespace PromiCRM.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DatabaseContext _context;
+        private IGenericRepository<UserType> _userTypes;
         private IGenericRepository<User> _users;
         private IGenericRepository<Bonus> _bonus;
         private IGenericRepository<Country> _countries;
@@ -27,6 +28,7 @@ namespace PromiCRM.Repository
         {
             _context = context;
         }
+        public IGenericRepository<UserType> UserTypes => _userTypes ??= new GenericRepository<UserType>(_context);
         public IGenericRepository<User> Users => _users??= new GenericRepository<User>(_context);
         public IGenericRepository<Bonus> Bonus => _bonus ??= new GenericRepository<Bonus>(_context);
 
