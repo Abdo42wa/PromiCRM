@@ -8,6 +8,7 @@ namespace PromiCRM.ModelsDTO
 {
     public class CreateOrderDTO
     {
+        
         [Required]
         public int OrderNumber { get; set; }
         [Required]
@@ -37,6 +38,9 @@ namespace PromiCRM.ModelsDTO
         public double Vat { get; set; }
         [Required]
         public DateTime OrderFinishDate { get; set; }
+
+        [Required]
+        public Guid UserId { get; set; }
     }
 
     public class UpdateOrderDTO : CreateOrderDTO
@@ -47,7 +51,7 @@ namespace PromiCRM.ModelsDTO
     public class OrderDTO : CreateOrderDTO
     {
         public int Id { get; set; }
-        public UserDTO ApiUser { get; set; }
+        public UserDTO User { get; set; }
         public CustomerDTO Customer { get; set; }
         public ShipmentDTO Shipment { get; set; }
         public CountryDTO Country { get; set; }

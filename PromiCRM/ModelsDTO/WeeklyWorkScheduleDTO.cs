@@ -8,11 +8,8 @@ namespace PromiCRM.ModelsDTO
 {
     public class CreateWeeklyWorkScheduleDTO
     {
-        /*[Required]
-        public int UserId { get; set; }*/
-
         [Required]
-        public string UserName { get; set; }
+        public Guid UserId { get; set; }
 
         [Required]
         public string DarbasApibūdinimas { get; set; }
@@ -27,6 +24,6 @@ namespace PromiCRM.ModelsDTO
     public class WeeklyWorkScheduleDTO : CreateWeeklyWorkScheduleDTO
     {
         public int Id { get; set; }
-        public UserDTO ApiUser { get; set; }
+        public UserDTO User { get; set; }
     }
 }

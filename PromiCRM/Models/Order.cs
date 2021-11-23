@@ -16,7 +16,6 @@ namespace PromiCRM.Models
         public Guid UserId { get; set; }
         [NotMapped]
         public User User { get; set; }
-        
         public string OrderType { get; set; }
         public bool Status { get; set; }
         public int OrderNumber { get; set; }
