@@ -8,13 +8,21 @@ namespace PromiCRM.ModelsDTO
 {
     public class CreateOrderDTO
     {
-        
+        [Required]
+        public Guid UserId { get; set; }
+
+        [Required]
+        public string OrderType { get; set; }
+
+        [Required]
+        public bool Status { get; set; }
+
         [Required]
         public int OrderNumber { get; set; }
         [Required]
         public DateTime Data { get; set; }
         [Required]
-        public string Platformas { get; set; }
+        public string Platforma { get; set; }
         public string MoreInfo { get; set; }
         [Required]
         public int Quantity { get; set; }
@@ -26,6 +34,8 @@ namespace PromiCRM.ModelsDTO
         public int ShipmentTypeId { get; set; }
         [Required]
         public int CustomerId { get; set; }
+        public string Device { get; set; }
+        public int ProductionTime { get; set; }
         [Required]
         public string Address { get; set; }
         [Required]
@@ -39,8 +49,7 @@ namespace PromiCRM.ModelsDTO
         [Required]
         public DateTime OrderFinishDate { get; set; }
 
-        [Required]
-        public Guid UserId { get; set; }
+     
     }
 
     public class UpdateOrderDTO : CreateOrderDTO
