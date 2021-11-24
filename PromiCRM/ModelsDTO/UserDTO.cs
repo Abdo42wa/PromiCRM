@@ -18,6 +18,8 @@ namespace PromiCRM.ModelsDTO
     public class UserDTO : LoginUserDTO
     {
         [Required]
+        public Guid Id { get; set; }
+        [Required]
         public string PhoneNumber { get; set; }
         [Required]
         public string Name { get; set; }
