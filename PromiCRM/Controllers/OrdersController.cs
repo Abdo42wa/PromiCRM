@@ -33,7 +33,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrders()
         {
-            var orders = await _unitOfWork.Orders.GetAll();
+            var orders = await _unitOfWork.Orders.GetAll(includeProperties: "User,Shipment,Customer,Country,Currency");
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
@@ -44,7 +44,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrder(int id)
         {
-            var order = await _unitOfWork.Orders.Get(c => c.Id == id);
+            var order = await _unitOfWork.Orders.Get(c => c.Id == id, includeProperties: "User,Shipment,Customer,Country,Currency");
             var result = _mapper.Map<OrderDTO>(order);
             return Ok(result);
         }

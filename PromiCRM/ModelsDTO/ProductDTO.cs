@@ -14,7 +14,7 @@ namespace PromiCRM.ModelsDTO
         public string Photo { get; set; }
         public string Link { get; set; }
         [Required]
-        public string code { get; set; }
+        public string Code { get; set; }
         public string Category { get; set; }
         [Required]
         [StringLength(maximumLength: 100, MinimumLength = 10, ErrorMessage = "The Product  Name cannot be more than 100 or less than 10 ")]
@@ -43,7 +43,7 @@ namespace PromiCRM.ModelsDTO
     {
         public int Id { get; set; }
         public OrderDTO Order { get; set; }
-        public ServiceDTO Services { get; set; }
+        public ServiceDTO Service { get; set; }
         public virtual IList<MaterialDTO> Materials { get; set; }
 
     }

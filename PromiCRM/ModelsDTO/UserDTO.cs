@@ -27,7 +27,7 @@ namespace PromiCRM.ModelsDTO
         public string Surname { get; set; }
         [Required]
         public int TypeId { get; set; }
-        public UserType Type { get; set; }
+        public UserType UserType { get; set; }
         public byte[] UserPhoto { get; set; }
         public virtual IList<BonusDTO> Bonus { get; set; }
         public virtual IList<OrderDTO> Orders { get; set; }

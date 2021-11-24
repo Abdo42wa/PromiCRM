@@ -45,7 +45,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await _unitOfWork.Users.GetAll();
+            var users = await _unitOfWork.Users.GetAll(includeProperties: "UserType");
             var results = _mapper.Map<IList<UserDTO>>(users);
 
             return Ok(results);

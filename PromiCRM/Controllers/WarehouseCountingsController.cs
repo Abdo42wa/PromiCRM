@@ -33,7 +33,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetWarehouseCountings ()
         {
-            var warehouseCounting = await _unitOfWork.WarehouseCountings.GetAll();
+            var warehouseCounting = await _unitOfWork.WarehouseCountings.GetAll(includeProperties: "Order");
             var result = _mapper.Map<IList<WarehouseCountingDTO>>(warehouseCounting);
 
             return Ok(result);
@@ -44,7 +44,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetWarehouseCounting(int id)
         {
-            var warehouseCounting = await _unitOfWork.WarehouseCountings.Get(w => w.Id == id);
+            var warehouseCounting = await _unitOfWork.WarehouseCountings.Get(w => w.Id == id, includeProperties: "Order");
             var result = _mapper.Map<WarehouseCountingDTO> (warehouseCounting);
 
             return Ok(result);

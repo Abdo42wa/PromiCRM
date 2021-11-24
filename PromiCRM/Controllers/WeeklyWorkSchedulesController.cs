@@ -32,7 +32,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GeWeeklyWorkSchedules()
         {
-            var weeklyWorkSchedule = await _unitOfWork.WeeklyWorkSchedules.GetAll();
+            var weeklyWorkSchedule = await _unitOfWork.WeeklyWorkSchedules.GetAll(includeProperties: "User");
             var result = _mapper.Map<IList<WeeklyWorkScheduleDTO>>(weeklyWorkSchedule);
 
             return Ok(result);
@@ -43,7 +43,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetWeeklyWorkSchedule(int id)
         {
-            var weeklyWorkSchedule = await _unitOfWork.WeeklyWorkSchedules.Get(w => w.Id == id);
+            var weeklyWorkSchedule = await _unitOfWork.WeeklyWorkSchedules.Get(w => w.Id == id, includeProperties: "User");
             var result = _mapper.Map<WeeklyWorkScheduleDTO>(weeklyWorkSchedule);
 
             return Ok(result);

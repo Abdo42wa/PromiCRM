@@ -37,7 +37,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMaterials()
         {
-            var materials = await _unitOfWork.Materials.GetAll();
+            var materials = await _unitOfWork.Materials.GetAll(includeProperties: "Product");
             var results = _mapper.Map<IList<MaterialDTO>>(materials);
             return Ok(results);
         }
@@ -52,7 +52,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMaterial(int id)
         {
-            var material = await _unitOfWork.Materials.Get(m => m.Id == id);
+            var material = await _unitOfWork.Materials.Get(m => m.Id == id, includeProperties: "Product");
             var result = _mapper.Map<MaterialDTO>(material);
             return Ok(result);
         }
@@ -67,7 +67,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMaterialByProductId(int id)
         {
-            var materials = await _unitOfWork.Materials.GetAll(m => m.ProductId == id);
+            var materials = await _unitOfWork.Materials.GetAll(m => m.ProductId == id, includeProperties: "Product");
             var results = _mapper.Map<IList<MaterialDTO>>(materials);
             return Ok(results);
         }

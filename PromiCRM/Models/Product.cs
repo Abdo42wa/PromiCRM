@@ -27,7 +27,7 @@ namespace PromiCRM.Models
         public double PackingTime { get; set; }
         [ForeignKey(nameof(Services))]
         public int ServiceId { get; set; }
-        public virtual Service Services { get; set; }
+        public virtual Service Service { get; set; }
         //relationship one to many with Material
         public virtual ICollection<Material> Materials { get; set; }
     }

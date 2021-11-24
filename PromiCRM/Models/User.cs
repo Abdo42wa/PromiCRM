@@ -19,7 +19,7 @@ namespace PromiCRM.Models
         public string PhoneNumber { get; set; }
         [ForeignKey(nameof(UserType))]
         public int TypeId { get; set; }
-        public virtual UserType Type { get; set; }
+        public virtual UserType UserType { get; set; }
         public byte[] UserPhoto { get; set; }
         public virtual ICollection<Bonus> Bonus { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

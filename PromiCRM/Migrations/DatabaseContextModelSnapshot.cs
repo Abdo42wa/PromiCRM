@@ -279,9 +279,9 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 11, 24, 14, 54, 20, 571, DateTimeKind.Local).AddTicks(1663),
+                            Date = new DateTime(2021, 11, 24, 15, 19, 57, 20, DateTimeKind.Local).AddTicks(3762),
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 11, 24, 14, 54, 20, 575, DateTimeKind.Local).AddTicks(8749),
+                            OrderFinishDate = new DateTime(2021, 11, 24, 15, 19, 57, 26, DateTimeKind.Local).AddTicks(2525),
                             OrderNumber = 200,
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             Platforma = "yeee",
@@ -476,7 +476,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "primoadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$cFCxlE9aBA87C5SQOoZdzewbT0D5ct5MyEKcvAu6jPzo5UP1bPOpO",
+                            Password = "$2a$11$dKv1HcwTURZGw5SHQTaRveKl1g.OI86tFVXwyZbnR67vheYysQqeK",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -550,7 +550,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 11, 24, 14, 54, 20, 576, DateTimeKind.Local).AddTicks(8629),
+                            LastTimeChanging = new DateTime(2021, 11, 24, 15, 19, 57, 27, DateTimeKind.Local).AddTicks(2271),
                             OrderId = 1,
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             QuantityProductWarehouse = 2
@@ -660,7 +660,7 @@ namespace PromiCRM.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PromiCRM.Models.Service", "Services")
+                    b.HasOne("PromiCRM.Models.Service", "Service")
                         .WithMany("Products")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -668,18 +668,18 @@ namespace PromiCRM.Migrations
 
                     b.Navigation("Order");
 
-                    b.Navigation("Services");
+                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.User", b =>
                 {
-                    b.HasOne("PromiCRM.Models.UserType", "Type")
+                    b.HasOne("PromiCRM.Models.UserType", "UserType")
                         .WithMany("Users")
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Type");
+                    b.Navigation("UserType");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.WarehouseCounting", b =>
