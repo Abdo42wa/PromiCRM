@@ -26,6 +26,6 @@ namespace PromiCRM.ModelsDTO
     public class BonusDTO : CreateBonusDTO
     {
         public int Id { get; set; }
-        public UserDTO ApiUser { get; set; }
+        public UserDTO User { get; set; }
     }
 }

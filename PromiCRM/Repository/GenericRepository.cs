@@ -30,20 +30,23 @@ namespace PromiCRM.Repository
             _db.RemoveRange(entities);
         }
 
-        public async Task<T> Get(System.Linq.Expressions.Expression<Func<T, bool>> expression, Func<IQueryable<T>, Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<T, object>> include = null)
+        public async Task<T> Get(System.Linq.Expressions.Expression<Func<T, bool>> expression, string includeProperties = "")
         {
             IQueryable<T> query = _db;
 
-            if (include != null)
+            // so we can include other objects associated with this record. Include as string, 
+            // can include many but through "," comma
+            //Next it applies the eager - loading expressions after parsing the comma - delimited list:
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                //applying include to query
-                query = include(query);
+                query = query.Include(includeProperty);
             }
 
             return await query.AsNoTracking().FirstOrDefaultAsync(expression);
         }
 
-        public async Task<IList<T>> GetAll(System.Linq.Expressions.Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<T, object>> include = null)
+        public async Task<IList<T>> GetAll(System.Linq.Expressions.Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "")
         {
             IQueryable<T> query = _db;
             //check if there was expression. like we want to get list of Products
@@ -53,13 +56,16 @@ namespace PromiCRM.Repository
                 query = query.Where(expression);
             }
 
-            //like we would want when getting Product also include Brand object. filling our Brand
-            //property in Country object field. we then will inlude to query whatever properties that were asked for
-            //if in includes list you have added five foreign keys it will loop five times
-            if (include != null)
+            // so we can include other objects associated with this record. Include as string, 
+            // can include many but through "," comma
+            //Next it applies the eager-loading expressions after parsing the comma-delimited list:
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                query = include(query);
+                query = query.Include(includeProperty);
             }
+
+
             //then order if neccessary. like person put Dessending or accending
             if (orderBy != null)
             {

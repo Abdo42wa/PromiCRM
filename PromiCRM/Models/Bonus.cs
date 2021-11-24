@@ -13,8 +13,7 @@ namespace PromiCRM.Models
         public int Id { get; set; }
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
-        [NotMapped]
-        public User User { get; set; }
+        public virtual User User { get; set; }
         public int Quantity { get; set; }
         public int Accumulated { get; set; }
         public int Bonusas { get; set; }

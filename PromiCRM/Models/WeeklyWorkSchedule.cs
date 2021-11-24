@@ -14,8 +14,7 @@ namespace PromiCRM.Models
         // we need to get the user name 
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
-        [NotMapped]
-        public User User { get; set; }
+        public virtual User User { get; set; }
         public string DarbasApibūdinimas { get; set; }
         public bool Atlikta { get; set; }
     }

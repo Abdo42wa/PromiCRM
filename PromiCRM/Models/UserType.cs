@@ -15,6 +15,6 @@ namespace PromiCRM.Models
 
         [Required]
         public string Title { get; set; }
-        public virtual IList<User> Users { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

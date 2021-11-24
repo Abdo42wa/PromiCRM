@@ -39,6 +39,7 @@ namespace PromiCRM.Models
             builder.Entity<User>(entity => { entity.HasIndex(e => e.Email).IsUnique(); });
             builder.ApplyConfiguration(new UserTypesConfiguration());
             builder.ApplyConfiguration(new UsersConfiguration());
+            builder.ApplyConfiguration(new BonusConfiguration());
             builder.ApplyConfiguration(new CountriesConfiguration());
             builder.ApplyConfiguration(new CurrenciesConfiguration());
             builder.ApplyConfiguration(new CustomerConfiguration());

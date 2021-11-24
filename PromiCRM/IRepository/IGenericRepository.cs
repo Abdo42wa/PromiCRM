@@ -12,10 +12,10 @@ namespace PromiCRM.IRepository
         Task<IList<T>> GetAll(
            Expression<Func<T, bool>> Expression = null,
            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-           Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null
+           string includeProperties = ""
         );
 
-        Task<T> Get(Expression<Func<T, bool>> expression, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null);
+        Task<T> Get(Expression<Func<T, bool>> expression, string includeProperties = "");
 
         Task Insert(T entity);
 

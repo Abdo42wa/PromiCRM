@@ -36,7 +36,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetBonuses()
         {
-            var bonuses = await _unitOfWork.Bonus.GetAll();
+            var bonuses = await _unitOfWork.Bonus.GetAll(includeProperties: "User");
             var results = _mapper.Map<IList<BonusDTO>>(bonuses);
             return Ok(results);
         }
@@ -50,7 +50,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetBonus(int id)
         {
-            var bonus = await _unitOfWork.Bonus.Get(b => b.Id == id, include: p => p.Include(x => x.User));
+            var bonus = await _unitOfWork.Bonus.Get(b => b.Id == id, includeProperties: "User");
             var result = _mapper.Map<BonusDTO>(bonus);
             return Ok(result);
         }

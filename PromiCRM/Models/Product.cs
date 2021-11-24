@@ -13,8 +13,7 @@ namespace PromiCRM.Models
         public int Id { get; set; }
         [ForeignKey(nameof(Order))]
         public int OrderId { get; set; }
-        [NotMapped]
-        public Order Order { get; set; }
+        public virtual Order Order { get; set; }
         public string Photo { get; set; }
         public string Link { get; set; }
         public string Code { get; set; }
@@ -28,9 +27,8 @@ namespace PromiCRM.Models
         public double PackingTime { get; set; }
         [ForeignKey(nameof(Services))]
         public int ServiceId { get; set; }
-        [NotMapped]
-        public Service Services { get; set; }
+        public virtual Service Services { get; set; }
         //relationship one to many with Material
-        public virtual IList<Material> Materials { get; set; }
+        public virtual ICollection<Material> Materials { get; set; }
     }
 }

@@ -107,18 +107,17 @@ namespace PromiCRM.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TypeId = table.Column<int>(type: "int", nullable: false),
-                    UserPhoto = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    UserTypeId = table.Column<int>(type: "int", nullable: true)
+                    UserPhoto = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_UserTypes_UserTypeId",
-                        column: x => x.UserTypeId,
+                        name: "FK_Users_UserTypes_TypeId",
+                        column: x => x.TypeId,
                         principalTable: "UserTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,8 +169,7 @@ namespace PromiCRM.Migrations
                     Price = table.Column<double>(type: "float", nullable: false),
                     CurrencyId = table.Column<int>(type: "int", nullable: false),
                     Vat = table.Column<double>(type: "float", nullable: false),
-                    OrderFinishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ShipmentId = table.Column<int>(type: "int", nullable: true)
+                    OrderFinishDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,11 +193,11 @@ namespace PromiCRM.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Orders_Shipments_ShipmentId",
-                        column: x => x.ShipmentId,
+                        name: "FK_Orders_Shipments_ShipmentTypeId",
+                        column: x => x.ShipmentTypeId,
                         principalTable: "Shipments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Orders_Users_UserId",
                         column: x => x.UserId,
@@ -351,13 +349,18 @@ namespace PromiCRM.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto", "UserTypeId" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "primoadmin@gmail.com", "Adminas", "$2a$11$beS/sidwL.bOYFtSvkKkHel7VH65ZXU5t2Dr7WMu0l89cRf7TxWoW", "860855183", "Admin", 1, null, null });
+                columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "primoadmin@gmail.com", "Adminas", "$2a$11$cFCxlE9aBA87C5SQOoZdzewbT0D5ct5MyEKcvAu6jPzo5UP1bPOpO", "860855183", "Admin", 1, null });
+
+            migrationBuilder.InsertData(
+                table: "Bonus",
+                columns: new[] { "Id", "Accumulated", "Bonusas", "LeftUntil", "Quantity", "UserId" },
+                values: new object[] { 1, 100, 600, 400, 1000, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
 
             migrationBuilder.InsertData(
                 table: "Orders",
-                columns: new[] { "Id", "Address", "Comment", "CountryId", "CurrencyId", "CustomerId", "Date", "Device", "MoreInfo", "OrderFinishDate", "OrderNumber", "OrderType", "Photo", "Platforma", "Price", "ProductCode", "ProductionTime", "Quantity", "ShipmentId", "ShipmentTypeId", "Status", "UserId", "Vat" },
-                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 11, 21, 14, 33, 34, 721, DateTimeKind.Local).AddTicks(499), null, "eeeee", new DateTime(2021, 11, 21, 14, 33, 34, 724, DateTimeKind.Local).AddTicks(3497), 200, null, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", "yeee", 99.989999999999995, "123rr", null, 2, null, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
+                columns: new[] { "Id", "Address", "Comment", "CountryId", "CurrencyId", "CustomerId", "Date", "Device", "MoreInfo", "OrderFinishDate", "OrderNumber", "OrderType", "Photo", "Platforma", "Price", "ProductCode", "ProductionTime", "Quantity", "ShipmentTypeId", "Status", "UserId", "Vat" },
+                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 11, 24, 14, 54, 20, 571, DateTimeKind.Local).AddTicks(1663), null, "eeeee", new DateTime(2021, 11, 24, 14, 54, 20, 575, DateTimeKind.Local).AddTicks(8749), 200, null, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", "yeee", 99.989999999999995, "123rr", null, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
 
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
@@ -372,7 +375,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "WarehouseCountings",
                 columns: new[] { "Id", "LastTimeChanging", "OrderId", "Photo", "QuantityProductWarehouse" },
-                values: new object[] { 1, new DateTime(2021, 11, 21, 14, 33, 34, 724, DateTimeKind.Local).AddTicks(8305), 1, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 2 });
+                values: new object[] { 1, new DateTime(2021, 11, 24, 14, 54, 20, 576, DateTimeKind.Local).AddTicks(8629), 1, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 2 });
 
             migrationBuilder.InsertData(
                 table: "Materials",
@@ -405,9 +408,9 @@ namespace PromiCRM.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_ShipmentId",
+                name: "IX_Orders_ShipmentTypeId",
                 table: "Orders",
-                column: "ShipmentId");
+                column: "ShipmentTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
@@ -432,9 +435,9 @@ namespace PromiCRM.Migrations
                 filter: "[Email] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_UserTypeId",
+                name: "IX_Users_TypeId",
                 table: "Users",
-                column: "UserTypeId");
+                column: "TypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WarehouseCountings_OrderId",

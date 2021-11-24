@@ -10,7 +10,7 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211121123335_createDB")]
+    [Migration("20211124125421_createDB")]
     partial class createDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,17 @@ namespace PromiCRM.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Bonus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Accumulated = 100,
+                            Bonusas = 600,
+                            LeftUntil = 400,
+                            Quantity = 1000,
+                            UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Country", b =>
@@ -235,9 +246,6 @@ namespace PromiCRM.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ShipmentId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ShipmentTypeId")
                         .HasColumnType("int");
 
@@ -258,7 +266,7 @@ namespace PromiCRM.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("ShipmentId");
+                    b.HasIndex("ShipmentTypeId");
 
                     b.HasIndex("UserId");
 
@@ -273,9 +281,9 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 11, 21, 14, 33, 34, 721, DateTimeKind.Local).AddTicks(499),
+                            Date = new DateTime(2021, 11, 24, 14, 54, 20, 571, DateTimeKind.Local).AddTicks(1663),
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 11, 21, 14, 33, 34, 724, DateTimeKind.Local).AddTicks(3497),
+                            OrderFinishDate = new DateTime(2021, 11, 24, 14, 54, 20, 575, DateTimeKind.Local).AddTicks(8749),
                             OrderNumber = 200,
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             Platforma = "yeee",
@@ -454,16 +462,13 @@ namespace PromiCRM.Migrations
                     b.Property<byte[]>("UserPhoto")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int?>("UserTypeId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique()
                         .HasFilter("[Email] IS NOT NULL");
 
-                    b.HasIndex("UserTypeId");
+                    b.HasIndex("TypeId");
 
                     b.ToTable("Users");
 
@@ -473,7 +478,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "primoadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$beS/sidwL.bOYFtSvkKkHel7VH65ZXU5t2Dr7WMu0l89cRf7TxWoW",
+                            Password = "$2a$11$cFCxlE9aBA87C5SQOoZdzewbT0D5ct5MyEKcvAu6jPzo5UP1bPOpO",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -547,7 +552,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 11, 21, 14, 33, 34, 724, DateTimeKind.Local).AddTicks(8305),
+                            LastTimeChanging = new DateTime(2021, 11, 24, 14, 54, 20, 576, DateTimeKind.Local).AddTicks(8629),
                             OrderId = 1,
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             QuantityProductWarehouse = 2
@@ -588,89 +593,117 @@ namespace PromiCRM.Migrations
 
             modelBuilder.Entity("PromiCRM.Models.Bonus", b =>
                 {
-                    b.HasOne("PromiCRM.Models.User", null)
+                    b.HasOne("PromiCRM.Models.User", "User")
                         .WithMany("Bonus")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Material", b =>
                 {
-                    b.HasOne("PromiCRM.Models.Product", null)
+                    b.HasOne("PromiCRM.Models.Product", "Product")
                         .WithMany("Materials")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Order", b =>
                 {
-                    b.HasOne("PromiCRM.Models.Country", null)
+                    b.HasOne("PromiCRM.Models.Country", "Country")
                         .WithMany("Orders")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PromiCRM.Models.Currency", null)
+                    b.HasOne("PromiCRM.Models.Currency", "Currency")
                         .WithMany("Orders")
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PromiCRM.Models.Customer", null)
+                    b.HasOne("PromiCRM.Models.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("PromiCRM.Models.Shipment", null)
+                    b.HasOne("PromiCRM.Models.Shipment", "Shipment")
                         .WithMany("Orders")
-                        .HasForeignKey("ShipmentId");
+                        .HasForeignKey("ShipmentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("PromiCRM.Models.User", null)
+                    b.HasOne("PromiCRM.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Shipment");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Product", b =>
                 {
-                    b.HasOne("PromiCRM.Models.Order", null)
+                    b.HasOne("PromiCRM.Models.Order", "Order")
                         .WithMany("Products")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PromiCRM.Models.Service", null)
+                    b.HasOne("PromiCRM.Models.Service", "Services")
                         .WithMany("Products")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Services");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.User", b =>
                 {
-                    b.HasOne("PromiCRM.Models.UserType", null)
+                    b.HasOne("PromiCRM.Models.UserType", "Type")
                         .WithMany("Users")
-                        .HasForeignKey("UserTypeId");
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.WarehouseCounting", b =>
                 {
-                    b.HasOne("PromiCRM.Models.Order", null)
+                    b.HasOne("PromiCRM.Models.Order", "Order")
                         .WithMany("WarehouseCountings")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.WeeklyWorkSchedule", b =>
                 {
-                    b.HasOne("PromiCRM.Models.User", null)
+                    b.HasOne("PromiCRM.Models.User", "User")
                         .WithMany("WeeklyWorkSchedules")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Country", b =>

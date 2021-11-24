@@ -14,8 +14,7 @@ namespace PromiCRM.Models
         // we need to conect the user table some how with the order tab
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
-        [NotMapped]
-        public User User { get; set; }
+        public virtual User User { get; set; }
         public string OrderType { get; set; }
         public bool Status { get; set; }
         public int OrderNumber { get; set; }
@@ -28,14 +27,12 @@ namespace PromiCRM.Models
 
         [ForeignKey(nameof(Shipment))]
         public int ShipmentTypeId { get; set; }
-        [NotMapped]
-        public Shipment Shipment { get; set; }
+        public virtual Shipment Shipment { get; set; }
         
 
         [ForeignKey(nameof(Customer))]
         public int? CustomerId { get; set; }
-        [NotMapped]
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
         
         public string Device { get; set; }
 
@@ -44,8 +41,7 @@ namespace PromiCRM.Models
 
         [ForeignKey(nameof(Country))]
         public int CountryId { get; set; }
-        [NotMapped]
-        public Country Country { get; set; }
+        public virtual Country Country { get; set; }
         
         public string Comment { get; set; }
 
@@ -53,16 +49,15 @@ namespace PromiCRM.Models
 
         [ForeignKey(nameof(Currency))]
         public int CurrencyId { get; set; }
-        [NotMapped]
-        public Currency Currency { get; set; }
+        public virtual Currency Currency { get; set; }
         
 
         public double Vat { get; set; }
 
         public DateTime OrderFinishDate { get; set; }
 
-        public virtual IList<WarehouseCounting> WarehouseCountings { get; set; }
-        public virtual IList<Product> Products { get; set; }
+        public virtual ICollection<WarehouseCounting> WarehouseCountings { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
 
     }
 }

@@ -14,6 +14,6 @@ namespace PromiCRM.Models
         public string ShortName { get; set; }
         public string Continent { get; set; }
         //relationship one to many. each country can have multiple orders
-        public IList<Order> Orders { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 }
