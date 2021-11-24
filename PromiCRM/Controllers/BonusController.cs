@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PromiCRM.IRepository;
 using PromiCRM.Models;
@@ -49,7 +50,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetBonus(int id)
         {
-            var bonus = await _unitOfWork.Bonus.Get(b => b.Id == id);
+            var bonus = await _unitOfWork.Bonus.Get(b => b.Id == id, include: p => p.Include(x => x.User));
             var result = _mapper.Map<BonusDTO>(bonus);
             return Ok(result);
         }
