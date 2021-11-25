@@ -45,10 +45,9 @@ namespace PromiCRM
             services.AddCors(o =>
             {
                 o.AddPolicy("AllowAll", builder =>
-                   builder.WithOrigins("https://localhost:3000")
+                   builder.AllowAnyOrigin()
                    .AllowAnyMethod()
-                   .AllowAnyHeader()
-                .AllowCredentials());
+                   .AllowAnyHeader());
             });
 
             // Add autoMapper. For type providing MapperInitializer that i created in Configurations

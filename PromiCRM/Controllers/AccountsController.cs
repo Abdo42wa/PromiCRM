@@ -105,12 +105,12 @@ namespace PromiCRM.Controllers
             }
             var token = await _authManager.CreateToken();
 
-            Response.Cookies.Append("jwt", token, new CookieOptions
+            /*Response.Cookies.Append("jwt", token, new CookieOptions
             {
                 HttpOnly = true,
                 Expires = DateTime.Now.AddSeconds(40)
             });
-
+            */
             //return anything in 200 range. means it was succesful
             // return new object iwth an expression called Token. It'lll equal to
             // authManager method CrateToken which will return Token
