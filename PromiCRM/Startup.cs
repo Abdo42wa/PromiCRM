@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +34,7 @@ namespace PromiCRM
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DatabaseContext>(
-               options => options.UseSqlServer(Configuration.GetConnectionString("lukasConnection")));
+               options => options.UseSqlServer(Configuration.GetConnectionString("abdoConnection")));
 
 
             services.AddAuthentication();
@@ -65,6 +66,7 @@ namespace PromiCRM
             services.AddControllers().AddNewtonsoftJson(op =>
                 op.SerializerSettings.ReferenceLoopHandling =
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
