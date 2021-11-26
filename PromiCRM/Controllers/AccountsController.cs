@@ -51,7 +51,7 @@ namespace PromiCRM.Controllers
             return Ok(results);
         }
 
-        [HttpGet]
+        [HttpGet("types")]
         [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
