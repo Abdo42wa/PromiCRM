@@ -54,12 +54,14 @@ namespace PromiCRM.Services
         /// <returns></returns>
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
         {
-            var jwtSettings = _configuration.GetSection("Jwt");
+            var lifetime = Environment.GetEnvironmentVariable("lifetime");
+            var Issuer = Environment.GetEnvironmentVariable("Issuer");
+            //var jwtSettings = _configuration.GetSection("Jwt");
 
-            var expiration = DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings.GetSection("lifetime").Value));
+            var expiration = DateTime.Now.AddMinutes(Convert.ToDouble(lifetime));
 
             var token = new JwtSecurityToken(
-                issuer: jwtSettings.GetSection("Issuer").Value,
+                issuer: Issuer,
                 claims: claims,
                 expires: expiration,
                 signingCredentials: signingCredentials

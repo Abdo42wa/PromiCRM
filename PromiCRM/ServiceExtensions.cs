@@ -42,6 +42,8 @@ namespace PromiCRM
             //getting key that i set with Command Line
             var key = Environment.GetEnvironmentVariable("KEY");
 
+            var Issuer = Environment.GetEnvironmentVariable("Issuer");
+
             //basically adding authentication to app. and default scheme that i want  is JWT
             //when somebody tires to authenticate check for bearer token
             //then i set up parameters. ValidatieIssuer means we want to validate token. validate lifetime
@@ -61,7 +63,7 @@ namespace PromiCRM
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings.GetSection("Issuer").Value,
+                    ValidIssuer = Issuer,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
                 };
             });

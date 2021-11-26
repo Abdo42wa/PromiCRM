@@ -19,7 +19,7 @@ namespace PromiCRM.Configurations.Entities
                     Id = id,
                     Name = "Adminas",
                     Surname = "Admin",
-                    Email = "primoadmin@gmail.com",
+                    Email = "promiadmin@gmail.com",
                     PhoneNumber = "860855183",
                     Password = BCrypt.Net.BCrypt.HashPassword("Password1"),
                     TypeId = 1

@@ -21,6 +21,16 @@ namespace PromiCRM.Configurations.Entities
                     ShippingCost = 20.40,
                     ShippingNumber = 252,
                     ShipmentInfo = "atidaryk ta"
+                },
+
+                new Shipment
+                {
+                    Id = 2,
+                    Type = "Paprastas",
+                    Period = 2,
+                    ShippingCost = 20.40,
+                    ShippingNumber = 252,
+                    ShipmentInfo = "atidaryk ta"
                 }
             );
         }

@@ -22,6 +22,7 @@ namespace PromiCRM.Configurations.Entities
                     Date = DateTime.Now,
                     Platforma = "yeee",
                     MoreInfo = "eeeee",
+                    OrderType = "eeeee",
                     Quantity = 2,
                     Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                     ProductCode = "123rr",
@@ -29,12 +30,14 @@ namespace PromiCRM.Configurations.Entities
                     CustomerId = 1,
                     Address = "Justiniskiu",
                     CountryId = 1,
+                    ProductionTime = 1,
                     Comment = "great",
+                    Device = "ira",
                     Price = 99.99,
                     CurrencyId = 1,
                     Vat = 21.1,
+                    Status= false,
                     OrderFinishDate = DateTime.Now
-
                 }
             );
         }

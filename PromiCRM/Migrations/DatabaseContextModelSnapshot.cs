@@ -279,14 +279,17 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 11, 24, 15, 19, 57, 20, DateTimeKind.Local).AddTicks(3762),
+                            Date = new DateTime(2021, 11, 26, 17, 2, 14, 73, DateTimeKind.Local).AddTicks(2566),
+                            Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 11, 24, 15, 19, 57, 26, DateTimeKind.Local).AddTicks(2525),
+                            OrderFinishDate = new DateTime(2021, 11, 26, 17, 2, 14, 78, DateTimeKind.Local).AddTicks(6204),
                             OrderNumber = 200,
+                            OrderType = "eeeee",
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             Platforma = "yeee",
                             Price = 99.989999999999995,
                             ProductCode = "123rr",
+                            ProductionTime = 1,
                             Quantity = 2,
                             ShipmentTypeId = 1,
                             Status = false,
@@ -430,6 +433,15 @@ namespace PromiCRM.Migrations
                             ShippingCost = 20.399999999999999,
                             ShippingNumber = 252,
                             Type = "Express"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Period = 2,
+                            ShipmentInfo = "atidaryk ta",
+                            ShippingCost = 20.399999999999999,
+                            ShippingNumber = 252,
+                            Type = "Paprastas"
                         });
                 });
 
@@ -476,7 +488,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "primoadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$dKv1HcwTURZGw5SHQTaRveKl1g.OI86tFVXwyZbnR67vheYysQqeK",
+                            Password = "$2a$11$yaa1eQevpcdIwLBkeeKV0OANUAVz4Bokfrn0L.Xfe6wPTYtRMswxC",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -550,7 +562,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 11, 24, 15, 19, 57, 27, DateTimeKind.Local).AddTicks(2271),
+                            LastTimeChanging = new DateTime(2021, 11, 26, 17, 2, 14, 79, DateTimeKind.Local).AddTicks(431),
                             OrderId = 1,
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             QuantityProductWarehouse = 2
