@@ -17,7 +17,6 @@ namespace PromiCRM.ModelsDTO
         public string Code { get; set; }
         public string Category { get; set; }
         [Required]
-        [StringLength(maximumLength: 100, MinimumLength = 10, ErrorMessage = "The Product  Name cannot be more than 100 or less than 10 ")]
         public string Name { get; set; }
         [Required]
         public double LengthWithoutPackaging { get; set; }
