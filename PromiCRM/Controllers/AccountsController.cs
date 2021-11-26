@@ -51,6 +51,16 @@ namespace PromiCRM.Controllers
             return Ok(results);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "ADMINISTRATOR")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUserTypes()
+        {
+            var userTypes = await _unitOfWork.UserTypes.GetAll();
+            var results = _mapper.Map<IList<UserTypeDTO>>(userTypes);
+            return Ok(results);
+        }
         /// <summary>
         /// In Register we'll requiring sensitive data like passwords we dont want to send them as parameters
         /// We use POST request. when we do get request its sent accross in plain text. Get info from body
