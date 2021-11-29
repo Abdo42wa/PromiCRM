@@ -36,9 +36,13 @@ namespace PromiCRM.Configurations
             CreateMap<Customer, CreateCustomerDTO>().ReverseMap();
             CreateMap<Customer, UpdateCustomerDTO>().ReverseMap();
 
-            CreateMap<Material, MaterialDTO>().ReverseMap();
-            CreateMap<Material, CreateMaterialDTO>().ReverseMap();
-            CreateMap<Material, UpdateMaterialDTO>().ReverseMap();
+            CreateMap<MaterialWarehouse, MaterialWarehouseDTO>().ReverseMap();
+            CreateMap<MaterialWarehouse, CreateMaterialWarehouseDTO>().ReverseMap();
+            CreateMap<MaterialWarehouse, UpdateMaterialWarehouseDTO>().ReverseMap();
+
+            CreateMap<ProductMaterial, ProductMaterialDTO>().ReverseMap();
+            CreateMap<ProductMaterial, CreateProductMaterialDTO>().ReverseMap();
+            CreateMap<ProductMaterial, UpdateProductMaterialDTO>().ReverseMap();
 
 /*            CreateMap<Order, NonStandardWorkDTO>().ReverseMap();
             CreateMap<Order, CreateNonStandardWorksDTO>().ReverseMap();

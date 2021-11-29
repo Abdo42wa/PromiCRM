@@ -29,6 +29,6 @@ namespace PromiCRM.Models
         public int ServiceId { get; set; }
         public virtual Service Service { get; set; }
         //relationship one to many with Material
-        public virtual ICollection<Material> Materials { get; set; }
+        public virtual ICollection<ProductMaterial> ProducMaterials { get; set; }
     }
 }

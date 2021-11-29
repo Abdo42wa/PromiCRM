@@ -8,17 +8,16 @@ using System.Threading.Tasks;
 
 namespace PromiCRM.Configurations.Entities
 {
-    public class MaterialsConfiguration : IEntityTypeConfiguration<Material>
+    public class MaterialsConfiguration : IEntityTypeConfiguration<ProductMaterial>
     {
-        public void Configure(EntityTypeBuilder<Material> builder)
+        public void Configure(EntityTypeBuilder<ProductMaterial> builder)
         {
             builder.HasData(
-                new Material
+                new ProductMaterial
                 {
                     Id = 1,
-                    Name = "Stiklas",
-                    MaterialUsed = "lsls",
-                    ProductId = 1
+                    ProductId = 1,
+                    MaterialWarehouseId = 1
                 }
             );
         }

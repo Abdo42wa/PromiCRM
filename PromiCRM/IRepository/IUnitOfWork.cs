@@ -15,7 +15,8 @@ namespace PromiCRM.IRepository
         IGenericRepository<Country> Countries { get;  }
         IGenericRepository<Currency> Currencies { get; }
         IGenericRepository<Customer> Customers { get;  }
-        IGenericRepository<Material> Materials { get;  }
+        IGenericRepository<MaterialWarehouse> MaterialsWarehouse { get; }
+        IGenericRepository<ProductMaterial> ProductMaterials { get;  }
         IGenericRepository<Order> Orders { get;  }
         IGenericRepository<Product> Products { get;  }
         IGenericRepository<Service> Services { get;  }

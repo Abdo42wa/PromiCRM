@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace PromiCRM.ModelsDTO
 {
-    public class CreateMaterialDTO
+    public class CreateProductMaterialDTO
     {
         [Required]
-        public string Name { get; set; }
-
-        public string MaterialUsed { get; set; }
         public int ProductId { get; set; }
+        [Required]
+        public int MaterialWarehouseId { get; set; }
     }
-    public class UpdateMaterialDTO : CreateMaterialDTO
+    public class UpdateProductMaterialDTO : CreateProductMaterialDTO
     {
 
     }
 
-    public class MaterialDTO : CreateMaterialDTO
+    public class ProductMaterialDTO : CreateProductMaterialDTO
     {
         public int Id { get; set; }
         public ProductDTO Product { get; set; }
-        
+        public MaterialWarehouseDTO MaterialWarehouse { get; set; }
+
     }
 }

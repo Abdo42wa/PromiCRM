@@ -37,8 +37,8 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMaterials()
         {
-            var materials = await _unitOfWork.Materials.GetAll(includeProperties: "Product");
-            var results = _mapper.Map<IList<MaterialDTO>>(materials);
+            var materials = await _unitOfWork.ProductMaterials.GetAll(includeProperties: "Product");
+            var results = _mapper.Map<IList<ProductMaterialDTO>>(materials);
             return Ok(results);
         }
         /// <summary>
@@ -52,8 +52,8 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMaterial(int id)
         {
-            var material = await _unitOfWork.Materials.Get(m => m.Id == id, includeProperties: "Product");
-            var result = _mapper.Map<MaterialDTO>(material);
+            var material = await _unitOfWork.ProductMaterials.Get(m => m.Id == id, includeProperties: "Product");
+            var result = _mapper.Map<ProductMaterialDTO>(material);
             return Ok(result);
         }
         /// <summary>
@@ -67,8 +67,8 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMaterialByProductId(int id)
         {
-            var materials = await _unitOfWork.Materials.GetAll(m => m.ProductId == id, includeProperties: "Product");
-            var results = _mapper.Map<IList<MaterialDTO>>(materials);
+            var materials = await _unitOfWork.ProductMaterials.GetAll(m => m.ProductId == id, includeProperties: "Product");
+            var results = _mapper.Map<IList<ProductMaterialDTO>>(materials);
             return Ok(results);
         }
         /// <summary>
@@ -81,15 +81,15 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateMaterial([FromBody]CreateMaterialDTO materialDTO)
+        public async Task<IActionResult> CreateMaterial([FromBody] CreateProductMaterialDTO materialDTO)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateMaterial)}");
                 return BadRequest("Submited invalid data");
             }
-            var material = _mapper.Map<Material>(materialDTO);
-            await _unitOfWork.Materials.Insert(material);
+            var material = _mapper.Map<ProductMaterial>(materialDTO);
+            await _unitOfWork.ProductMaterials.Insert(material);
             await _unitOfWork.Save();
             //call GetMaterial, provide material id, and material object. It will find created material and return to user
             return CreatedAtRoute("GetMaterial", new { id = material.Id }, material);
@@ -105,14 +105,14 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateMaterial([FromBody]UpdateMaterialDTO materialDTO, int id)
+        public async Task<IActionResult> UpdateMaterial([FromBody]UpdateProductMaterialDTO materialDTO, int id)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateMaterial)}");
                 return BadRequest("Submited invalid data");
             }
-            var material = await _unitOfWork.Materials.Get(m => m.Id == id);
+            var material = await _unitOfWork.ProductMaterials.Get(m => m.Id == id);
             if(material == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateMaterial)}");
@@ -120,7 +120,7 @@ namespace PromiCRM.Controllers
             }
             //convert materialDTO to material model. Put all values to material model 
             _mapper.Map(materialDTO, material);
-            _unitOfWork.Materials.Update(material);
+            _unitOfWork.ProductMaterials.Update(material);
             await _unitOfWork.Save();
             return NoContent();
         }
@@ -136,13 +136,13 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeleteMaterial(int id)
         {
-            var material = await _unitOfWork.Materials.Get(m => m.Id == id);
+            var material = await _unitOfWork.ProductMaterials.Get(m => m.Id == id);
             if(material == null)
             {
                 _logger.LogError($"Invalid DELETE attemt in {nameof(DeleteMaterial)}");
                 return BadRequest("Submited invalid data");
             }
-            await _unitOfWork.Materials.Delete(id);
+            await _unitOfWork.ProductMaterials.Delete(id);
             await _unitOfWork.Save();
             return NoContent();
         }
