@@ -10,6 +10,7 @@ namespace PromiCRM.IRepository
     {
         IGenericRepository<UserType> UserTypes{ get; }
         IGenericRepository<User> Users { get; }
+        IGenericRepository<SalesChannel> SalesChannels { get; }
         IGenericRepository<Bonus> Bonus { get;  }
         IGenericRepository<Country> Countries { get;  }
         IGenericRepository<Currency> Currencies { get; }
@@ -21,7 +22,6 @@ namespace PromiCRM.IRepository
         IGenericRepository<Shipment> Shipments { get;  }
         IGenericRepository<WarehouseCounting> WarehouseCountings { get; }
         IGenericRepository<WeeklyWorkSchedule> WeeklyWorkSchedules { get;  }
-
         Task Save();
     }
 }

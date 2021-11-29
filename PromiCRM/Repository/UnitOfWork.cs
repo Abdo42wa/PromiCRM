@@ -12,6 +12,7 @@ namespace PromiCRM.Repository
         private readonly DatabaseContext _context;
         private IGenericRepository<UserType> _userTypes;
         private IGenericRepository<User> _users;
+        private IGenericRepository<SalesChannel> _salesChannels;
         private IGenericRepository<Bonus> _bonus;
         private IGenericRepository<Country> _countries;
         private IGenericRepository<Currency> _currencies;
@@ -30,8 +31,8 @@ namespace PromiCRM.Repository
         }
         public IGenericRepository<UserType> UserTypes => _userTypes ??= new GenericRepository<UserType>(_context);
         public IGenericRepository<User> Users => _users??= new GenericRepository<User>(_context);
+        public IGenericRepository<SalesChannel> SalesChannels => _salesChannels ??= new GenericRepository<SalesChannel>(_context);
         public IGenericRepository<Bonus> Bonus => _bonus ??= new GenericRepository<Bonus>(_context);
-
         public IGenericRepository<Country> Countries => _countries ??= new GenericRepository<Country>(_context);
 
         public IGenericRepository<Currency> Currencies => _currencies ??= new GenericRepository<Currency>(_context);

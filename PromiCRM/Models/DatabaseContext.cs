@@ -19,6 +19,7 @@ namespace PromiCRM.Models
         }
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<SalesChannel> SalesChannels { get; set; }
         public DbSet<Bonus> Bonus { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Currency> Currencies { get; set; }

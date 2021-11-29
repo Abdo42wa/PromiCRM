@@ -31,7 +31,7 @@ namespace PromiCRM.ModelsDTO
 
     public class SalesChannelDTO : CreateSalesChannelDTO
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public UserDTO User { get; set; }
     }
 }

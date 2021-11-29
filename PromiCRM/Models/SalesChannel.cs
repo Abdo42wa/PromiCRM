@@ -10,7 +10,7 @@ namespace PromiCRM.Models
     public class SalesChannel
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string ContactPerson { get; set; }
         public string Email { get; set; }
