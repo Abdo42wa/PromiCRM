@@ -54,7 +54,7 @@ namespace PromiCRM.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -74,7 +74,7 @@ namespace PromiCRM.Controllers
 
 
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -101,7 +101,7 @@ namespace PromiCRM.Controllers
 
 
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
