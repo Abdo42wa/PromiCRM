@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -29,28 +30,31 @@ namespace PromiCRM.Controllers
 
 
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProducts()
         {
-            var products = await _unitOfWork.Products.GetAll(includeProperties: "Order,Service");
+            var products = await _unitOfWork.Products.GetAll(includeProperties: "Order");
             var results = _mapper.Map<IList<ProductDTO>>(products);
             return Ok(results);
         }
 
 
         [HttpGet("{id:int}", Name = "GetProduct")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProduct(int id)
         {
-            var product = await _unitOfWork.Products.Get(c => c.Id == id, includeProperties: "Order,Service");
+            var product = await _unitOfWork.Products.Get(c => c.Id == id, includeProperties: "Order");
             var result = _mapper.Map<ProductDTO>(product);
             return Ok(result);
         }
 
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -70,6 +74,7 @@ namespace PromiCRM.Controllers
 
 
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Administrator")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -96,6 +101,7 @@ namespace PromiCRM.Controllers
 
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Administrator")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

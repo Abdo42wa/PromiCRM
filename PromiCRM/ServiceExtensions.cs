@@ -42,7 +42,7 @@ namespace PromiCRM
             //getting key that i set with Command Line
             var key = Environment.GetEnvironmentVariable("KEY");
 
-            var Issuer = Environment.GetEnvironmentVariable("Issuer");
+/*            var issuer = Environment.GetEnvironmentVariable("Issuer");*/
 
             //basically adding authentication to app. and default scheme that i want  is JWT
             //when somebody tires to authenticate check for bearer token
@@ -54,7 +54,7 @@ namespace PromiCRM
             services.AddAuthentication(o =>
             {
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(o =>
             {
                 o.TokenValidationParameters = new TokenValidationParameters
@@ -63,7 +63,7 @@ namespace PromiCRM
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = Issuer,
+                    ValidIssuer = jwtSettings.GetSection("Issuer").Value,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
                 };
             });
