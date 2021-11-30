@@ -72,20 +72,6 @@ namespace PromiCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Services",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Time = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Services", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Shipments",
                 columns: table => new
                 {
@@ -298,8 +284,7 @@ namespace PromiCRM.Migrations
                     LaserTime = table.Column<int>(type: "int", nullable: true),
                     MilingTime = table.Column<int>(type: "int", nullable: true),
                     PackagingBoxCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PackingTime = table.Column<double>(type: "float", nullable: false),
-                    ServiceId = table.Column<int>(type: "int", nullable: false)
+                    PackingTime = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -308,12 +293,6 @@ namespace PromiCRM.Migrations
                         name: "FK_Products_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Products_Services_ServiceId",
-                        column: x => x.ServiceId,
-                        principalTable: "Services",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -388,12 +367,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "MaterialsWarehouse",
                 columns: new[] { "Id", "DeliveryTime", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
-                values: new object[] { 1, 5, "viena plokste 1,5x1,5m =22500", new DateTime(2021, 11, 30, 14, 40, 15, 421, DateTimeKind.Local).AddTicks(9360), "cm", 22500, "Fanera 3mm", 40 });
-
-            migrationBuilder.InsertData(
-                table: "Services",
-                columns: new[] { "Id", "Name", "Time" },
-                values: new object[] { 1, "Lazeriavimas", 15 });
+                values: new object[] { 1, 5, "viena plokste 1,5x1,5m =22500", new DateTime(2021, 11, 30, 14, 52, 34, 974, DateTimeKind.Local).AddTicks(5695), "cm", 22500, "Fanera 3mm", 40 });
 
             migrationBuilder.InsertData(
                 table: "Shipments",
@@ -418,7 +392,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$e58Pd.942FDFeV4FM4b4D.pRQdh9UPgyyg6h3uRVdkdR6xE0om6Cq", "860855183", "Admin", 1, null });
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$3bFC..UMm6usCceciizPP.e8bFw.hxo.Jp3Bzv32rUvSzF40z2o4e", "860855183", "Admin", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Bonus",
@@ -428,7 +402,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "Id", "Address", "Comment", "CountryId", "CurrencyId", "CustomerId", "Date", "Device", "MoreInfo", "OrderFinishDate", "OrderNumber", "OrderType", "Photo", "Platforma", "Price", "ProductCode", "ProductionTime", "Quantity", "ShipmentTypeId", "Status", "UserId", "Vat" },
-                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 11, 30, 14, 40, 15, 416, DateTimeKind.Local).AddTicks(8813), "ira", "eeeee", new DateTime(2021, 11, 30, 14, 40, 15, 420, DateTimeKind.Local).AddTicks(1818), 200, "eeeee", "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", "yeee", 99.989999999999995, "123rr", 1, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
+                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 11, 30, 14, 52, 34, 970, DateTimeKind.Local).AddTicks(4179), "ira", "eeeee", new DateTime(2021, 11, 30, 14, 52, 34, 972, DateTimeKind.Local).AddTicks(9830), 200, "eeeee", "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", "yeee", 99.989999999999995, "123rr", 1, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
 
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
@@ -437,13 +411,13 @@ namespace PromiCRM.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "BondingTime", "Category", "Code", "CollectionTime", "HeightWithPackaging", "HeightWithoutPackaging", "LaserTime", "LengthWithPackaging", "LengthWithoutPackaging", "Link", "MilingTime", "Name", "OrderId", "PackagingBoxCode", "PackingTime", "PaintingTime", "Photo", "ServiceId", "WeightGross", "WeightNetto", "WidthWithPackaging", "WidthWithoutPackaging" },
-                values: new object[] { 1, 40, "Good", "8582262s", 20, 3.5, 3.0, 10, 12.0, 10.0, "sss", 20, "Produktas", 1, "pspspsp", 10.0, 15, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 1, 10.199999999999999, 9.0, 5.5, 5.0 });
+                columns: new[] { "Id", "BondingTime", "Category", "Code", "CollectionTime", "HeightWithPackaging", "HeightWithoutPackaging", "LaserTime", "LengthWithPackaging", "LengthWithoutPackaging", "Link", "MilingTime", "Name", "OrderId", "PackagingBoxCode", "PackingTime", "PaintingTime", "Photo", "WeightGross", "WeightNetto", "WidthWithPackaging", "WidthWithoutPackaging" },
+                values: new object[] { 1, 40, "Good", "8582262s", 20, 3.5, 3.0, 10, 12.0, 10.0, "sss", 20, "Produktas", 1, "pspspsp", 10.0, 15, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 10.199999999999999, 9.0, 5.5, 5.0 });
 
             migrationBuilder.InsertData(
                 table: "WarehouseCountings",
                 columns: new[] { "Id", "LastTimeChanging", "OrderId", "Photo", "QuantityProductWarehouse" },
-                values: new object[] { 1, new DateTime(2021, 11, 30, 14, 40, 15, 420, DateTimeKind.Local).AddTicks(7051), 1, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 2 });
+                values: new object[] { 1, new DateTime(2021, 11, 30, 14, 52, 34, 973, DateTimeKind.Local).AddTicks(3059), 1, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 2 });
 
             migrationBuilder.InsertData(
                 table: "ProductMaterials",
@@ -494,11 +468,6 @@ namespace PromiCRM.Migrations
                 name: "IX_Products_OrderId",
                 table: "Products",
                 column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_ServiceId",
-                table: "Products",
-                column: "ServiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesChannels_UserId",
@@ -553,9 +522,6 @@ namespace PromiCRM.Migrations
 
             migrationBuilder.DropTable(
                 name: "Orders");
-
-            migrationBuilder.DropTable(
-                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "Countries");
