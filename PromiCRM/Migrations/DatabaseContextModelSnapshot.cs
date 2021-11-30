@@ -192,7 +192,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2021, 11, 30, 14, 52, 34, 974, DateTimeKind.Local).AddTicks(5695),
+                            LastAdittion = new DateTime(2021, 11, 30, 16, 35, 34, 978, DateTimeKind.Local).AddTicks(4553),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -293,10 +293,10 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 11, 30, 14, 52, 34, 970, DateTimeKind.Local).AddTicks(4179),
+                            Date = new DateTime(2021, 11, 30, 16, 35, 34, 972, DateTimeKind.Local).AddTicks(1645),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 11, 30, 14, 52, 34, 972, DateTimeKind.Local).AddTicks(9830),
+                            OrderFinishDate = new DateTime(2021, 11, 30, 16, 35, 34, 976, DateTimeKind.Local).AddTicks(4606),
                             OrderNumber = 200,
                             OrderType = "eeeee",
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
@@ -574,7 +574,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$3bFC..UMm6usCceciizPP.e8bFw.hxo.Jp3Bzv32rUvSzF40z2o4e",
+                            Password = "$2a$11$KdaNVUpFd1a0NxX6DWOidOLIlCi67aqhXQ31xBYuvyjrAIFulPm06",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -648,7 +648,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 11, 30, 14, 52, 34, 973, DateTimeKind.Local).AddTicks(3059),
+                            LastTimeChanging = new DateTime(2021, 11, 30, 16, 35, 34, 976, DateTimeKind.Local).AddTicks(8995),
                             OrderId = 1,
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             QuantityProductWarehouse = 2
