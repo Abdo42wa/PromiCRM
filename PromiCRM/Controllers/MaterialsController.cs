@@ -105,7 +105,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateMaterial([FromBody]UpdateProductMaterialDTO materialDTO, int id)
+        public async Task<IActionResult> UpdateMaterial([FromBody] UpdateProductMaterialDTO materialDTO, int id)
         {
             if (!ModelState.IsValid)
             {
@@ -113,7 +113,7 @@ namespace PromiCRM.Controllers
                 return BadRequest("Submited invalid data");
             }
             var material = await _unitOfWork.ProductMaterials.Get(m => m.Id == id);
-            if(material == null)
+            if (material == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateMaterial)}");
                 return BadRequest("Submited invalid data");
@@ -137,7 +137,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> DeleteMaterial(int id)
         {
             var material = await _unitOfWork.ProductMaterials.Get(m => m.Id == id);
-            if(material == null)
+            if (material == null)
             {
                 _logger.LogError($"Invalid DELETE attemt in {nameof(DeleteMaterial)}");
                 return BadRequest("Submited invalid data");

@@ -25,7 +25,25 @@ namespace PromiCRM.ModelsDTO
         [Required]
         public double HeightWithoutPackaging { get; set; }
         [Required]
+        public double LengthWithPackaging { get; set; }
+        [Required]
+        public double WidthWithPackaging { get; set; }
+        [Required]
+        public double HeightWithPackaging { get; set; }
+        [Required]
         public double WeightGross { get; set; }
+        [Required]
+        public double WeightNetto { get; set; }
+        [Required]
+        public int? CollectionTime { get; set; }
+        [Required]
+        public int? BondingTime { get; set; }
+        [Required]
+        public int? PaintingTime { get; set; }
+        [Required]
+        public int? LaserTime { get; set; }
+        [Required]
+        public int? MilingTime { get; set; }
         [Required]
         public string PackagingBoxCode { get; set; }
         [Required]

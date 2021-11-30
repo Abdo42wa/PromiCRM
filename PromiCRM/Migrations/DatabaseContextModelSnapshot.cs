@@ -192,7 +192,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2021, 11, 29, 19, 55, 8, 687, DateTimeKind.Local).AddTicks(6984),
+                            LastAdittion = new DateTime(2021, 11, 30, 14, 40, 15, 421, DateTimeKind.Local).AddTicks(9360),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -293,10 +293,10 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 11, 29, 19, 55, 8, 671, DateTimeKind.Local).AddTicks(8043),
+                            Date = new DateTime(2021, 11, 30, 14, 40, 15, 416, DateTimeKind.Local).AddTicks(8813),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 11, 29, 19, 55, 8, 684, DateTimeKind.Local).AddTicks(6664),
+                            OrderFinishDate = new DateTime(2021, 11, 30, 14, 40, 15, 420, DateTimeKind.Local).AddTicks(1818),
                             OrderNumber = 200,
                             OrderType = "eeeee",
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
@@ -319,13 +319,28 @@ namespace PromiCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BondingTime")
+                        .HasColumnType("int");
+
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CollectionTime")
+                        .HasColumnType("int");
+
+                    b.Property<double>("HeightWithPackaging")
+                        .HasColumnType("float");
+
                     b.Property<double>("HeightWithoutPackaging")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("LaserTime")
+                        .HasColumnType("int");
+
+                    b.Property<double>("LengthWithPackaging")
                         .HasColumnType("float");
 
                     b.Property<double>("LengthWithoutPackaging")
@@ -333,6 +348,9 @@ namespace PromiCRM.Migrations
 
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MilingTime")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -346,6 +364,9 @@ namespace PromiCRM.Migrations
                     b.Property<double>("PackingTime")
                         .HasColumnType("float");
 
+                    b.Property<int?>("PaintingTime")
+                        .HasColumnType("int");
+
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
 
@@ -353,6 +374,12 @@ namespace PromiCRM.Migrations
                         .HasColumnType("int");
 
                     b.Property<double>("WeightGross")
+                        .HasColumnType("float");
+
+                    b.Property<double>("WeightNetto")
+                        .HasColumnType("float");
+
+                    b.Property<double>("WidthWithPackaging")
                         .HasColumnType("float");
 
                     b.Property<double>("WidthWithoutPackaging")
@@ -370,18 +397,27 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
+                            BondingTime = 40,
                             Category = "Good",
                             Code = "8582262s",
+                            CollectionTime = 20,
+                            HeightWithPackaging = 3.5,
                             HeightWithoutPackaging = 3.0,
+                            LaserTime = 10,
+                            LengthWithPackaging = 12.0,
                             LengthWithoutPackaging = 10.0,
                             Link = "sss",
+                            MilingTime = 20,
                             Name = "Produktas",
                             OrderId = 1,
                             PackagingBoxCode = "pspspsp",
                             PackingTime = 10.0,
+                            PaintingTime = 15,
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             ServiceId = 1,
                             WeightGross = 10.199999999999999,
+                            WeightNetto = 9.0,
+                            WidthWithPackaging = 5.5,
                             WidthWithoutPackaging = 5.0
                         });
                 });
@@ -570,7 +606,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$7LZKTEq/v5kxJAnvlLu8E.TZoI1Pe8a26EZmA0KO/qNcVqrBPkU/K",
+                            Password = "$2a$11$e58Pd.942FDFeV4FM4b4D.pRQdh9UPgyyg6h3uRVdkdR6xE0om6Cq",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -644,7 +680,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 11, 29, 19, 55, 8, 686, DateTimeKind.Local).AddTicks(105),
+                            LastTimeChanging = new DateTime(2021, 11, 30, 14, 40, 15, 420, DateTimeKind.Local).AddTicks(7051),
                             OrderId = 1,
                             Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             QuantityProductWarehouse = 2

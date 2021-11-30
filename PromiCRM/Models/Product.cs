@@ -22,12 +22,21 @@ namespace PromiCRM.Models
         public double LengthWithoutPackaging { get; set; }
         public double WidthWithoutPackaging { get; set; }
         public double HeightWithoutPackaging { get; set; }
+        public double LengthWithPackaging { get; set; }
+        public double WidthWithPackaging { get; set; }
+        public double HeightWithPackaging { get; set; }
         public double WeightGross { get; set; }
+        public double WeightNetto { get; set; }
+        public int? CollectionTime { get; set; }
+        public int? BondingTime { get; set; }
+        public int? PaintingTime { get; set; }
+        public int? LaserTime { get; set; }
+        public int? MilingTime { get; set; }
         public string PackagingBoxCode { get; set; }
         public double PackingTime { get; set; }
-        [ForeignKey(nameof(Services))]
+/*        [ForeignKey(nameof(Services))]
         public int ServiceId { get; set; }
-        public virtual Service Service { get; set; }
+        public virtual Service Service { get; set; }*/
         //relationship one to many with Material
         public virtual ICollection<ProductMaterial> ProducMaterials { get; set; }
     }

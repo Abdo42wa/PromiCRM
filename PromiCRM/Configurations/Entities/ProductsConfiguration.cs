@@ -25,10 +25,19 @@ namespace PromiCRM.Configurations.Entities
                     LengthWithoutPackaging = 10.0,
                     WidthWithoutPackaging = 5.0,
                     HeightWithoutPackaging = 3.0,
+                    LengthWithPackaging = 12.0,
+                    WidthWithPackaging = 5.5,
+                    HeightWithPackaging = 3.5,
                     WeightGross = 10.2,
+                    WeightNetto = 9.0,
+                    BondingTime = 40,
+                    CollectionTime = 20,
+                    LaserTime = 10,
+                    MilingTime = 20,
+                    PaintingTime = 15,
                     PackagingBoxCode = "pspspsp",
                     PackingTime = 10.0,
-                    ServiceId = 1
+/*                    ServiceId = 1*/
                 }
             );
         }
