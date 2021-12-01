@@ -37,7 +37,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMaterials()
         {
-            var materials = await _unitOfWork.ProductMaterials.GetAll(includeProperties: "Product, MaterialWarehouse");
+            var materials = await _unitOfWork.ProductMaterials.GetAll(includeProperties: "Product,MaterialWarehouse");
             var results = _mapper.Map<IList<ProductMaterialDTO>>(materials);
             return Ok(results);
         }

@@ -31,6 +31,6 @@ namespace PromiCRM.ModelsDTO
     public class MaterialWarehouseDTO : CreateMaterialWarehouseDTO
     {
         public int Id { get; set; }
-        public IList<ProductMaterial> ProductMaterials { get; set; }
+        public IList<ProductMaterialDTO> ProductMaterials { get; set; }
     }
 }
