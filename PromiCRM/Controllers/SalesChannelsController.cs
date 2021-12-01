@@ -58,7 +58,7 @@ namespace PromiCRM.Controllers
         [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateSalesChannel([FromBody]CreateSalesChannelDTO salesChannelDTO)
         {
             if (!ModelState.IsValid)
@@ -70,7 +70,10 @@ namespace PromiCRM.Controllers
             var salesChannel = _mapper.Map<SalesChannel>(salesChannelDTO);
             await _unitOfWork.SalesChannels.Insert(salesChannel);
             await _unitOfWork.Save();
-            return CreatedAtRoute("GetById", new { id = salesChannel.Id }, salesChannel);
+            var createdSalesChannel = await _unitOfWork.SalesChannels.Get(s => s.Id == salesChannel.Id, includeProperties: "User");
+            var result = _mapper.Map<SalesChannelDTO>(createdSalesChannel);
+            return Ok(result);
+            /*return CreatedAtRoute("GetById", new { id = salesChannel.Id }, salesChannel);*/
         }
         /// <summary>
         /// Check if model valid. check if exist and update
