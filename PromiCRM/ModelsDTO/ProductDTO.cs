@@ -48,8 +48,7 @@ namespace PromiCRM.ModelsDTO
         public string PackagingBoxCode { get; set; }
         [Required]
         public double PackingTime { get; set; }
-        [Required]
-        public int ServiceId { get; set; }
+       
     }
 
     public class UpdateProductDTO : CreateProductDTO
@@ -60,7 +59,7 @@ namespace PromiCRM.ModelsDTO
     {
         public int Id { get; set; }
         public OrderDTO Order { get; set; }
-        public ServiceDTO Service { get; set; }
+       /* public ServiceDTO Service { get; set; }*/
         public virtual IList<ProductMaterialDTO> ProductMaterials { get; set; }
 
     }
