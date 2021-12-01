@@ -81,6 +81,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateMaterial([FromBody] CreateProductMaterialDTO materialDTO)
         {
             if (!ModelState.IsValid)
@@ -92,7 +93,10 @@ namespace PromiCRM.Controllers
             await _unitOfWork.ProductMaterials.Insert(material);
             await _unitOfWork.Save();
             //call GetMaterial, provide material id, and material object. It will find created material and return to user
-            return CreatedAtRoute("GetMaterial", new { id = material.Id }, material);
+            var createdMaterial = await _unitOfWork.ProductMaterials.Get(m => m.ProductId == material.Id, includeProperties: "Product, MaterialWarehouse");
+            var result = _mapper.Map<ProductMaterialDTO>(createdMaterial);
+            return Ok(result);
+            /*return CreatedAtRoute("GetMaterial", new { id = material.Id }, material);*/
         }
         /// <summary>
         /// Check if model valid, check if exist & update it
