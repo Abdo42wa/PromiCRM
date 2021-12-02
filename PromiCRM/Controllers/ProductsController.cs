@@ -35,7 +35,8 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProducts()
         {
-            var products = await _unitOfWork.Products.GetAll(includeProperties: "Order,ProducMaterials");
+            var products = await _unitOfWork.Products.GetAll(includeProperties: "Order,ProductMaterials");
+            //var productMaterials = await _unitOfWork.ProductMaterials.GetAll(m => m.Id ==);
             var results = _mapper.Map<IList<ProductDTO>>(products);
             return Ok(results);
         }
@@ -47,7 +48,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProduct(int id)
         {
-            var product = await _unitOfWork.Products.Get(c => c.Id == id, includeProperties: "Order,ProducMaterials");
+            var product = await _unitOfWork.Products.Get(c => c.Id == id, includeProperties: "Order,ProductMaterials");
 
 
             var result = _mapper.Map<ProductDTO>(product);
