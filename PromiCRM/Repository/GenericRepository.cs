@@ -94,5 +94,10 @@ namespace PromiCRM.Repository
             _db.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
         }
+
+        public void UpdateRange(IEnumerable<T> entities)
+        {
+            _db.UpdateRange(entities);
+        }
     }
 }

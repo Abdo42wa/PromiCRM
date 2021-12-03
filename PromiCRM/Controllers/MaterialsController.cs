@@ -128,6 +128,21 @@ namespace PromiCRM.Controllers
             await _unitOfWork.Save();
             return NoContent();
         }
+
+        [HttpPut("update")]
+        [Authorize(Roles = "ADMINISTRATOR")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> UpdateProductMaterials([FromBody]IList<ProductMaterialDTO> productMaterialsDTO)
+        {
+            var productMaterials = _mapper.Map<IList<ProductMaterial>>(productMaterialsDTO);
+            _unitOfWork.ProductMaterials.UpdateRange(productMaterials);
+            await _unitOfWork.Save();
+            return NoContent();
+        }
+
+
         /// <summary>
         /// Check if exist and delete it
         /// </summary>

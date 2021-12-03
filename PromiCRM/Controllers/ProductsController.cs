@@ -33,72 +33,13 @@ namespace PromiCRM.Controllers
 
 
         [HttpGet]
-        /*[Authorize]*/
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProducts()
         {
             /*var products = await _unitOfWork.Products.GetAll(includeProperties: "MaterialWarehouse");*/
             var products = await _database.Products.Include(p => p.ProductMaterials).ThenInclude(d => d.MaterialWarehouse).ToListAsync();
-            /*var productmaterials = await _database.ProductMaterials.Join(_database.Products, m => m.ProductId, d => d.Id,
-                (productmaterial, product) => new
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    OrderId = product.OrderId,
-                    Photo = product.Photo,
-                    Link = product.Link,
-                    Code = product.Code,
-                    Category = product.Category,
-                    LengthWithoutPackaging = product.LengthWithoutPackaging,
-                    WidthWithoutPackaging = product.WidthWithoutPackaging,
-                    HeightWithoutPackaging = product.HeightWithoutPackaging,
-                    LengthWithPackaging = product.LengthWithPackaging,
-                    WidthWithPackaging = product.WidthWithPackaging,
-                    HeightWithPackaging = product.HeightWithPackaging,
-                    WeightGross = product.WeightGross,
-                    WeightNetto = product.WeightNetto,
-                    CollectionTime = product.CollectionTime,
-                    BondingTime = product.BondingTime,
-                    PaintingTime = product.PaintingTime,
-                    LaserTime = product.LaserTime,
-                    MilingTime = product.MilingTime,
-                    PackagingBoxCode = product.PackagingBoxCode,
-                    PackingTime = product.PackingTime,
-
-                    MaterialWarehouseId = productmaterial.MaterialWarehouseId
-                }
-                ).Join(_database.MaterialsWarehouse, p => p.MaterialWarehouseId, k => k.Id,
-                        (product, materialWarehouse) => new
-                        {
-                            materailTitle = materialWarehouse.Title,
-                            materailQuantity = materialWarehouse.Quantity,
-                            Id = product.Id,
-                            Name = product.Name,
-                            OrderId = product.OrderId,
-                            Photo = product.Photo,
-                            Link = product.Link,
-                            Code = product.Code,
-                            Category = product.Category,
-                            LengthWithoutPackaging = product.LengthWithoutPackaging,
-                            WidthWithoutPackaging = product.WidthWithoutPackaging,
-                            HeightWithoutPackaging = product.HeightWithoutPackaging,
-                            LengthWithPackaging = product.LengthWithPackaging,
-                            WidthWithPackaging = product.WidthWithPackaging,
-                            HeightWithPackaging = product.HeightWithPackaging,
-                            WeightGross = product.WeightGross,
-                            WeightNetto = product.WeightNetto,
-                            CollectionTime = product.CollectionTime,
-                            BondingTime = product.BondingTime,
-                            PaintingTime = product.PaintingTime,
-                            LaserTime = product.LaserTime,
-                            MilingTime = product.MilingTime,
-                            PackagingBoxCode = product.PackagingBoxCode,
-                            PackingTime = product.PackingTime,
-                        }
-
-                ).ToListAsync();*/
-            //var results = _mapper.Map<IList<ProductDTO>>(productmaterials);
             return Ok(products);
         }
 
@@ -118,7 +59,7 @@ namespace PromiCRM.Controllers
 
 
         [HttpPost]
-        //[Authorize(Roles = "ADMINISTRATOR")]
+        [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -162,7 +103,6 @@ namespace PromiCRM.Controllers
             await _unitOfWork.Save();
             return NoContent();
         }
-
 
         [HttpDelete("{id:int}")]
         [Authorize(Roles = "ADMINISTRATOR")]
