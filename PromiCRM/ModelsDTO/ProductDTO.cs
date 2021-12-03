@@ -49,6 +49,7 @@ namespace PromiCRM.ModelsDTO
         [Required]
         public double PackingTime { get; set; }
        
+        public IList<ProductMaterialDTO> ProductMaterials { get; set; }
     }
 
     public class UpdateProductDTO : CreateProductDTO
@@ -60,7 +61,7 @@ namespace PromiCRM.ModelsDTO
         public int Id { get; set; }
         public OrderDTO Order { get; set; }
        /* public ServiceDTO Service { get; set; }*/
-        public virtual IList<ProductMaterialDTO> ProductMaterials { get; set; }
+        //public virtual IList<ProductMaterialDTO> ProductMaterials { get; set; }
 
     }
 }

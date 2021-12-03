@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PromiCRM.IRepository;
 using PromiCRM.Models;
@@ -20,25 +21,85 @@ namespace PromiCRM.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<ProductsController> _logger;
+        private readonly DatabaseContext _database;
 
-        public ProductsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ProductsController> logger)
+        public ProductsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ProductsController> logger,DatabaseContext databaseContext)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _database = databaseContext;
         }
 
 
         [HttpGet]
-        [Authorize]
+        /*[Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProducts()
         {
-            var products = await _unitOfWork.Products.GetAll(includeProperties: "Order,ProductMaterials");
-            //var productMaterials = await _unitOfWork.ProductMaterials.GetAll(m => m.Id ==);
-            var results = _mapper.Map<IList<ProductDTO>>(products);
-            return Ok(results);
+            /*var products = await _unitOfWork.Products.GetAll(includeProperties: "MaterialWarehouse");*/
+            var products = await _database.Products.Include(p => p.ProductMaterials).ThenInclude(d => d.MaterialWarehouse).ToListAsync();
+            /*var productmaterials = await _database.ProductMaterials.Join(_database.Products, m => m.ProductId, d => d.Id,
+                (productmaterial, product) => new
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    OrderId = product.OrderId,
+                    Photo = product.Photo,
+                    Link = product.Link,
+                    Code = product.Code,
+                    Category = product.Category,
+                    LengthWithoutPackaging = product.LengthWithoutPackaging,
+                    WidthWithoutPackaging = product.WidthWithoutPackaging,
+                    HeightWithoutPackaging = product.HeightWithoutPackaging,
+                    LengthWithPackaging = product.LengthWithPackaging,
+                    WidthWithPackaging = product.WidthWithPackaging,
+                    HeightWithPackaging = product.HeightWithPackaging,
+                    WeightGross = product.WeightGross,
+                    WeightNetto = product.WeightNetto,
+                    CollectionTime = product.CollectionTime,
+                    BondingTime = product.BondingTime,
+                    PaintingTime = product.PaintingTime,
+                    LaserTime = product.LaserTime,
+                    MilingTime = product.MilingTime,
+                    PackagingBoxCode = product.PackagingBoxCode,
+                    PackingTime = product.PackingTime,
+
+                    MaterialWarehouseId = productmaterial.MaterialWarehouseId
+                }
+                ).Join(_database.MaterialsWarehouse, p => p.MaterialWarehouseId, k => k.Id,
+                        (product, materialWarehouse) => new
+                        {
+                            materailTitle = materialWarehouse.Title,
+                            materailQuantity = materialWarehouse.Quantity,
+                            Id = product.Id,
+                            Name = product.Name,
+                            OrderId = product.OrderId,
+                            Photo = product.Photo,
+                            Link = product.Link,
+                            Code = product.Code,
+                            Category = product.Category,
+                            LengthWithoutPackaging = product.LengthWithoutPackaging,
+                            WidthWithoutPackaging = product.WidthWithoutPackaging,
+                            HeightWithoutPackaging = product.HeightWithoutPackaging,
+                            LengthWithPackaging = product.LengthWithPackaging,
+                            WidthWithPackaging = product.WidthWithPackaging,
+                            HeightWithPackaging = product.HeightWithPackaging,
+                            WeightGross = product.WeightGross,
+                            WeightNetto = product.WeightNetto,
+                            CollectionTime = product.CollectionTime,
+                            BondingTime = product.BondingTime,
+                            PaintingTime = product.PaintingTime,
+                            LaserTime = product.LaserTime,
+                            MilingTime = product.MilingTime,
+                            PackagingBoxCode = product.PackagingBoxCode,
+                            PackingTime = product.PackingTime,
+                        }
+
+                ).ToListAsync();*/
+            //var results = _mapper.Map<IList<ProductDTO>>(productmaterials);
+            return Ok(products);
         }
 
 
@@ -57,7 +118,7 @@ namespace PromiCRM.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "ADMINISTRATOR")]
+        //[Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

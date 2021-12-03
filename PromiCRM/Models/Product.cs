@@ -34,10 +34,6 @@ namespace PromiCRM.Models
         public int? MilingTime { get; set; }
         public string PackagingBoxCode { get; set; }
         public double PackingTime { get; set; }
-/*        [ForeignKey(nameof(Services))]
-        public int ServiceId { get; set; }
-        public virtual Service Service { get; set; }*/
-        //relationship one to many with Material
         public virtual ICollection<ProductMaterial> ProductMaterials { get; set; }
     }
 }
