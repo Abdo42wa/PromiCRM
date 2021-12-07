@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -56,7 +57,11 @@ namespace PromiCRM
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             //adding new serivice. IAuthManager mapped to AuthManager. AuthManager has methods implementation.
             services.AddScoped<IAuthManager, AuthManager>();
-
+            // add service as singleton becouse i dont want to renew it everytime
+            // this is to connect to blob storage
+            services.AddSingleton(x => new BlobServiceClient(Configuration.GetValue<string>("BlobConnection")));
+            // adding IBlobService and its implementation
+            services.AddSingleton<IBlobService, BlobService>();
 
             services.AddSwaggerGen(c =>
             {
