@@ -61,6 +61,7 @@ namespace PromiCRM.Controllers
         {
             await _blobService.DeleteBlob(name, "productscontainer");
             return RedirectToAction("Index");
+            /*return Ok(name);*/
         }
 
 

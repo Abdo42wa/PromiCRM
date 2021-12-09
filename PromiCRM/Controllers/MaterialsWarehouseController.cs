@@ -111,6 +111,39 @@ namespace PromiCRM.Controllers
             return NoContent();
         }
 
+        [HttpPut("image/{id:int}")]
+        [Authorize(Roles = "ADMINISTRATOR")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> UpdateWarehouseMaterialWithImage([FromForm] MaterialWarehouseForm warehouseMaterialForm, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateWarehouseMaterialWithImage)}");
+                return BadRequest("Submited invalid data");
+            }
+            if (warehouseMaterialForm.File == null || warehouseMaterialForm.File.Length < 1)
+            {
+                return BadRequest("Submited invalid data. Didnt get image");
+            }
+            /*var fileName = Guid.NewGuid() + Path.GetExtension(warehouseMaterialForm.File.FileName);*/
+            var imageUrl = await _blobService.UploadBlob(warehouseMaterialForm.ImageName, warehouseMaterialForm.File, "productscontainer");
+            warehouseMaterialForm.ImagePath = imageUrl;
+            //get material by id
+            var material = await _unitOfWork.MaterialsWarehouse.Get(m => m.Id == id);
+            if (material == null)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateWarehouseMaterial)}");
+                return BadRequest("Submited invalid data");
+            }
+
+            _mapper.Map(warehouseMaterialForm, material);
+            _unitOfWork.MaterialsWarehouse.Update(material);
+            await _unitOfWork.Save();
+            return Ok(material);
+        }
+
         [HttpDelete("{id:int}")]
         [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

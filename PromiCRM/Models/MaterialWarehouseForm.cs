@@ -8,7 +8,6 @@ namespace PromiCRM.Models
 {
     public class MaterialWarehouseForm
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public string MeasuringUnit { get; set; }
         public int Quantity { get; set; }
