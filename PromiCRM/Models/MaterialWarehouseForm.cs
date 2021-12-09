@@ -1,42 +1,23 @@
 ﻿using Microsoft.AspNetCore.Http;
-using PromiCRM.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PromiCRM.ModelsDTO
+namespace PromiCRM.Models
 {
-    public class CreateMaterialWarehouseDTO
-    {
-        [Required]
-        public string Title { get; set; }
-        [Required]
-        public string MeasuringUnit { get; set; }
-        [Required]
-        public int Quantity { get; set; }
-        [Required]
-        public string Info { get; set; }
-        [Required]
-        public int DeliveryTime { get; set; }
-        [Required]
-        public int UseDays { get; set; }
-        [Required]
-        public DateTime LastAdittion { get; set; }
-        [Required]
-        public string ImageName { get; set; }
-        [Required]
-        public string ImagePath { get; set; }
-        public IFormFile File { get; set; }
-    }
-    public class UpdateMaterialWarehouseDTO : CreateMaterialWarehouseDTO
-    {
-
-    }
-    public class MaterialWarehouseDTO : CreateMaterialWarehouseDTO
+    public class MaterialWarehouseForm
     {
         public int Id { get; set; }
-        public IList<ProductMaterialDTO> ProductMaterials { get; set; }
+        public string Title { get; set; }
+        public string MeasuringUnit { get; set; }
+        public int Quantity { get; set; }
+        public string Info { get; set; }
+        public int DeliveryTime { get; set; }
+        public int UseDays { get; set; }
+        public DateTime LastAdittion { get; set; }
+        public string ImageName { get; set; }
+        public string ImagePath { get; set; }
+        public IFormFile File { get; set; }
     }
 }

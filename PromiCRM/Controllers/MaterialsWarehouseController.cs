@@ -6,8 +6,10 @@ using Microsoft.Extensions.Logging;
 using PromiCRM.IRepository;
 using PromiCRM.Models;
 using PromiCRM.ModelsDTO;
+using PromiCRM.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,12 +23,14 @@ namespace PromiCRM.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<MaterialsWarehouseController> _logger;
+        public readonly IBlobService _blobService;
 
-        public MaterialsWarehouseController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<MaterialsWarehouseController> logger)
+        public MaterialsWarehouseController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<MaterialsWarehouseController> logger, IBlobService blobService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _blobService = blobService;
         }
 
         [HttpGet]
@@ -52,20 +56,28 @@ namespace PromiCRM.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateMaterial([FromBody]CreateMaterialWarehouseDTO materialWarehouseDTO)
+        public async Task<IActionResult> CreateMaterial([FromForm]MaterialWarehouseForm warehouseMaterialForm)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateMaterial)}");
                 return BadRequest("Submited invalid data");
             }
-            var material = _mapper.Map<MaterialWarehouse>(materialWarehouseDTO);
+            if(warehouseMaterialForm.File == null || warehouseMaterialForm.File.Length < 1)
+            {
+                return BadRequest("Submited invalid data. Didnt get image");
+            }
+            var fileName = Guid.NewGuid() + Path.GetExtension(warehouseMaterialForm.File.FileName);
+            var imageUrl = await _blobService.UploadBlob(fileName, warehouseMaterialForm.File, "productscontainer");
+            warehouseMaterialForm.ImageName = fileName;
+            warehouseMaterialForm.ImagePath = imageUrl;
+            var material = _mapper.Map<MaterialWarehouse>(warehouseMaterialForm);
             await _unitOfWork.MaterialsWarehouse.Insert(material);
             await _unitOfWork.Save();
+
             return CreatedAtRoute("GetWarehouseMaterial", new { id = material.Id }, material);
         }
 

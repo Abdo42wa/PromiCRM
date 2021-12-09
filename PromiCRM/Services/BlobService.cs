@@ -57,7 +57,7 @@ namespace PromiCRM.Services
             return blobClient.Uri.AbsoluteUri;
         }
 
-        public async Task<bool> UploadBlob(string name, IFormFile file, string containerName)
+        public async Task<string> UploadBlob(string name, IFormFile file, string containerName)
         {
             //get access to blob container that holds files
             var containerClient = _blobClient.GetBlobContainerClient(containerName);
@@ -74,10 +74,10 @@ namespace PromiCRM.Services
             var res = await blobClient.UploadAsync(file.OpenReadStream(), httpHeaders);
 
             //check if uploaded succesfully. if not return false
-            if(res != null)
-                return true;
+            if (res != null)
+                return blobClient.Uri.AbsoluteUri;
 
-            return false;
+            return null;
 
         }
     }

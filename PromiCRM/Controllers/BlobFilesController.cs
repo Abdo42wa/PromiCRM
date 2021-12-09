@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PromiCRM.Models;
 using PromiCRM.Services;
 using System;
 using System.Collections.Generic;
@@ -47,9 +48,9 @@ namespace PromiCRM.Controllers
             var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
             //call blob service and insert it
             var res = await _blobService.UploadBlob(fileName, file, "productscontainer");
-            if (res)
+            if (res != null)
             {
-                return RedirectToAction("Index");
+                return Ok(res);
             }
 
             return Ok(res);

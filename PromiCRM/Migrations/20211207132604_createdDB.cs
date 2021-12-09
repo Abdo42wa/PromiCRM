@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PromiCRM.Migrations
 {
-    public partial class database : Migration
+    public partial class createdDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,7 +64,9 @@ namespace PromiCRM.Migrations
                     Info = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeliveryTime = table.Column<int>(type: "int", nullable: false),
                     UseDays = table.Column<int>(type: "int", nullable: false),
-                    LastAdittion = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    LastAdittion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -366,8 +368,8 @@ namespace PromiCRM.Migrations
 
             migrationBuilder.InsertData(
                 table: "MaterialsWarehouse",
-                columns: new[] { "Id", "DeliveryTime", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
-                values: new object[] { 1, 5, "viena plokste 1,5x1,5m =22500", new DateTime(2021, 11, 30, 16, 35, 34, 978, DateTimeKind.Local).AddTicks(4553), "cm", 22500, "Fanera 3mm", 40 });
+                columns: new[] { "Id", "DeliveryTime", "ImageName", "ImagePath", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
+                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2021, 12, 7, 15, 26, 3, 471, DateTimeKind.Local).AddTicks(3550), "cm", 22500, "Fanera 3mm", 40 });
 
             migrationBuilder.InsertData(
                 table: "Shipments",
@@ -392,7 +394,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$KdaNVUpFd1a0NxX6DWOidOLIlCi67aqhXQ31xBYuvyjrAIFulPm06", "860855183", "Admin", 1, null });
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$YLhKJgEIAWzaYxavuRuVV.5Ptv4sxccbK7LkamG.7iCk7hElj50.i", "860855183", "Admin", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Bonus",
@@ -402,7 +404,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "Id", "Address", "Comment", "CountryId", "CurrencyId", "CustomerId", "Date", "Device", "MoreInfo", "OrderFinishDate", "OrderNumber", "OrderType", "Photo", "Platforma", "Price", "ProductCode", "ProductionTime", "Quantity", "ShipmentTypeId", "Status", "UserId", "Vat" },
-                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 11, 30, 16, 35, 34, 972, DateTimeKind.Local).AddTicks(1645), "ira", "eeeee", new DateTime(2021, 11, 30, 16, 35, 34, 976, DateTimeKind.Local).AddTicks(4606), 200, "eeeee", "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", "yeee", 99.989999999999995, "123rr", 1, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
+                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 12, 7, 15, 26, 3, 465, DateTimeKind.Local).AddTicks(9364), "ira", "eeeee", new DateTime(2021, 12, 7, 15, 26, 3, 469, DateTimeKind.Local).AddTicks(7029), 200, "eeeee", "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", "yeee", 99.989999999999995, "123rr", 1, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
 
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
@@ -417,7 +419,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "WarehouseCountings",
                 columns: new[] { "Id", "LastTimeChanging", "OrderId", "Photo", "QuantityProductWarehouse" },
-                values: new object[] { 1, new DateTime(2021, 11, 30, 16, 35, 34, 976, DateTimeKind.Local).AddTicks(8995), 1, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 2 });
+                values: new object[] { 1, new DateTime(2021, 12, 7, 15, 26, 3, 470, DateTimeKind.Local).AddTicks(903), 1, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 2 });
 
             migrationBuilder.InsertData(
                 table: "ProductMaterials",
