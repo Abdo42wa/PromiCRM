@@ -67,7 +67,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO createOrderDTO)
+        public async Task<IActionResult> CreateOrder([FromForm] CreateOrderDTO createOrderDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -134,7 +134,7 @@ namespace PromiCRM.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrder)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrderImage)}");
                 return BadRequest("Submited invalid data");
             }
             if(orderDTO.File == null || orderDTO.File.Length < 1)
@@ -148,7 +148,7 @@ namespace PromiCRM.Controllers
             var order = await _unitOfWork.Orders.Get(c => c.Id == id);
             if (order == null)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrder)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrderImage)}");
                 return BadRequest("Submited invalid data");
             }
 

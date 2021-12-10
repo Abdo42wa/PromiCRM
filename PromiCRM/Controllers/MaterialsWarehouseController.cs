@@ -54,7 +54,12 @@ namespace PromiCRM.Controllers
             var result = _mapper.Map<MaterialWarehouseDTO>(material);
             return Ok(result);
         }
-
+        /// <summary>
+        /// create image. then pass created image url and name to material obj
+        /// and then can add new record to db
+        /// </summary>
+        /// <param name="warehouseMaterialForm"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
