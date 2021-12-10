@@ -110,12 +110,17 @@ namespace PromiCRM.Controllers
             await _unitOfWork.Save();
             return NoContent();
         }
-
+        /// <summary>
+        /// PUT request when passing object with image to update
+        /// </summary>
+        /// <param name="warehouseMaterialForm"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut("image/{id:int}")]
         [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateWarehouseMaterialWithImage([FromForm] MaterialWarehouseForm warehouseMaterialForm, int id)
         {
             if (!ModelState.IsValid)
