@@ -7,8 +7,10 @@ using Microsoft.Extensions.Logging;
 using PromiCRM.IRepository;
 using PromiCRM.Models;
 using PromiCRM.ModelsDTO;
+using PromiCRM.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,12 +23,14 @@ namespace PromiCRM.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<WarehouseCountingsController> _logger;
+        public readonly IBlobService _blobService;
 
-        public WarehouseCountingsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<WarehouseCountingsController> logger)
+        public WarehouseCountingsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<WarehouseCountingsController> logger, IBlobService blobService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _blobService = blobService;
         }
 
         [HttpGet]
@@ -57,15 +61,23 @@ namespace PromiCRM.Controllers
         [HttpPost]
         [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreatewarehouseCounting([FromBody] CreateWarehouseCountingDTO warehouseCountingDTO)
+        public async Task<IActionResult> CreatewarehouseCounting([FromForm] CreateWarehouseCountingDTO warehouseCountingDTO)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreatewarehouseCounting)}");
                 return BadRequest("Submited invalid data");
             }
+            if(warehouseCountingDTO.File == null || warehouseCountingDTO.File.Length < 1) {
+                return BadRequest("Submited invalid data. Didnt get image");
+            }
+            var fileName = Guid.NewGuid() + Path.GetExtension(warehouseCountingDTO.File.FileName);
+            var imageUrl = await _blobService.UploadBlob(fileName, warehouseCountingDTO.File, "productscontainer");
+            warehouseCountingDTO.ImageName = fileName;
+            warehouseCountingDTO.ImagePath = imageUrl;
+
             var warehouseCounting = _mapper.Map<WarehouseCounting>(warehouseCountingDTO);
             await _unitOfWork.WarehouseCountings.Insert(warehouseCounting);
             await _unitOfWork.Save();
@@ -73,7 +85,12 @@ namespace PromiCRM.Controllers
             return CreatedAtRoute("GetWarehouseCounting", new { id = warehouseCounting.Id }, warehouseCounting);
         }
 
-
+        /// <summary>
+        /// regular update endpoint. updates values of found record
+        /// </summary>
+        /// <param name="warehouseCountingDTO"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut("{id:int}")]
         [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -98,6 +115,39 @@ namespace PromiCRM.Controllers
             _unitOfWork.WarehouseCountings.Update(warehouseCounting);
             await _unitOfWork.Save();
             return NoContent();
+        }
+        /// PUT request when passing object with image to update
+        [HttpPut("image/{id:int}")]
+        [Authorize(Roles = "ADMINISTRATOR")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateWarehouseCountingWithImage([FromForm] UpdateWarehouseCountingDTO warehouseCountingDTO, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateWarehouseCountingWithImage)}");
+                return BadRequest("Submited invalid data");
+            }
+            if (warehouseCountingDTO.File == null || warehouseCountingDTO.File.Length < 1)
+            {
+                return BadRequest("Submited invalid data. Didnt get image");
+            }
+            var imageUrl = await _blobService.UploadBlob(warehouseCountingDTO.ImageName, warehouseCountingDTO.File, "productscontainer");
+            warehouseCountingDTO.ImagePath = imageUrl;
+         
+            var warehouseCounting = await _unitOfWork.WarehouseCountings.Get(c => c.Id == id);
+            if (warehouseCounting == null)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateWarehouseCountingWithImage)}");
+                return BadRequest("Submited invalid data");
+            }
+
+
+            _mapper.Map(warehouseCountingDTO, warehouseCounting);
+            _unitOfWork.WarehouseCountings.Update(warehouseCounting);
+            await _unitOfWork.Save();
+            return Ok(warehouseCounting);
         }
 
 
