@@ -24,7 +24,6 @@ namespace PromiCRM.Configurations.Entities
                     MoreInfo = "eeeee",
                     OrderType = "eeeee",
                     Quantity = 2,
-                    Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                     ProductCode = "123rr",
                     ShipmentTypeId = 1,
                     CustomerId = 1,

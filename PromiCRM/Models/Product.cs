@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,7 +15,11 @@ namespace PromiCRM.Models
         [ForeignKey(nameof(Order))]
         public int OrderId { get; set; }
         public virtual Order Order { get; set; }
-        public string Photo { get; set; }
+        //for photo
+        public string ImageName { get; set; }
+        public string ImagePath { get; set; }
+        [NotMapped]
+        public IFormFile File { get; set; }
         public string Link { get; set; }
         public string Code { get; set; }
         public string Category { get; set; }

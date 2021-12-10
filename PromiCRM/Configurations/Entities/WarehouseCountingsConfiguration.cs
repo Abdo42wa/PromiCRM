@@ -17,7 +17,6 @@ namespace PromiCRM.Configurations.Entities
                 {
                     Id = 1,
                     QuantityProductWarehouse = 2,
-                    Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                     LastTimeChanging = DateTime.Now,
                     OrderId = 1
                 }

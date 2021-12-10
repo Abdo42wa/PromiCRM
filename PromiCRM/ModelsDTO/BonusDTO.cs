@@ -16,8 +16,8 @@ namespace PromiCRM.ModelsDTO
         public int Accumulated { get; set; }
         [Required]
         public int Bonusas { get; set; }
-        [Required]
-        public int LeftUntil { get; set; }
+/*        [Required]
+        public int LeftUntil { get; set; }*/
     }
     public class UpdateBonusDTO : CreateBonusDTO
     {

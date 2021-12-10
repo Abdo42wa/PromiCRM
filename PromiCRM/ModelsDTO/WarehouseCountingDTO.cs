@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,11 +10,10 @@ namespace PromiCRM.ModelsDTO
 
     public class CreateWarehouseCountingDTO
     {
-        [Required]
         public int QuantityProductWarehouse { get; set; }
-        [Required]
-        public string Photo { get; set; }
-        [Required]
+        public string ImageName { get; set; }
+        public string ImagePath { get; set; }
+        public IFormFile File { get; set; }
         public DateTime LastTimeChanging { get; set; }
         public int OrderId { get; set; }
     }

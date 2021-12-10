@@ -10,8 +10,8 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211207132604_createdDB")]
-    partial class createdDB
+    [Migration("20211210154155_CreatedDB")]
+    partial class CreatedDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,9 +34,6 @@ namespace PromiCRM.Migrations
                     b.Property<int>("Bonusas")
                         .HasColumnType("int");
 
-                    b.Property<int>("LeftUntil")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -55,7 +52,6 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             Accumulated = 100,
                             Bonusas = 600,
-                            LeftUntil = 400,
                             Quantity = 1000,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
                         });
@@ -85,8 +81,8 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Continent = "Europa",
-                            Name = "Lietuva",
+                            Continent = "Europe",
+                            Name = "Lithuania",
                             ShortName = "LT"
                         });
                 });
@@ -200,7 +196,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2021, 12, 7, 15, 26, 3, 471, DateTimeKind.Local).AddTicks(3550),
+                            LastAdittion = new DateTime(2021, 12, 10, 17, 41, 54, 296, DateTimeKind.Local).AddTicks(346),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -236,6 +232,12 @@ namespace PromiCRM.Migrations
                     b.Property<string>("Device")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MoreInfo")
                         .HasColumnType("nvarchar(max)");
 
@@ -246,9 +248,6 @@ namespace PromiCRM.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("OrderType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Platforma")
@@ -301,13 +300,12 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 12, 7, 15, 26, 3, 465, DateTimeKind.Local).AddTicks(9364),
+                            Date = new DateTime(2021, 12, 10, 17, 41, 54, 290, DateTimeKind.Local).AddTicks(5651),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 12, 7, 15, 26, 3, 469, DateTimeKind.Local).AddTicks(7029),
+                            OrderFinishDate = new DateTime(2021, 12, 10, 17, 41, 54, 293, DateTimeKind.Local).AddTicks(9011),
                             OrderNumber = 200,
                             OrderType = "eeeee",
-                            Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             Platforma = "yeee",
                             Price = 99.989999999999995,
                             ProductCode = "123rr",
@@ -345,6 +343,12 @@ namespace PromiCRM.Migrations
                     b.Property<double>("HeightWithoutPackaging")
                         .HasColumnType("float");
 
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("LaserTime")
                         .HasColumnType("int");
 
@@ -374,9 +378,6 @@ namespace PromiCRM.Migrations
 
                     b.Property<int?>("PaintingTime")
                         .HasColumnType("int");
-
-                    b.Property<string>("Photo")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("WeightGross")
                         .HasColumnType("float");
@@ -416,7 +417,6 @@ namespace PromiCRM.Migrations
                             PackagingBoxCode = "pspspsp",
                             PackingTime = 10.0,
                             PaintingTime = 15,
-                            Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             WeightGross = 10.199999999999999,
                             WeightNetto = 9.0,
                             WidthWithPackaging = 5.5,
@@ -582,7 +582,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$YLhKJgEIAWzaYxavuRuVV.5Ptv4sxccbK7LkamG.7iCk7hElj50.i",
+                            Password = "$2a$11$y1cRjRYIzh.g99EstoZ6zemHZRA/poxrl3DrVyInMkfvCHLMSoTYK",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -634,14 +634,17 @@ namespace PromiCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("LastTimeChanging")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Photo")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("QuantityProductWarehouse")
                         .HasColumnType("int");
@@ -656,9 +659,8 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 12, 7, 15, 26, 3, 470, DateTimeKind.Local).AddTicks(903),
+                            LastTimeChanging = new DateTime(2021, 12, 10, 17, 41, 54, 294, DateTimeKind.Local).AddTicks(3554),
                             OrderId = 1,
-                            Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                             QuantityProductWarehouse = 2
                         });
                 });

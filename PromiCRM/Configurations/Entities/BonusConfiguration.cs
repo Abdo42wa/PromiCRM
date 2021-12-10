@@ -21,8 +21,7 @@ namespace PromiCRM.Configurations.Entities
                     UserId = id,
                     Quantity = 1000,
                     Accumulated = 100,
-                    Bonusas = 600,
-                    LeftUntil = 400
+                    Bonusas = 600
                 }
             );
         }

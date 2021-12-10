@@ -17,7 +17,6 @@ namespace PromiCRM.Configurations.Entities
                 {
                     Id = 1,
                     OrderId = 1,
-                    Photo = "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954",
                     Link = "sss",
                     Code = "8582262s",
                     Category = "Good",

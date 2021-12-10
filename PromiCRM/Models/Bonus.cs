@@ -17,6 +17,6 @@ namespace PromiCRM.Models
         public int Quantity { get; set; }
         public int Accumulated { get; set; }
         public int Bonusas { get; set; }
-        public int LeftUntil { get; set; }
+/*        public int LeftUntil { get; set; }*/
     }
 }

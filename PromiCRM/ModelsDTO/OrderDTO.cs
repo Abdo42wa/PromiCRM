@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,45 +9,30 @@ namespace PromiCRM.ModelsDTO
 {
     public class CreateOrderDTO
     {
-        [Required]
         public Guid UserId { get; set; }
-
-        [Required]
         public string OrderType { get; set; }
+        //for image
+        public string ImageName { get; set; }
+        public string ImagePath { get; set; }
+        public IFormFile File { get; set; }
 
-        [Required]
         public bool Status { get; set; }
-
-        [Required]
         public int OrderNumber { get; set; }
-        [Required]
         public DateTime Data { get; set; }
-        [Required]
         public string Platforma { get; set; }
         public string MoreInfo { get; set; }
-        [Required]
         public int Quantity { get; set; }
-        [Required]
-        public string Photo { get; set; }
-        [Required] 
         public string ProductCode { get; set; }
-        [Required]
         public int ShipmentTypeId { get; set; }
-        [Required]
         public int CustomerId { get; set; }
         public string Device { get; set; }
         public int ProductionTime { get; set; }
-        [Required]
         public string Address { get; set; }
-        [Required]
         public int CountryId { get; set; }
         public string Comment { get; set; }
-        [Required]
         public double Price { get; set; }
-        [Required]
         public int CurrencyId { get; set; }
         public double Vat { get; set; }
-        [Required]
         public DateTime OrderFinishDate { get; set; }
 
      

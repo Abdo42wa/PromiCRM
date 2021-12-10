@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PromiCRM.Migrations
 {
-    public partial class createdDB : Migration
+    public partial class CreatedDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -136,8 +136,7 @@ namespace PromiCRM.Migrations
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Accumulated = table.Column<int>(type: "int", nullable: false),
-                    Bonusas = table.Column<int>(type: "int", nullable: false),
-                    LeftUntil = table.Column<int>(type: "int", nullable: false)
+                    Bonusas = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -158,13 +157,14 @@ namespace PromiCRM.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<bool>(type: "bit", nullable: false),
                     OrderNumber = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Platforma = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MoreInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShipmentTypeId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: true),
@@ -267,7 +267,8 @@ namespace PromiCRM.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(type: "int", nullable: false),
-                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Link = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -306,7 +307,8 @@ namespace PromiCRM.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     QuantityProductWarehouse = table.Column<int>(type: "int", nullable: false),
-                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastTimeChanging = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -350,7 +352,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "Countries",
                 columns: new[] { "Id", "Continent", "Name", "ShortName" },
-                values: new object[] { 1, "Europa", "Lietuva", "LT" });
+                values: new object[] { 1, "Europe", "Lithuania", "LT" });
 
             migrationBuilder.InsertData(
                 table: "Currencies",
@@ -369,7 +371,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "MaterialsWarehouse",
                 columns: new[] { "Id", "DeliveryTime", "ImageName", "ImagePath", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
-                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2021, 12, 7, 15, 26, 3, 471, DateTimeKind.Local).AddTicks(3550), "cm", 22500, "Fanera 3mm", 40 });
+                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2021, 12, 10, 17, 41, 54, 296, DateTimeKind.Local).AddTicks(346), "cm", 22500, "Fanera 3mm", 40 });
 
             migrationBuilder.InsertData(
                 table: "Shipments",
@@ -394,17 +396,17 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$YLhKJgEIAWzaYxavuRuVV.5Ptv4sxccbK7LkamG.7iCk7hElj50.i", "860855183", "Admin", 1, null });
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$y1cRjRYIzh.g99EstoZ6zemHZRA/poxrl3DrVyInMkfvCHLMSoTYK", "860855183", "Admin", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Bonus",
-                columns: new[] { "Id", "Accumulated", "Bonusas", "LeftUntil", "Quantity", "UserId" },
-                values: new object[] { 1, 100, 600, 400, 1000, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
+                columns: new[] { "Id", "Accumulated", "Bonusas", "Quantity", "UserId" },
+                values: new object[] { 1, 100, 600, 1000, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
 
             migrationBuilder.InsertData(
                 table: "Orders",
-                columns: new[] { "Id", "Address", "Comment", "CountryId", "CurrencyId", "CustomerId", "Date", "Device", "MoreInfo", "OrderFinishDate", "OrderNumber", "OrderType", "Photo", "Platforma", "Price", "ProductCode", "ProductionTime", "Quantity", "ShipmentTypeId", "Status", "UserId", "Vat" },
-                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 12, 7, 15, 26, 3, 465, DateTimeKind.Local).AddTicks(9364), "ira", "eeeee", new DateTime(2021, 12, 7, 15, 26, 3, 469, DateTimeKind.Local).AddTicks(7029), 200, "eeeee", "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", "yeee", 99.989999999999995, "123rr", 1, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
+                columns: new[] { "Id", "Address", "Comment", "CountryId", "CurrencyId", "CustomerId", "Date", "Device", "ImageName", "ImagePath", "MoreInfo", "OrderFinishDate", "OrderNumber", "OrderType", "Platforma", "Price", "ProductCode", "ProductionTime", "Quantity", "ShipmentTypeId", "Status", "UserId", "Vat" },
+                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 12, 10, 17, 41, 54, 290, DateTimeKind.Local).AddTicks(5651), "ira", null, null, "eeeee", new DateTime(2021, 12, 10, 17, 41, 54, 293, DateTimeKind.Local).AddTicks(9011), 200, "eeeee", "yeee", 99.989999999999995, "123rr", 1, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
 
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
@@ -413,13 +415,13 @@ namespace PromiCRM.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "BondingTime", "Category", "Code", "CollectionTime", "HeightWithPackaging", "HeightWithoutPackaging", "LaserTime", "LengthWithPackaging", "LengthWithoutPackaging", "Link", "MilingTime", "Name", "OrderId", "PackagingBoxCode", "PackingTime", "PaintingTime", "Photo", "WeightGross", "WeightNetto", "WidthWithPackaging", "WidthWithoutPackaging" },
-                values: new object[] { 1, 40, "Good", "8582262s", 20, 3.5, 3.0, 10, 12.0, 10.0, "sss", 20, "Produktas", 1, "pspspsp", 10.0, 15, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 10.199999999999999, 9.0, 5.5, 5.0 });
+                columns: new[] { "Id", "BondingTime", "Category", "Code", "CollectionTime", "HeightWithPackaging", "HeightWithoutPackaging", "ImageName", "ImagePath", "LaserTime", "LengthWithPackaging", "LengthWithoutPackaging", "Link", "MilingTime", "Name", "OrderId", "PackagingBoxCode", "PackingTime", "PaintingTime", "WeightGross", "WeightNetto", "WidthWithPackaging", "WidthWithoutPackaging" },
+                values: new object[] { 1, 40, "Good", "8582262s", 20, 3.5, 3.0, null, null, 10, 12.0, 10.0, "sss", 20, "Produktas", 1, "pspspsp", 10.0, 15, 10.199999999999999, 9.0, 5.5, 5.0 });
 
             migrationBuilder.InsertData(
                 table: "WarehouseCountings",
-                columns: new[] { "Id", "LastTimeChanging", "OrderId", "Photo", "QuantityProductWarehouse" },
-                values: new object[] { 1, new DateTime(2021, 12, 7, 15, 26, 3, 470, DateTimeKind.Local).AddTicks(903), 1, "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?201809270954", 2 });
+                columns: new[] { "Id", "ImageName", "ImagePath", "LastTimeChanging", "OrderId", "QuantityProductWarehouse" },
+                values: new object[] { 1, null, null, new DateTime(2021, 12, 10, 17, 41, 54, 294, DateTimeKind.Local).AddTicks(3554), 1, 2 });
 
             migrationBuilder.InsertData(
                 table: "ProductMaterials",
