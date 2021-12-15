@@ -194,7 +194,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2021, 12, 10, 17, 41, 54, 296, DateTimeKind.Local).AddTicks(346),
+                            LastAdittion = new DateTime(2021, 12, 15, 20, 31, 44, 677, DateTimeKind.Local).AddTicks(8506),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -298,10 +298,10 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 12, 10, 17, 41, 54, 290, DateTimeKind.Local).AddTicks(5651),
+                            Date = new DateTime(2021, 12, 15, 20, 31, 44, 671, DateTimeKind.Local).AddTicks(1183),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 12, 10, 17, 41, 54, 293, DateTimeKind.Local).AddTicks(9011),
+                            OrderFinishDate = new DateTime(2021, 12, 15, 20, 31, 44, 675, DateTimeKind.Local).AddTicks(1304),
                             OrderNumber = 200,
                             OrderType = "eeeee",
                             Platforma = "yeee",
@@ -435,6 +435,9 @@ namespace PromiCRM.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MaterialWarehouseId");
@@ -448,7 +451,8 @@ namespace PromiCRM.Migrations
                         {
                             Id = 1,
                             MaterialWarehouseId = 1,
-                            ProductId = 1
+                            ProductId = 1,
+                            Quantity = 2
                         });
                 });
 
@@ -580,7 +584,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$y1cRjRYIzh.g99EstoZ6zemHZRA/poxrl3DrVyInMkfvCHLMSoTYK",
+                            Password = "$2a$11$O5Qes2vRdRhxXwjO6MMaP.eX1FLJcNw8iBug9UDJQ.7zpR3C1qHlG",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -657,7 +661,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 12, 10, 17, 41, 54, 294, DateTimeKind.Local).AddTicks(3554),
+                            LastTimeChanging = new DateTime(2021, 12, 15, 20, 31, 44, 675, DateTimeKind.Local).AddTicks(9245),
                             OrderId = 1,
                             QuantityProductWarehouse = 2
                         });

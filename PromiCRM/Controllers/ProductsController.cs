@@ -101,7 +101,17 @@ namespace PromiCRM.Controllers
 
             var product = _mapper.Map<Product>(productDTO);
             await _unitOfWork.Products.Insert(product);
-            await _unitOfWork.Save();
+          /*  var materialWarehouseId = productDTO.ProductMaterials[0].MaterialWarehouseId;*/
+            /*var materialsWarehouse = await _unitOfWork.MaterialsWarehouse.GetAll(m => m.Id == product.ProductMaterials[0].Id);
+
+            for (int i = 0; i < productMaterials.Count; i++)
+            {
+                materialsWarehouse[i].Quantity = materialsWarehouse[i].Quantity - productMaterials[i].Quantity;
+            }
+            _unitOfWork.MaterialsWarehouse.UpdateRange(materialsWarehouse);
+
+            await _unitOfWork.Save();*/
+
 
             return CreatedAtRoute("GetProduct", new { id = product.Id }, product);
         }

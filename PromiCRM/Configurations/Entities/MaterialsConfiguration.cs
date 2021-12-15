@@ -17,7 +17,8 @@ namespace PromiCRM.Configurations.Entities
                 {
                     Id = 1,
                     ProductId = 1,
-                    MaterialWarehouseId = 1
+                    MaterialWarehouseId = 1,
+                    Quantity = 2
                 }
             );
         }

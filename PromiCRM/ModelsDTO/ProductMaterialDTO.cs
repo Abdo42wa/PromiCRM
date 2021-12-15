@@ -9,6 +9,8 @@ namespace PromiCRM.ModelsDTO
     public class CreateProductMaterialDTO
     {
         [Required]
+        public int Quantity { get; set; }
+        [Required]
         public int ProductId { get; set; }
         [Required]
         public int MaterialWarehouseId { get; set; }
