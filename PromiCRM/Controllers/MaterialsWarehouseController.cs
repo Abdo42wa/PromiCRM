@@ -61,6 +61,7 @@ namespace PromiCRM.Controllers
         /// <param name="warehouseMaterialForm"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -154,8 +155,21 @@ namespace PromiCRM.Controllers
             return Ok(material);
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpPut("update")]
         [Authorize(Roles = "ADMINISTRATOR")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> UpdateMany([FromBody]IList<MaterialWarehouseDTO> materialsDTO)
+        {
+            var materialsWarehouse = _mapper.Map<IList<MaterialWarehouse>>(materialsDTO);
+            _unitOfWork.MaterialsWarehouse.UpdateRange(materialsWarehouse);
+            await _unitOfWork.Save();
+            return NoContent();
+        }
+
+        [HttpDelete("{id:int}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

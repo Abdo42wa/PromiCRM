@@ -32,7 +32,7 @@ namespace PromiCRM.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-   /*     [Authorize]*/
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMaterials()
@@ -47,7 +47,7 @@ namespace PromiCRM.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}", Name = "GetMaterial")]
-/*        [Authorize]*/
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMaterial(int id)
@@ -62,7 +62,7 @@ namespace PromiCRM.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("product/{id:int}")]
-/*        [Authorize]*/
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMaterialByProductId(int id)
@@ -77,7 +77,7 @@ namespace PromiCRM.Controllers
         /// <param name="materialDTO"></param>
         /// <returns></returns>
         [HttpPost]
-/*        [Authorize(Roles = "ADMINISTRATOR")]*/
+        [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -97,6 +97,23 @@ namespace PromiCRM.Controllers
             return Ok(createdMaterial);
             /*return CreatedAtRoute("GetMaterial", new { id = material.Id }, material);*/
         }
+        [HttpPost("insert")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateMany([FromBody]IList<CreateProductMaterialDTO> productMaterialsDTO)
+        {
+            var productMaterials = _mapper.Map<IList<ProductMaterial>>(productMaterialsDTO);
+            _unitOfWork.ProductMaterials.UpdateRange(productMaterials);
+            await _unitOfWork.Save();
+
+            //get all materials of that product
+            var createdMaterials = await _unitOfWork.ProductMaterials.GetAll(p => p.ProductId == productMaterials[0].ProductId, includeProperties: "Product,MaterialWarehouse");
+            var results = _mapper.Map<IList<ProductMaterialDTO>>(createdMaterials);
+            return Ok(results);
+
+        }
         /// <summary>
         /// Check if model valid, check if exist & update it
         /// </summary>
@@ -104,7 +121,7 @@ namespace PromiCRM.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("{id:int}")]
-/*        [Authorize(Roles = "ADMINISTRATOR")]*/
+        [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -129,7 +146,7 @@ namespace PromiCRM.Controllers
         }
 
         [HttpPut("update")]
-/*        [Authorize(Roles = "ADMINISTRATOR")]*/
+        [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -137,14 +154,6 @@ namespace PromiCRM.Controllers
         {
             var productMaterials = _mapper.Map<IList<ProductMaterial>>(productMaterialsDTO);
             _unitOfWork.ProductMaterials.UpdateRange(productMaterials);
-            
-            
-         /*   var materialsWarehouse = await _unitOfWork.MaterialsWarehouse.GetAll(m => m.Id == productMaterials[0].MaterialWarehouseId);
-            for (int i = 0; i < productMaterials.Count; i++)
-            {
-                materialsWarehouse[i].Quantity = materialsWarehouse[i].Quantity - productMaterials[i].Quantity;
-            }
-            _unitOfWork.MaterialsWarehouse.UpdateRange(materialsWarehouse);*/
             await _unitOfWork.Save();
             return NoContent();
         }
@@ -156,7 +165,7 @@ namespace PromiCRM.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
-      /*  [Authorize(Roles = "ADMINISTRATOR")]*/
+        [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
