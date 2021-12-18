@@ -74,7 +74,7 @@ namespace PromiCRM.Controllers
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateOrder)}");
                 return BadRequest("Submited invalid data");
             }
-            if(createOrderDTO.File == null || createOrderDTO.File.Length < 1)
+            if (createOrderDTO.File == null || createOrderDTO.File.Length < 1)
             {
                 return BadRequest("Submited invalid data. Didnt get image");
             }
@@ -85,6 +85,43 @@ namespace PromiCRM.Controllers
 
             var order = _mapper.Map<Order>(createOrderDTO);
             await _unitOfWork.Orders.Insert(order);
+            await _unitOfWork.Save();
+
+            return CreatedAtRoute("GetOrder", new { id = order.Id }, order);
+        }
+
+        [HttpPost("warehouse")]
+        //[Authorize(Roles = "ADMINISTRATOR")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateOrderAndWarehouse([FromForm] CreateOrderDTO createOrderDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Invalid CREATE attempt in {nameof(CreateOrder)}");
+                return BadRequest("Submited invalid data");
+            }
+            if (createOrderDTO.File == null || createOrderDTO.File.Length < 1)
+            {
+                return BadRequest("Submited invalid data. Didnt get image");
+            }
+            var fileName = Guid.NewGuid() + Path.GetExtension(createOrderDTO.File.FileName);
+            var imageUrl = await _blobService.UploadBlob(fileName, createOrderDTO.File, "productscontainer");
+            createOrderDTO.ImageName = fileName;
+            createOrderDTO.ImagePath = imageUrl;
+
+            var order = _mapper.Map<Order>(createOrderDTO);
+            await _unitOfWork.Orders.Insert(order);
+            await _unitOfWork.Save();
+
+            var warehouse = new WarehouseCounting
+            {
+                OrderId = order.Id,
+                LastTimeChanging = DateTime.Now,
+                QuantityProductWarehouse = order.Quantity
+            };
+            await _unitOfWork.WarehouseCountings.Insert(warehouse);
             await _unitOfWork.Save();
 
             return CreatedAtRoute("GetOrder", new { id = order.Id }, order);
@@ -130,14 +167,14 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateOrderImage([FromForm]UpdateOrderDTO orderDTO, int id)
+        public async Task<IActionResult> UpdateOrderImage([FromForm] UpdateOrderDTO orderDTO, int id)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrderImage)}");
                 return BadRequest("Submited invalid data");
             }
-            if(orderDTO.File == null || orderDTO.File.Length < 1)
+            if (orderDTO.File == null || orderDTO.File.Length < 1)
             {
                 return BadRequest("Submited invalid data. Didnt get image");
             }
