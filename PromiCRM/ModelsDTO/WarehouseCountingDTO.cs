@@ -11,9 +11,9 @@ namespace PromiCRM.ModelsDTO
     public class CreateWarehouseCountingDTO
     {
         public int QuantityProductWarehouse { get; set; }
-        public string ImageName { get; set; }
-        public string ImagePath { get; set; }
-        public IFormFile File { get; set; }
+        /*    public string ImageName { get; set; }
+            public string ImagePath { get; set; }
+            public IFormFile File { get; set; }*/
         public DateTime LastTimeChanging { get; set; }
         public int OrderId { get; set; }
     }
