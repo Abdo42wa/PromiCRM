@@ -32,5 +32,6 @@ namespace PromiCRM.ModelsDTO
         public virtual IList<BonusDTO> Bonus { get; set; }
         public virtual IList<OrderDTO> Orders { get; set; }
         public virtual IList<WeeklyWorkScheduleDTO> WeeklyWorkSchedules { get; set; }
+        public virtual IList<RecentWorkDTO> RecentWorks { get; set; }
     }
 }

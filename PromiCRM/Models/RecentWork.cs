@@ -14,7 +14,7 @@ namespace PromiCRM.Models
         public virtual Product Product { get; set; }
         public int Quantity { get; set; }
         [ForeignKey(nameof(User))]
-        public int UserId {get;set; }
+        public Guid UserId {get;set; }
         public virtual User User { get; set; }
         public string WorkTitle { get; set; }
     }

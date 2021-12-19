@@ -40,5 +40,6 @@ namespace PromiCRM.Models
         public string PackagingBoxCode { get; set; }
         public double PackingTime { get; set; }
         public virtual ICollection<ProductMaterial> ProductMaterials { get; set; }
+        public virtual ICollection<RecentWork> RecentWorks { get; set; }
     }
 }

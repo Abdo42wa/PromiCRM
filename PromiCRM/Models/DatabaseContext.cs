@@ -28,6 +28,7 @@ namespace PromiCRM.Models
         public DbSet<ProductMaterial> ProductMaterials { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<RecentWork> RecentWorks { get; set; }
 /*        public DbSet<Service> Services { get; set; }*/
         public DbSet<Shipment> Shipments { get; set; }
         public DbSet<WarehouseCounting> WarehouseCountings { get; set; }

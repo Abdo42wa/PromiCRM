@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PromiCRM.Migrations
 {
-    public partial class createdatabase : Migration
+    public partial class createdDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -348,6 +348,34 @@ namespace PromiCRM.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "RecentWorks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WorkTitle = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RecentWorks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RecentWorks_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RecentWorks_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Countries",
                 columns: new[] { "Id", "Continent", "Name", "ShortName" },
@@ -370,7 +398,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "MaterialsWarehouse",
                 columns: new[] { "Id", "DeliveryTime", "ImageName", "ImagePath", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
-                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2021, 12, 18, 14, 40, 37, 586, DateTimeKind.Local).AddTicks(7925), "cm", 22500, "Fanera 3mm", 40 });
+                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2021, 12, 19, 18, 19, 47, 879, DateTimeKind.Local).AddTicks(6258), "cm", 22500, "Fanera 3mm", 40 });
 
             migrationBuilder.InsertData(
                 table: "Shipments",
@@ -395,7 +423,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$V95kEWkBjIS/FSIOHdlGUucYg762z7slGjB6aMEa1845eyd3v29H2", "860855183", "Admin", 1, null });
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$WuO8PnH9I0x25UcZ7Kz7humrVUuW/eCCtzx8kwIvN5SJIWp.h5Chm", "860855183", "Admin", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Bonus",
@@ -405,7 +433,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "Id", "Address", "Comment", "CountryId", "CurrencyId", "CustomerId", "Date", "Device", "ImageName", "ImagePath", "MoreInfo", "OrderFinishDate", "OrderNumber", "OrderType", "Platforma", "Price", "ProductCode", "ProductionTime", "Quantity", "ShipmentTypeId", "Status", "UserId", "Vat" },
-                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 12, 18, 14, 40, 37, 580, DateTimeKind.Local).AddTicks(4753), "ira", null, null, "eeeee", new DateTime(2021, 12, 18, 14, 40, 37, 585, DateTimeKind.Local).AddTicks(2802), 200, "eeeee", "yeee", 99.989999999999995, "123rr", 1, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
+                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 12, 19, 18, 19, 47, 874, DateTimeKind.Local).AddTicks(6590), "ira", null, null, "eeeee", new DateTime(2021, 12, 19, 18, 19, 47, 877, DateTimeKind.Local).AddTicks(7201), 200, "eeeee", "yeee", 99.989999999999995, "123rr", 1, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
 
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
@@ -420,7 +448,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "WarehouseCountings",
                 columns: new[] { "Id", "LastTimeChanging", "OrderId", "QuantityProductWarehouse" },
-                values: new object[] { 1, new DateTime(2021, 12, 18, 14, 40, 37, 585, DateTimeKind.Local).AddTicks(5990), 1, 2 });
+                values: new object[] { 1, new DateTime(2021, 12, 19, 18, 19, 47, 878, DateTimeKind.Local).AddTicks(1622), 1, 2 });
 
             migrationBuilder.InsertData(
                 table: "ProductMaterials",
@@ -473,6 +501,16 @@ namespace PromiCRM.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RecentWorks_ProductId",
+                table: "RecentWorks",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecentWorks_UserId",
+                table: "RecentWorks",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SalesChannels_UserId",
                 table: "SalesChannels",
                 column: "UserId");
@@ -507,6 +545,9 @@ namespace PromiCRM.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductMaterials");
+
+            migrationBuilder.DropTable(
+                name: "RecentWorks");
 
             migrationBuilder.DropTable(
                 name: "SalesChannels");

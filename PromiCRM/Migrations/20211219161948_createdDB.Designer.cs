@@ -10,8 +10,8 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211218124038_create-database")]
-    partial class createdatabase
+    [Migration("20211219161948_createdDB")]
+    partial class createdDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -196,7 +196,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2021, 12, 18, 14, 40, 37, 586, DateTimeKind.Local).AddTicks(7925),
+                            LastAdittion = new DateTime(2021, 12, 19, 18, 19, 47, 879, DateTimeKind.Local).AddTicks(6258),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -300,10 +300,10 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 12, 18, 14, 40, 37, 580, DateTimeKind.Local).AddTicks(4753),
+                            Date = new DateTime(2021, 12, 19, 18, 19, 47, 874, DateTimeKind.Local).AddTicks(6590),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 12, 18, 14, 40, 37, 585, DateTimeKind.Local).AddTicks(2802),
+                            OrderFinishDate = new DateTime(2021, 12, 19, 18, 19, 47, 877, DateTimeKind.Local).AddTicks(7201),
                             OrderNumber = 200,
                             OrderType = "eeeee",
                             Platforma = "yeee",
@@ -458,6 +458,34 @@ namespace PromiCRM.Migrations
                         });
                 });
 
+            modelBuilder.Entity("PromiCRM.Models.RecentWork", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("WorkTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RecentWorks");
+                });
+
             modelBuilder.Entity("PromiCRM.Models.SalesChannel", b =>
                 {
                     b.Property<int>("Id")
@@ -586,7 +614,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$V95kEWkBjIS/FSIOHdlGUucYg762z7slGjB6aMEa1845eyd3v29H2",
+                            Password = "$2a$11$WuO8PnH9I0x25UcZ7Kz7humrVUuW/eCCtzx8kwIvN5SJIWp.h5Chm",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -657,7 +685,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 12, 18, 14, 40, 37, 585, DateTimeKind.Local).AddTicks(5990),
+                            LastTimeChanging = new DateTime(2021, 12, 19, 18, 19, 47, 878, DateTimeKind.Local).AddTicks(1622),
                             OrderId = 1,
                             QuantityProductWarehouse = 2
                         });
@@ -777,6 +805,25 @@ namespace PromiCRM.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("PromiCRM.Models.RecentWork", b =>
+                {
+                    b.HasOne("PromiCRM.Models.Product", "Product")
+                        .WithMany("RecentWorks")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PromiCRM.Models.User", "User")
+                        .WithMany("RecentWorks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PromiCRM.Models.SalesChannel", b =>
                 {
                     b.HasOne("PromiCRM.Models.User", "User")
@@ -851,6 +898,8 @@ namespace PromiCRM.Migrations
             modelBuilder.Entity("PromiCRM.Models.Product", b =>
                 {
                     b.Navigation("ProductMaterials");
+
+                    b.Navigation("RecentWorks");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Shipment", b =>
@@ -863,6 +912,8 @@ namespace PromiCRM.Migrations
                     b.Navigation("Bonus");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("RecentWorks");
 
                     b.Navigation("SalesChannels");
 
