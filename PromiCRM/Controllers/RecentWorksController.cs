@@ -39,11 +39,11 @@ namespace PromiCRM.Controllers
             return Ok(results);
         }
 
-        [HttpGet("{id:int}", Name = "GetById")]
+        [HttpGet("{id:int}", Name = "GetRecentWork")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetRecentWork(int id)
         {
             var recentWork = await _unitOfWork.RecentWorks.Get(s => s.Id == id, includeProperties: "User,Product");
             var results = _mapper.Map<RecentWorkDTO>(recentWork);
