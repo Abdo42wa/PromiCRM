@@ -79,7 +79,7 @@ namespace PromiCRM.Controllers
         /// <param name="productDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "ADMINISTRATOR")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -101,18 +101,7 @@ namespace PromiCRM.Controllers
 
             var product = _mapper.Map<Product>(productDTO);
             await _unitOfWork.Products.Insert(product);
-          /*  var materialWarehouseId = productDTO.ProductMaterials[0].MaterialWarehouseId;*/
-            /*var materialsWarehouse = await _unitOfWork.MaterialsWarehouse.GetAll(m => m.Id == product.ProductMaterials[0].Id);
-
-            for (int i = 0; i < productMaterials.Count; i++)
-            {
-                materialsWarehouse[i].Quantity = materialsWarehouse[i].Quantity - productMaterials[i].Quantity;
-            }
-            _unitOfWork.MaterialsWarehouse.UpdateRange(materialsWarehouse);
-
-            await _unitOfWork.Save();*/
-
-
+            await _unitOfWork.Save();
             return CreatedAtRoute("GetProduct", new { id = product.Id }, product);
         }
 
