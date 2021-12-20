@@ -10,7 +10,7 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211219161948_createdDB")]
+    [Migration("20211220105420_createdDB")]
     partial class createdDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -196,7 +196,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2021, 12, 19, 18, 19, 47, 879, DateTimeKind.Local).AddTicks(6258),
+                            LastAdittion = new DateTime(2021, 12, 20, 12, 54, 19, 366, DateTimeKind.Local).AddTicks(2179),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -300,10 +300,10 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 12, 19, 18, 19, 47, 874, DateTimeKind.Local).AddTicks(6590),
+                            Date = new DateTime(2021, 12, 20, 12, 54, 19, 359, DateTimeKind.Local).AddTicks(7510),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 12, 19, 18, 19, 47, 877, DateTimeKind.Local).AddTicks(7201),
+                            OrderFinishDate = new DateTime(2021, 12, 20, 12, 54, 19, 363, DateTimeKind.Local).AddTicks(2472),
                             OrderNumber = 200,
                             OrderType = "eeeee",
                             Platforma = "yeee",
@@ -468,10 +468,13 @@ namespace PromiCRM.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int?>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<DateTime?>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("WorkTitle")
@@ -614,7 +617,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$WuO8PnH9I0x25UcZ7Kz7humrVUuW/eCCtzx8kwIvN5SJIWp.h5Chm",
+                            Password = "$2a$11$glcFLOwt5MYhVT8c.UiBqOtR5OTgXHd4YnZ6tayezIss6eDhAP5yK",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -685,7 +688,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 12, 19, 18, 19, 47, 878, DateTimeKind.Local).AddTicks(1622),
+                            LastTimeChanging = new DateTime(2021, 12, 20, 12, 54, 19, 363, DateTimeKind.Local).AddTicks(8485),
                             OrderId = 1,
                             QuantityProductWarehouse = 2
                         });
@@ -815,9 +818,7 @@ namespace PromiCRM.Migrations
 
                     b.HasOne("PromiCRM.Models.User", "User")
                         .WithMany("RecentWorks")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Product");
 
