@@ -58,6 +58,10 @@ namespace PromiCRM.Configurations
             CreateMap<Product, CreateProductDTO>().ReverseMap();
             CreateMap<Product, UpdateProductDTO>().ReverseMap();
 
+            CreateMap<RecentWork, RecentWorkDTO>().ReverseMap();
+            CreateMap<RecentWork, CreateRecentWorkDTO>().ReverseMap();
+            CreateMap<RecentWork, UpdateRecentWorkDTO>().ReverseMap();
+
             /*CreateMap<Service, ServiceDTO>().ReverseMap();
             CreateMap<Service, CreateServiceDTO>().ReverseMap();
             CreateMap<Service, UpdateServiceDTO>().ReverseMap();*/

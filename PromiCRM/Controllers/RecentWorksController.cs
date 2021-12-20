@@ -55,7 +55,7 @@ namespace PromiCRM.Controllers
         /// <param name="salesChannelDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "ADMINISTRATOR")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -82,7 +82,7 @@ namespace PromiCRM.Controllers
         /// <param name="salesChannelDTO"></param>
         /// <returns></returns>
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "ADMINISTRATOR")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
