@@ -35,8 +35,7 @@ namespace PromiCRM.Configurations.Entities
                     MilingTime = 20,
                     PaintingTime = 15,
                     PackagingBoxCode = "pspspsp",
-                    PackingTime = 10.0,
-/*                    ServiceId = 1*/
+                    PackingTime = 10.0
                 }
             );
         }
