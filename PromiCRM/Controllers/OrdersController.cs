@@ -34,19 +34,19 @@ namespace PromiCRM.Controllers
 
 
         [HttpGet]
-        [Authorize]
+        /*        [Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrders()
         {
-            var orders = await _unitOfWork.Orders.GetAll(includeProperties: "User,Shipment,Customer,Country,Currency");
+            var orders = await _unitOfWork.Orders.GetAll(includeProperties: "User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
 
 
         [HttpGet("{id:int}", Name = "GetOrder")]
-        [Authorize]
+        /*      [Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrder(int id)
@@ -54,6 +54,28 @@ namespace PromiCRM.Controllers
             var order = await _unitOfWork.Orders.Get(c => c.Id == id, includeProperties: "User,Shipment,Customer,Country,Currency");
             var result = _mapper.Map<OrderDTO>(order);
             return Ok(result);
+        }
+
+        [HttpGet("express")]
+        /*[Authorize]*/
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUncompletedExpressOrders()
+        {
+            var orders = await _unitOfWork.Orders.GetAll(o => o.ShipmentTypeId == 1 && o.Status == true, includeProperties: "User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
+            var results = _mapper.Map<IList<OrderDTO>>(orders);
+            return Ok(results);
+        }
+
+        [HttpGet("uncompleted")]
+        /*[Authorize]*/
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUncompletedOrders()
+        {
+            var orders = await _unitOfWork.Orders.GetAll(o => o.Status == false, includeProperties: "User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
+            var results = _mapper.Map<IList<OrderDTO>>(orders);
+            return Ok(results);
         }
 
         /// <summary>
