@@ -34,7 +34,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRecentWorks()
         {
-            var recentWorks = await _unitOfWork.RecentWorks.GetAll(includeProperties: "User,Product");
+            var recentWorks = await _unitOfWork.RecentWorks.GetAll(includeProperties: "User,Product",orderBy: q => q.OrderByDescending(r => r.Time));
             var results = _mapper.Map<IList<RecentWorkDTO>>(recentWorks);
             return Ok(results);
         }
