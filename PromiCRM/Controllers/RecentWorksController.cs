@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PromiCRM.IRepository;
 using PromiCRM.Models;
@@ -20,12 +21,15 @@ namespace PromiCRM.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<RecentWorksController> _logger;
+        private readonly DatabaseContext _database;
 
-        public RecentWorksController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<RecentWorksController> logger)
+
+        public RecentWorksController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<RecentWorksController> logger, DatabaseContext database)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _database = database;
         }
 
         [HttpGet]
@@ -34,7 +38,8 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRecentWorks()
         {
-            var recentWorks = await _unitOfWork.RecentWorks.GetAll(includeProperties: "User,Product",orderBy: q => q.OrderByDescending(r => r.Time));
+            var recentWorks = await _database.RecentWorks.Include(r => r.User).Include(r => r.Product).ThenInclude(p => p.Order).OrderByDescending(r => r.Time).ToListAsync();
+            /*var recentWorks = await _unitOfWork.RecentWorks.GetAll(includeProperties: "User,Product",orderBy: q => q.OrderByDescending(r => r.Time));*/
             var results = _mapper.Map<IList<RecentWorkDTO>>(recentWorks);
             return Ok(results);
         }
@@ -70,7 +75,8 @@ namespace PromiCRM.Controllers
             var recentWork = _mapper.Map<RecentWork>(recentWorkDTO);
             await _unitOfWork.RecentWorks.Insert(recentWork);
             await _unitOfWork.Save();
-            var createdRecentWork= await _unitOfWork.RecentWorks.Get(s => s.Id == recentWork.Id, includeProperties: "User,Product");
+            /*var createdRecentWork= await _unitOfWork.RecentWorks.Get(s => s.Id == recentWork.Id, includeProperties: "User,Product");*/
+            var createdRecentWork = await _database.RecentWorks.Include(r => r.User).Include(r => r.Product).ThenInclude(p => p.Order).FirstOrDefaultAsync(r => r.Id == recentWork.Id);
             var result = _mapper.Map<RecentWorkDTO>(createdRecentWork);
             return Ok(result);
             /*return CreatedAtRoute("GetById", new { id = salesChannel.Id }, salesChannel);*/
