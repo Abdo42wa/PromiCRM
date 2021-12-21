@@ -46,6 +46,7 @@ namespace PromiCRM.ModelsDTO
     public class OrderDTO : CreateOrderDTO
     {
         public int Id { get; set; }
+        public string ImagePath { get; set; }
         public UserDTO User { get; set; }
         public CustomerDTO Customer { get; set; }
         public ShipmentDTO Shipment { get; set; }

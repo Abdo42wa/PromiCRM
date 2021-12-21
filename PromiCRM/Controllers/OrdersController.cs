@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PromiCRM.IRepository;
 using PromiCRM.Models;
@@ -69,26 +70,44 @@ namespace PromiCRM.Controllers
             return Ok(results);
         }
 
-        [HttpGet("uncompleted")]
+        [HttpGet("warehouseUncompleted")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedOrders()
         {
-            var orders = await _unitOfWork.Orders.GetAll(o => o.Status == false, includeProperties: "User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
-            var results = _mapper.Map<IList<OrderDTO>>(orders);
-            return Ok(results);
+            var orders = _database.Orders.Where(o => o.OrderType == "Sandelis").Where(o => o.Status == false).GroupBy(o => o.ProductCode).Select(x => new OrderDTO { ProductCode = x.Key, Quantity = x.Count() }).ToList();
+            /*       var results = _mapper.Map<IList<OrderDTO>>(orders);*/
+            return Ok(orders);
         }
 
         [HttpGet("warehouseCompleted")]
-        [Authorize]
+/*        [Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrdersForWarehouseThatCompleted()
         {
-            var orders = _database.Orders.Where(o => o.OrderType == "Sandelis").Where(o => o.Status == true).GroupBy(o => o.ProductCode).Select(x => new WarehouseOrderProducts { ProductCode = x.Key, Quantity = x.Count() }).ToList();
-     /*       var results = _mapper.Map<IList<OrderDTO>>(orders);*/
-            return Ok(orders);
+            var products = await _unitOfWork.Products.GetAll();
+            var ordersWarehouse = _database.Orders.Where(o => o.OrderType == "Sandelis").
+                Where(o => o.Status == true).GroupBy(o => o.ProductCode).
+                Select(x => new OrderDTO { ProductCode = x.Key, Quantity = x.Count(), Id = x.Min(p => p.Id),
+                    UserId = x.Min(u => u.UserId) }).ToList();
+            /*       var results = _mapper.Map<IList<OrderDTO>>(orders);*/
+            foreach(OrderDTO order in ordersWarehouse)
+            {
+                var obj = products.FirstOrDefault(p => p.Code == order.ProductCode);
+                if(obj != null && obj.ImagePath != null)
+                {
+                    order.ImagePath = obj.ImagePath;
+                }
+                else
+                {
+                    order.ImagePath ="";
+                }
+                    
+            }
+            
+            return Ok(ordersWarehouse);
         }
 
         /// <summary>
