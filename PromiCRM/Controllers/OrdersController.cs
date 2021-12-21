@@ -84,7 +84,7 @@ namespace PromiCRM.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetWarehouseCompletedOrders()
+        public async Task<IActionResult> GetOrdersForWarehouseThatCompleted()
         {
             var orders = _database.Orders.Where(o => o.OrderType == "Sandelis").Where(o => o.Status == true).GroupBy(o => o.ProductCode).Select(x => new WarehouseOrderProducts { ProductCode = x.Key, Quantity = x.Count() }).ToList();
      /*       var results = _mapper.Map<IList<OrderDTO>>(orders);*/
