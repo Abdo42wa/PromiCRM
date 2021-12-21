@@ -23,18 +23,20 @@ namespace PromiCRM.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<OrdersController> _logger;
         public readonly IBlobService _blobService;
+        public readonly DatabaseContext _database;
 
-        public OrdersController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<OrdersController> logger, IBlobService blobService)
+        public OrdersController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<OrdersController> logger, IBlobService blobService, DatabaseContext database)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
             _blobService = blobService;
+            _database = database;
         }
 
 
         [HttpGet]
-        /*        [Authorize]*/
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrders()
@@ -46,7 +48,7 @@ namespace PromiCRM.Controllers
 
 
         [HttpGet("{id:int}", Name = "GetOrder")]
-        /*      [Authorize]*/
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrder(int id)
@@ -57,18 +59,18 @@ namespace PromiCRM.Controllers
         }
 
         [HttpGet("express")]
-        /*[Authorize]*/
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedExpressOrders()
         {
-            var orders = await _unitOfWork.Orders.GetAll(o => o.ShipmentTypeId == 1 && o.Status == true, includeProperties: "User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
+            var orders = await _unitOfWork.Orders.GetAll(o => o.ShipmentTypeId == 1 && o.Status == false, includeProperties: "User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
 
         [HttpGet("uncompleted")]
-        /*[Authorize]*/
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedOrders()
@@ -76,6 +78,17 @@ namespace PromiCRM.Controllers
             var orders = await _unitOfWork.Orders.GetAll(o => o.Status == false, includeProperties: "User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
+        }
+
+        [HttpGet("warehouseCompleted")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetWarehouseCompletedOrders()
+        {
+            var orders = _database.Orders.Where(o => o.OrderType == "Sandelis").Where(o => o.Status == true).GroupBy(o => o.ProductCode).Select(x => new WarehouseOrderProducts { ProductCode = x.Key, Quantity = x.Count() }).ToList();
+     /*       var results = _mapper.Map<IList<OrderDTO>>(orders);*/
+            return Ok(orders);
         }
 
         /// <summary>
@@ -156,7 +169,7 @@ namespace PromiCRM.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "ADMINISTRATOR")]
+/*        [Authorize(Roles = "ADMINISTRATOR")]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
