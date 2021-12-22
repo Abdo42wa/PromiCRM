@@ -71,13 +71,34 @@ namespace PromiCRM.Controllers
         }
 
         [HttpGet("warehouseUncompleted")]
-        [Authorize]
+/*        [Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedOrders()
         {
-            var orders = _database.Orders.Where(o => o.OrderType == "Sandelis").Where(o => o.Status == false).GroupBy(o => o.ProductCode).Select(x => new OrderDTO { ProductCode = x.Key, Quantity = x.Count() }).ToList();
-            /*       var results = _mapper.Map<IList<OrderDTO>>(orders);*/
+            var products = await _unitOfWork.Products.GetAll();
+            var orders = _database.Orders.Where(o => o.OrderType == "Sandelis").Where(o => o.Status == false).
+                GroupBy(o => o.ProductCode).Select(x => new OrderDTO
+                {
+                    ProductCode = x.Key,
+                    Quantity = x.Count(),
+                    Id = x.Min(p => p.Id),
+                    UserId = x.Min(u => u.UserId),
+                    OrderFinishDate = x.Max(o => o.OrderFinishDate)
+                }).ToList();
+            foreach (OrderDTO order in orders)
+            {
+                var obj = products.FirstOrDefault(p => p.Code == order.ProductCode);
+                if (obj != null && obj.ImagePath != null)
+                {
+                    order.ImagePath = obj.ImagePath;
+                }
+                else
+                {
+                    order.ImagePath = "";
+                }
+
+            }
             return Ok(orders);
         }
 
@@ -90,8 +111,12 @@ namespace PromiCRM.Controllers
             var products = await _unitOfWork.Products.GetAll();
             var ordersWarehouse = _database.Orders.Where(o => o.OrderType == "Sandelis").
                 Where(o => o.Status == true).GroupBy(o => o.ProductCode).
-                Select(x => new OrderDTO { ProductCode = x.Key, Quantity = x.Count(), Id = x.Min(p => p.Id),
-                    UserId = x.Min(u => u.UserId) }).ToList();
+                Select(x => new OrderDTO { 
+                    ProductCode = x.Key,
+                    Quantity = x.Count(),
+                    Id = x.Min(p => p.Id),
+                    UserId = x.Min(u => u.UserId) 
+                }).ToList();
             /*       var results = _mapper.Map<IList<OrderDTO>>(orders);*/
             foreach(OrderDTO order in ordersWarehouse)
             {
