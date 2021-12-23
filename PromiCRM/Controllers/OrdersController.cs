@@ -58,7 +58,6 @@ namespace PromiCRM.Controllers
             var result = _mapper.Map<OrderDTO>(order);
             return Ok(result);
         }
-
         [HttpGet("express")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -66,6 +65,15 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetUncompletedExpressOrders()
         {
             var orders = await _unitOfWork.Orders.GetAll(o => o.ShipmentTypeId == 1 && o.Status == false, includeProperties: "User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
+            var results = _mapper.Map<IList<OrderDTO>>(orders);
+            return Ok(results);
+        }
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetNotStandartOrdersForClients()
+        {
+            var orders = await _unitOfWork.Orders.GetAll(o => o.OrderType == "Ne-standartinis", includeProperties: "Customer,User", orderBy: o => o.OrderByDescending(o => o.Date));
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
@@ -100,7 +108,6 @@ namespace PromiCRM.Controllers
 
             }
             return Ok(orders);
-
         }
 
         [HttpGet("warehouseUncompleted")]
