@@ -70,11 +70,44 @@ namespace PromiCRM.Controllers
             return Ok(results);
         }
 
+        [HttpGet("uncompleted")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUncompletedOrders()
+        {
+            var products = await _unitOfWork.Products.GetAll();
+            var orders = _database.Orders.Where(o => o.OrderType != "Sandelis").Where(o => o.Status == false).
+                GroupBy(o => o.ProductCode).Select(x => new OrderDTO
+                {
+                    ProductCode = x.Key,
+                    Quantity = x.Count(),
+                    Id = x.Min(p => p.Id),
+                    UserId = x.Min(u => u.UserId),
+                    OrderFinishDate = x.Max(o => o.OrderFinishDate)
+                }).OrderByDescending(o => o.Quantity).ToList();
+
+            foreach (OrderDTO order in orders)
+            {
+                var obj = products.FirstOrDefault(p => p.Code == order.ProductCode);
+                if (obj != null && obj.ImagePath != null)
+                {
+                    order.ImagePath = obj.ImagePath;
+                }
+                else
+                {
+                    order.ImagePath = "";
+                }
+
+            }
+            return Ok(orders);
+
+        }
+
         [HttpGet("warehouseUncompleted")]
 /*        [Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUncompletedOrders()
+        public async Task<IActionResult> GetUncompletedOrdersForWarehouse()
         {
             var products = await _unitOfWork.Products.GetAll();
             var orders = _database.Orders.Where(o => o.OrderType == "Sandelis").Where(o => o.Status == false).
@@ -85,7 +118,7 @@ namespace PromiCRM.Controllers
                     Id = x.Min(p => p.Id),
                     UserId = x.Min(u => u.UserId),
                     OrderFinishDate = x.Max(o => o.OrderFinishDate)
-                }).ToList();
+                }).OrderByDescending(o => o.Quantity).ToList();
             foreach (OrderDTO order in orders)
             {
                 var obj = products.FirstOrDefault(p => p.Code == order.ProductCode);
@@ -116,7 +149,7 @@ namespace PromiCRM.Controllers
                     Quantity = x.Count(),
                     Id = x.Min(p => p.Id),
                     UserId = x.Min(u => u.UserId) 
-                }).ToList();
+                }).OrderByDescending(o => o.Quantity).ToList();
             /*       var results = _mapper.Map<IList<OrderDTO>>(orders);*/
             foreach(OrderDTO order in ordersWarehouse)
             {
