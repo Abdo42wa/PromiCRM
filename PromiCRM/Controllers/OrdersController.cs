@@ -68,7 +68,7 @@ namespace PromiCRM.Controllers
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
-        [HttpGet]
+        [HttpGet("clientsOrders")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetNotStandartOrdersForClients()
