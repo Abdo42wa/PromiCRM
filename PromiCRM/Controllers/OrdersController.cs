@@ -175,6 +175,33 @@ namespace PromiCRM.Controllers
             return Ok(orders);
         }
 
+        /// <summary>
+        /// getting all completed orders. and adding to each week of year
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("monthOrders")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetMonthOrders()
+        {
+            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+            Calendar cal = dfi.Calendar;
+            DateTime today = DateTime.Now;
+            DateTime fiveWeeksBefore = today.AddDays(-30);
+
+            var orders = _database.Orders.Where(o => o.Status == true).
+                Where(o => o.OrderFinishDate > fiveWeeksBefore).
+                GroupBy(o => o.ProductCode).Select(x => new OrderDTO
+                {
+                    ProductCode = x.Key,
+                    Quantity = x.Count(),
+                    Id = x.Min(p => p.Id),
+                    UserId = x.Min(u => u.UserId),
+                    OrderFinishDate = x.Max(o => o.OrderFinishDate)
+                }).OrderByDescending(o => o.Quantity).ToList();
+            return Ok(orders);
+        }
+
         [HttpGet("warehouseCompleted")]
 /*        [Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
