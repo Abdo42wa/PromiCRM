@@ -194,7 +194,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2021, 12, 24, 17, 54, 52, 804, DateTimeKind.Local).AddTicks(5492),
+                            LastAdittion = new DateTime(2021, 12, 28, 15, 3, 29, 944, DateTimeKind.Local).AddTicks(4795),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -275,6 +275,9 @@ namespace PromiCRM.Migrations
                     b.Property<double>("Vat")
                         .HasColumnType("float");
 
+                    b.Property<int>("productID")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
@@ -287,6 +290,8 @@ namespace PromiCRM.Migrations
 
                     b.HasIndex("UserId");
 
+                    b.HasIndex("productID");
+
                     b.ToTable("Orders");
 
                     b.HasData(
@@ -298,10 +303,10 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 12, 24, 17, 54, 52, 796, DateTimeKind.Local).AddTicks(2647),
+                            Date = new DateTime(2021, 12, 28, 15, 3, 29, 936, DateTimeKind.Local).AddTicks(362),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 12, 24, 17, 54, 52, 801, DateTimeKind.Local).AddTicks(5321),
+                            OrderFinishDate = new DateTime(2021, 12, 28, 15, 3, 29, 942, DateTimeKind.Local).AddTicks(3704),
                             OrderNumber = 200,
                             OrderType = "eeeee",
                             Platforma = "yeee",
@@ -312,7 +317,8 @@ namespace PromiCRM.Migrations
                             ShipmentTypeId = 1,
                             Status = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
-                            Vat = 21.100000000000001
+                            Vat = 21.100000000000001,
+                            productID = 1
                         });
                 });
 
@@ -365,9 +371,6 @@ namespace PromiCRM.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<string>("PackagingBoxCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -391,8 +394,6 @@ namespace PromiCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
-
                     b.ToTable("Products");
 
                     b.HasData(
@@ -411,7 +412,6 @@ namespace PromiCRM.Migrations
                             Link = "sss",
                             MilingTime = 20,
                             Name = "Produktas",
-                            OrderId = 1,
                             PackagingBoxCode = "pspspsp",
                             PackingTime = 10.0,
                             PaintingTime = 15,
@@ -615,7 +615,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$H8NRvfWqKCN4nCFZ/zYspekdGwgtFXp.QwNmx9B4bYXSKHFCGqlrO",
+                            Password = "$2a$11$JnUvTneHfcHnhvtECOCFMuzVGRb40KJK1Dbsj7um9bP7OD/0Csz4a",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -686,7 +686,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 12, 24, 17, 54, 52, 802, DateTimeKind.Local).AddTicks(1243),
+                            LastTimeChanging = new DateTime(2021, 12, 28, 15, 3, 29, 942, DateTimeKind.Local).AddTicks(7692),
                             OrderId = 1,
                             QuantityProductWarehouse = 2
                         });
@@ -765,26 +765,23 @@ namespace PromiCRM.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PromiCRM.Models.Product", "Prodduct")
+                        .WithMany("Order")
+                        .HasForeignKey("productID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Country");
 
                     b.Navigation("Currency");
 
                     b.Navigation("Customer");
 
+                    b.Navigation("Prodduct");
+
                     b.Navigation("Shipment");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("PromiCRM.Models.Product", b =>
-                {
-                    b.HasOne("PromiCRM.Models.Order", "Order")
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.ProductMaterial", b =>
@@ -889,13 +886,13 @@ namespace PromiCRM.Migrations
 
             modelBuilder.Entity("PromiCRM.Models.Order", b =>
                 {
-                    b.Navigation("Products");
-
                     b.Navigation("WarehouseCountings");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Product", b =>
                 {
+                    b.Navigation("Order");
+
                     b.Navigation("ProductMaterials");
 
                     b.Navigation("RecentWorks");

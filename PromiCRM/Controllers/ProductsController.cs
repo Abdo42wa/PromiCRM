@@ -61,17 +61,17 @@ namespace PromiCRM.Controllers
             return Ok(result);
         }
 
-        [HttpGet("order/{id:int}")]
+      /*  [HttpGet("order/{id:int}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProductsByOrder(int id)
         {
             var products = await _database.Products.Where(p => p.OrderId == id).Include(p => p.ProductMaterials).ThenInclude(d => d.MaterialWarehouse).ToListAsync();
-            /*var products = await _unitOfWork.Products.GetAll(p => p.OrderId == id, includeProperties: "Order,ProductMaterials");*/
+            *//*var products = await _unitOfWork.Products.GetAll(p => p.OrderId == id, includeProperties: "Order,ProductMaterials");*//*
             var results = _mapper.Map<IList<ProductDTO>>(products);
             return Ok(results);
-        }
+        }*/
 
         /// <summary>
         /// create image, then save record 

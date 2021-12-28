@@ -12,9 +12,9 @@ namespace PromiCRM.Models
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey(nameof(Order))]
+      /*  [ForeignKey(nameof(Order))]
         public int OrderId { get; set; }
-        public virtual Order Order { get; set; }
+        public virtual Order Order { get; set; }*/
         //for photo
         public string ImageName { get; set; }
         public string ImagePath { get; set; }
@@ -41,5 +41,6 @@ namespace PromiCRM.Models
         public double PackingTime { get; set; }
         public virtual ICollection<ProductMaterial> ProductMaterials { get; set; }
         public virtual ICollection<RecentWork> RecentWorks { get; set; }
+        public virtual ICollection<Order> Order { get; set; }
     }
 }

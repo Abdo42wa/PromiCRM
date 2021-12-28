@@ -74,6 +74,39 @@ namespace PromiCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LengthWithoutPackaging = table.Column<double>(type: "float", nullable: false),
+                    WidthWithoutPackaging = table.Column<double>(type: "float", nullable: false),
+                    HeightWithoutPackaging = table.Column<double>(type: "float", nullable: false),
+                    LengthWithPackaging = table.Column<double>(type: "float", nullable: false),
+                    WidthWithPackaging = table.Column<double>(type: "float", nullable: false),
+                    HeightWithPackaging = table.Column<double>(type: "float", nullable: false),
+                    WeightGross = table.Column<double>(type: "float", nullable: false),
+                    WeightNetto = table.Column<double>(type: "float", nullable: false),
+                    CollectionTime = table.Column<int>(type: "int", nullable: true),
+                    BondingTime = table.Column<int>(type: "int", nullable: true),
+                    PaintingTime = table.Column<int>(type: "int", nullable: true),
+                    LaserTime = table.Column<int>(type: "int", nullable: true),
+                    MilingTime = table.Column<int>(type: "int", nullable: true),
+                    PackagingBoxCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PackingTime = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Shipments",
                 columns: table => new
                 {
@@ -101,6 +134,33 @@ namespace PromiCRM.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductMaterials",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    MaterialWarehouseId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductMaterials", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductMaterials_MaterialsWarehouse_MaterialWarehouseId",
+                        column: x => x.MaterialWarehouseId,
+                        principalTable: "MaterialsWarehouse",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductMaterials_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +216,7 @@ namespace PromiCRM.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    productID = table.Column<int>(type: "int", nullable: false),
                     OrderType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -200,6 +261,12 @@ namespace PromiCRM.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_Orders_Products_productID",
+                        column: x => x.productID,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Orders_Shipments_ShipmentTypeId",
                         column: x => x.ShipmentTypeId,
                         principalTable: "Shipments",
@@ -211,6 +278,35 @@ namespace PromiCRM.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RecentWorks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: true),
+                    WorkTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Time = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RecentWorks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RecentWorks_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RecentWorks_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -261,46 +357,6 @@ namespace PromiCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Link = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LengthWithoutPackaging = table.Column<double>(type: "float", nullable: false),
-                    WidthWithoutPackaging = table.Column<double>(type: "float", nullable: false),
-                    HeightWithoutPackaging = table.Column<double>(type: "float", nullable: false),
-                    LengthWithPackaging = table.Column<double>(type: "float", nullable: false),
-                    WidthWithPackaging = table.Column<double>(type: "float", nullable: false),
-                    HeightWithPackaging = table.Column<double>(type: "float", nullable: false),
-                    WeightGross = table.Column<double>(type: "float", nullable: false),
-                    WeightNetto = table.Column<double>(type: "float", nullable: false),
-                    CollectionTime = table.Column<int>(type: "int", nullable: true),
-                    BondingTime = table.Column<int>(type: "int", nullable: true),
-                    PaintingTime = table.Column<int>(type: "int", nullable: true),
-                    LaserTime = table.Column<int>(type: "int", nullable: true),
-                    MilingTime = table.Column<int>(type: "int", nullable: true),
-                    PackagingBoxCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PackingTime = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Products_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "WarehouseCountings",
                 columns: table => new
                 {
@@ -319,62 +375,6 @@ namespace PromiCRM.Migrations
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductMaterials",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    MaterialWarehouseId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductMaterials", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductMaterials_MaterialsWarehouse_MaterialWarehouseId",
-                        column: x => x.MaterialWarehouseId,
-                        principalTable: "MaterialsWarehouse",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductMaterials_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RecentWorks",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Quantity = table.Column<int>(type: "int", nullable: true),
-                    WorkTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Time = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RecentWorks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RecentWorks_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RecentWorks_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -399,7 +399,12 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "MaterialsWarehouse",
                 columns: new[] { "Id", "DeliveryTime", "ImageName", "ImagePath", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
-                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2021, 12, 24, 17, 54, 52, 804, DateTimeKind.Local).AddTicks(5492), "cm", 22500, "Fanera 3mm", 40 });
+                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2021, 12, 28, 15, 3, 29, 944, DateTimeKind.Local).AddTicks(4795), "cm", 22500, "Fanera 3mm", 40 });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "BondingTime", "Category", "Code", "CollectionTime", "HeightWithPackaging", "HeightWithoutPackaging", "ImageName", "ImagePath", "LaserTime", "LengthWithPackaging", "LengthWithoutPackaging", "Link", "MilingTime", "Name", "PackagingBoxCode", "PackingTime", "PaintingTime", "WeightGross", "WeightNetto", "WidthWithPackaging", "WidthWithoutPackaging" },
+                values: new object[] { 1, 40, "Good", "8582262s", 20, 3.5, 3.0, null, null, 10, 12.0, 10.0, "sss", 20, "Produktas", "pspspsp", 10.0, 15, 10.199999999999999, 9.0, 5.5, 5.0 });
 
             migrationBuilder.InsertData(
                 table: "Shipments",
@@ -422,9 +427,14 @@ namespace PromiCRM.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "ProductMaterials",
+                columns: new[] { "Id", "MaterialWarehouseId", "ProductId", "Quantity" },
+                values: new object[] { 1, 1, 1, 2 });
+
+            migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$H8NRvfWqKCN4nCFZ/zYspekdGwgtFXp.QwNmx9B4bYXSKHFCGqlrO", "860855183", "Admin", 1, null });
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$JnUvTneHfcHnhvtECOCFMuzVGRb40KJK1Dbsj7um9bP7OD/0Csz4a", "860855183", "Admin", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Bonus",
@@ -433,8 +443,8 @@ namespace PromiCRM.Migrations
 
             migrationBuilder.InsertData(
                 table: "Orders",
-                columns: new[] { "Id", "Address", "Comment", "CountryId", "CurrencyId", "CustomerId", "Date", "Device", "ImageName", "ImagePath", "MoreInfo", "OrderFinishDate", "OrderNumber", "OrderType", "Platforma", "Price", "ProductCode", "ProductionTime", "Quantity", "ShipmentTypeId", "Status", "UserId", "Vat" },
-                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 12, 24, 17, 54, 52, 796, DateTimeKind.Local).AddTicks(2647), "ira", null, null, "eeeee", new DateTime(2021, 12, 24, 17, 54, 52, 801, DateTimeKind.Local).AddTicks(5321), 200, "eeeee", "yeee", 99.989999999999995, "123rr", 1, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
+                columns: new[] { "Id", "Address", "Comment", "CountryId", "CurrencyId", "CustomerId", "Date", "Device", "ImageName", "ImagePath", "MoreInfo", "OrderFinishDate", "OrderNumber", "OrderType", "Platforma", "Price", "ProductCode", "ProductionTime", "Quantity", "ShipmentTypeId", "Status", "UserId", "Vat", "productID" },
+                values: new object[] { 1, "Justiniskiu", "great", 1, 1, 1, new DateTime(2021, 12, 28, 15, 3, 29, 936, DateTimeKind.Local).AddTicks(362), "ira", null, null, "eeeee", new DateTime(2021, 12, 28, 15, 3, 29, 942, DateTimeKind.Local).AddTicks(3704), 200, "eeeee", "yeee", 99.989999999999995, "123rr", 1, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001, 1 });
 
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
@@ -442,19 +452,9 @@ namespace PromiCRM.Migrations
                 values: new object[] { 1, false, "yeee", new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
 
             migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "Id", "BondingTime", "Category", "Code", "CollectionTime", "HeightWithPackaging", "HeightWithoutPackaging", "ImageName", "ImagePath", "LaserTime", "LengthWithPackaging", "LengthWithoutPackaging", "Link", "MilingTime", "Name", "OrderId", "PackagingBoxCode", "PackingTime", "PaintingTime", "WeightGross", "WeightNetto", "WidthWithPackaging", "WidthWithoutPackaging" },
-                values: new object[] { 1, 40, "Good", "8582262s", 20, 3.5, 3.0, null, null, 10, 12.0, 10.0, "sss", 20, "Produktas", 1, "pspspsp", 10.0, 15, 10.199999999999999, 9.0, 5.5, 5.0 });
-
-            migrationBuilder.InsertData(
                 table: "WarehouseCountings",
                 columns: new[] { "Id", "LastTimeChanging", "OrderId", "QuantityProductWarehouse" },
-                values: new object[] { 1, new DateTime(2021, 12, 24, 17, 54, 52, 802, DateTimeKind.Local).AddTicks(1243), 1, 2 });
-
-            migrationBuilder.InsertData(
-                table: "ProductMaterials",
-                columns: new[] { "Id", "MaterialWarehouseId", "ProductId", "Quantity" },
-                values: new object[] { 1, 1, 1, 2 });
+                values: new object[] { 1, new DateTime(2021, 12, 28, 15, 3, 29, 942, DateTimeKind.Local).AddTicks(7692), 1, 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bonus_UserId",
@@ -477,6 +477,11 @@ namespace PromiCRM.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_productID",
+                table: "Orders",
+                column: "productID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_ShipmentTypeId",
                 table: "Orders",
                 column: "ShipmentTypeId");
@@ -495,11 +500,6 @@ namespace PromiCRM.Migrations
                 name: "IX_ProductMaterials_ProductId",
                 table: "ProductMaterials",
                 column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_OrderId",
-                table: "Products",
-                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecentWorks_ProductId",
@@ -563,9 +563,6 @@ namespace PromiCRM.Migrations
                 name: "MaterialsWarehouse");
 
             migrationBuilder.DropTable(
-                name: "Products");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
@@ -576,6 +573,9 @@ namespace PromiCRM.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Shipments");

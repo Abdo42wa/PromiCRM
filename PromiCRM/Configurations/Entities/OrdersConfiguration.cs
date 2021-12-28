@@ -17,6 +17,7 @@ namespace PromiCRM.Configurations.Entities
                 new Order
                 {
                     Id = 1,
+                    productID = 1,
                     UserId = id,
                     OrderNumber = 200,
                     Date = DateTime.Now,

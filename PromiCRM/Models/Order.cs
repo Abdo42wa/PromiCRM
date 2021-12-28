@@ -16,6 +16,13 @@ namespace PromiCRM.Models
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
         public virtual User User { get; set; }
+
+
+        [ForeignKey(nameof(Order))]
+        public int productID { get; set; }
+        public virtual Product Prodduct { get; set; }
+
+
         public string OrderType { get; set; }
         //for image
         public string ImageName { get; set; }
@@ -63,7 +70,7 @@ namespace PromiCRM.Models
         public DateTime OrderFinishDate { get; set; }
 
         public virtual ICollection<WarehouseCounting> WarehouseCountings { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+        //public virtual ICollection<Product> Products { get; set; }
 
     }
 }

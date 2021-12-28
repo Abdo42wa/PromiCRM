@@ -9,7 +9,7 @@ namespace PromiCRM.ModelsDTO
 {
     public class CreateProductDTO
     {
-        public int OrderId { get; set; }
+        //public int OrderId { get; set; }
         //for photo
         public string ImageName { get; set; }
         public string ImagePath { get; set; }
@@ -37,7 +37,7 @@ namespace PromiCRM.ModelsDTO
 
     public class UpdateProductDTO
     {
-        public int OrderId { get; set; }
+        //public int OrderId { get; set; }
         //for photo
         public string ImageName { get; set; }
         public string ImagePath { get; set; }
@@ -65,7 +65,8 @@ namespace PromiCRM.ModelsDTO
     public class ProductDTO : CreateProductDTO
     {
         public int Id { get; set; }
-        public OrderDTO Order { get; set; }
+        //public OrderDTO Order { get; set; }
+        public virtual IList<OrderDTO> Order { get; set; }
         /* public ServiceDTO Service { get; set; }*/
         //public virtual IList<ProductMaterialDTO> ProductMaterials { get; set; }
         public IList<ProductMaterialDTO> ProductMaterials { get; set; }
