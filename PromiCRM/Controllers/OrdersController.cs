@@ -10,6 +10,7 @@ using PromiCRM.ModelsDTO;
 using PromiCRM.Services;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,7 +38,7 @@ namespace PromiCRM.Controllers
 
 
         [HttpGet]
-        [Authorize]
+        /*[Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrders()
@@ -49,7 +50,7 @@ namespace PromiCRM.Controllers
 
 
         [HttpGet("{id:int}", Name = "GetOrder")]
-        [Authorize]
+        /*[Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrder(int id)
@@ -59,7 +60,7 @@ namespace PromiCRM.Controllers
             return Ok(result);
         }
         [HttpGet("express")]
-        [Authorize]
+        /*[Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedExpressOrders()
@@ -73,7 +74,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetNotStandartOrdersForClients()
         {
-            var orders = await _unitOfWork.Orders.GetAll(o => o.OrderType == "Ne-standartinis", includeProperties: "Customer,User", orderBy: o => o.OrderByDescending(o => o.Date));
+            var orders = await _unitOfWork.Orders.GetAll(o => o.OrderType == "Ne-standartinis" && o.Status == false, includeProperties: "Customer,User", orderBy: o => o.OrderByDescending(o => o.Date));
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
@@ -139,6 +140,65 @@ namespace PromiCRM.Controllers
                 }
 
             }
+            return Ok(orders);
+        }
+        /// <summary>
+        /// getting all completed orders. and adding to each week of year
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("weeksOrders")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetOrdersByWeeks()
+        {
+            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+            DateTime date1 = new DateTime(2015, 09, 14); //yyyy, MM, dd
+            Calendar cal = dfi.Calendar;
+            DateTime today = DateTime.Now;
+            DateTime fiveWeeksBefore = today.AddDays(-36);
+
+            var orders = _database.Orders.Where(o => o.Status == true).
+                Where(o => o.OrderFinishDate > fiveWeeksBefore).
+                GroupBy(o => o.ProductCode).Select(x => new OrderDTO
+                {
+                    ProductCode = x.Key,
+                    Quantity = x.Count(),
+                    Id = x.Min(p => p.Id),
+                    UserId = x.Min(u => u.UserId),
+                    OrderFinishDate = x.Max(o => o.OrderFinishDate)
+                }).OrderByDescending(o => o.Quantity).ToList();
+
+            foreach (OrderDTO order in orders)
+            {
+                order.WeekNumber = cal.GetWeekOfYear(order.OrderFinishDate, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+            }
+            return Ok(orders);
+        }
+
+        /// <summary>
+        /// getting all completed orders. and adding to each week of year
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("monthOrders")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetMonthOrders()
+        {
+            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+            Calendar cal = dfi.Calendar;
+            DateTime today = DateTime.Now;
+            DateTime fiveWeeksBefore = today.AddDays(-30);
+
+            var orders = _database.Orders.Where(o => o.Status == true).
+                Where(o => o.OrderFinishDate > fiveWeeksBefore).
+                GroupBy(o => o.ProductCode).Select(x => new OrderDTO
+                {
+                    ProductCode = x.Key,
+                    Quantity = x.Count(),
+                    Id = x.Min(p => p.Id),
+                    UserId = x.Min(u => u.UserId),
+                    OrderFinishDate = x.Max(o => o.OrderFinishDate)
+                }).OrderByDescending(o => o.Quantity).ToList();
             return Ok(orders);
         }
 
