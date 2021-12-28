@@ -194,7 +194,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2021, 12, 20, 12, 54, 19, 366, DateTimeKind.Local).AddTicks(2179),
+                            LastAdittion = new DateTime(2021, 12, 24, 17, 54, 52, 804, DateTimeKind.Local).AddTicks(5492),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -298,10 +298,10 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 12, 20, 12, 54, 19, 359, DateTimeKind.Local).AddTicks(7510),
+                            Date = new DateTime(2021, 12, 24, 17, 54, 52, 796, DateTimeKind.Local).AddTicks(2647),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 12, 20, 12, 54, 19, 363, DateTimeKind.Local).AddTicks(2472),
+                            OrderFinishDate = new DateTime(2021, 12, 24, 17, 54, 52, 801, DateTimeKind.Local).AddTicks(5321),
                             OrderNumber = 200,
                             OrderType = "eeeee",
                             Platforma = "yeee",
@@ -615,7 +615,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$glcFLOwt5MYhVT8c.UiBqOtR5OTgXHd4YnZ6tayezIss6eDhAP5yK",
+                            Password = "$2a$11$H8NRvfWqKCN4nCFZ/zYspekdGwgtFXp.QwNmx9B4bYXSKHFCGqlrO",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -686,7 +686,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 12, 20, 12, 54, 19, 363, DateTimeKind.Local).AddTicks(8485),
+                            LastTimeChanging = new DateTime(2021, 12, 24, 17, 54, 52, 802, DateTimeKind.Local).AddTicks(1243),
                             OrderId = 1,
                             QuantityProductWarehouse = 2
                         });
