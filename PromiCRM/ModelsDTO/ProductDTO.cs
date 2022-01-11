@@ -11,9 +11,9 @@ namespace PromiCRM.ModelsDTO
     {
         //public int OrderId { get; set; }
         //for photo
-        public string ImageName { get; set; }
+       /* public string ImageName { get; set; }
         public string ImagePath { get; set; }
-        public IFormFile File { get; set; }
+        public IFormFile File { get; set; }*/
         public string Link { get; set; }
         public string Code { get; set; }
         public string Category { get; set; }

@@ -242,11 +242,11 @@ namespace PromiCRM.Controllers
         /// <param name="createOrderDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "ADMINISTRATOR")]
+        //[Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateOrder([FromForm] CreateOrderDTO createOrderDTO)
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO createOrderDTO)
         {
             if (!ModelState.IsValid)
             {

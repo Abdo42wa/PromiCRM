@@ -90,14 +90,14 @@ namespace PromiCRM.Controllers
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateProduct)}");
                 return BadRequest("Submited invalid data");
             }
-            if(productDTO.File == null || productDTO.File.Length < 1)
+         /*   if(productDTO.File == null || productDTO.File.Length < 1)
             {
                 return BadRequest("Submited invalid data. Didnt get image");
-            }
-            var fileName = Guid.NewGuid() + Path.GetExtension(productDTO.File.FileName);
+            }*/
+           /* var fileName = Guid.NewGuid() + Path.GetExtension(productDTO.File.FileName);
             var imageUrl = await _blobService.UploadBlob(fileName, productDTO.File, "productscontainer");
             productDTO.ImageName = fileName;
-            productDTO.ImagePath = imageUrl;
+            productDTO.ImagePath = imageUrl;*/
 
             var product = _mapper.Map<Product>(productDTO);
             await _unitOfWork.Products.Insert(product);

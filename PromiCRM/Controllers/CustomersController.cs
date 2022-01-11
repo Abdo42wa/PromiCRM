@@ -57,7 +57,7 @@ namespace PromiCRM.Controllers
             var result = _mapper.Map<CustomerDTO>(customer);
             return Ok(result);
         }
-        /// <summary>
+        /// <summary>  
         /// Check if model valid, convert to dto and insert
         /// </summary>
         /// <param name="customerDTO"></param>

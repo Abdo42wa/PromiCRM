@@ -17,7 +17,7 @@ namespace PromiCRM.Configurations.Entities
                 new Order
                 {
                     Id = 1,
-                    productID = 1,
+                    ProductId = 1,
                     UserId = id,
                     OrderNumber = 200,
                     Date = DateTime.Now,
@@ -25,7 +25,7 @@ namespace PromiCRM.Configurations.Entities
                     MoreInfo = "eeeee",
                     OrderType = "eeeee",
                     Quantity = 2,
-                    ProductCode = "123rr",
+                    ProductCode = "8582262s",
                     ShipmentTypeId = 1,
                     CustomerId = 1,
                     Address = "Justiniskiu",

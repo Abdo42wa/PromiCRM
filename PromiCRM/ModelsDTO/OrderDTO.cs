@@ -15,27 +15,41 @@ namespace PromiCRM.ModelsDTO
         /* public string ImageName { get; set; }
          public string ImagePath { get; set; }
          public IFormFile File { get; set; }*/
-        public int productID { get; set; }
+        public int? ProductId { get; set; }
         public bool Status { get; set; }
         public int OrderNumber { get; set; }
-        public DateTime Data { get; set; }
+        public DateTime Date { get; set; }
         public string Platforma { get; set; }
         public string MoreInfo { get; set; }
         public int Quantity { get; set; }
         public string ProductCode { get; set; }
-        public int ShipmentTypeId { get; set; }
-        public int CustomerId { get; set; }
+        public int? ShipmentTypeId { get; set; }
+        public int? CustomerId { get; set; }
         public string Device { get; set; }
         public int ProductionTime { get; set; }
         public string Address { get; set; }
-        public int CountryId { get; set; }
+        public int? CountryId { get; set; }
         public string Comment { get; set; }
-        public double Price { get; set; }
-        public int CurrencyId { get; set; }
-        public double Vat { get; set; }
+        public double? Price { get; set; }
+        public int? CurrencyId { get; set; }
+        public double? Vat { get; set; }
         public DateTime OrderFinishDate { get; set; }
 
-     
+        public string BondingUserId { get; set; }
+        public string CollectionUserId { get; set; }
+        public string LaserUserId { get; set; }
+        public string MilingUserId { get; set; }
+        public string PaintingUserId { get; set; }
+        public string PackingUserId { get; set; }
+
+        public DateTime? BondingComplete { get; set; }
+        public DateTime? CollectionComplete { get; set; }
+        public DateTime? LaserComplete { get; set; }
+        public DateTime? MilingComplete { get; set; }
+        public DateTime? PaintingComplete { get; set; }
+        public DateTime? PackingComplete { get; set; }
+
+
     }
 
     public class UpdateOrderDTO : CreateOrderDTO
@@ -55,6 +69,6 @@ namespace PromiCRM.ModelsDTO
         public CurrencyDTO Currency { get; set; }
 
         public virtual IList<WarehouseCountingDTO> WarehouseCountings { get; set; }
-        public virtual IList<ProductDTO> Products { get; set; }
+        public ProductDTO Product { get; set; }
     }
 }

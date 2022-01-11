@@ -19,16 +19,16 @@ namespace PromiCRM.Models
 
 
         [ForeignKey(nameof(Order))]
-        public int productID { get; set; }
-        public virtual Product Prodduct { get; set; }
+        public int? ProductId { get; set; }
+        public virtual Product Product { get; set; }
 
 
         public string OrderType { get; set; }
         //for image
-        public string ImageName { get; set; }
+       /* public string ImageName { get; set; }
         public string ImagePath { get; set; }
         [NotMapped]
-        public IFormFile File { get; set; }
+        public IFormFile File { get; set; }*/
 
         public bool Status { get; set; }
         public int OrderNumber { get; set; }
@@ -39,7 +39,7 @@ namespace PromiCRM.Models
         public string ProductCode { get; set; }
 
         [ForeignKey(nameof(Shipment))]
-        public int ShipmentTypeId { get; set; }
+        public int? ShipmentTypeId { get; set; }
         public virtual Shipment Shipment { get; set; }
         
 
@@ -49,23 +49,46 @@ namespace PromiCRM.Models
         
         public string Device { get; set; }
 
-        public int? ProductionTime { get; set; }
+        public int ProductionTime { get; set; }
         public string Address { get; set; }
 
         [ForeignKey(nameof(Country))]
-        public int CountryId { get; set; }
+        public int? CountryId { get; set; }
         public virtual Country Country { get; set; }
         
         public string Comment { get; set; }
 
-        public double Price { get; set; }
+    /*    BondingTime = 40,
+                    CollectionTime = 20,
+                    LaserTime = 10,
+                    MilingTime = 20,
+                    PaintingTime = 15,
+                    PackagingBoxCode = "pspspsp",
+                    PackingTime = 10.0*/
+        public string BondingUserId { get; set; }
+        public string CollectionUserId { get; set; }
+        public string LaserUserId { get; set; }
+        public string MilingUserId { get; set; }
+        public string PaintingUserId { get; set; }
+        public string PackingUserId { get; set; }
+
+        public DateTime? BondingComplete { get; set; }
+        public DateTime? CollectionComplete { get; set; }
+        public DateTime? LaserComplete { get; set; }
+        public DateTime? MilingComplete { get; set; }
+        public DateTime? PaintingComplete { get; set; }
+        public DateTime? PackingComplete { get; set; }
+
+
+
+        public double? Price { get; set; }
 
         [ForeignKey(nameof(Currency))]
-        public int CurrencyId { get; set; }
+        public int? CurrencyId { get; set; }
         public virtual Currency Currency { get; set; }
         
 
-        public double Vat { get; set; }
+        public double? Vat { get; set; }
 
         public DateTime OrderFinishDate { get; set; }
 

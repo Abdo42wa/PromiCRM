@@ -10,7 +10,7 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211228130330_createDatabase")]
+    [Migration("20220111130715_createDatabase")]
     partial class createDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -196,7 +196,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2021, 12, 28, 15, 3, 29, 944, DateTimeKind.Local).AddTicks(4795),
+                            LastAdittion = new DateTime(2022, 1, 11, 15, 7, 14, 242, DateTimeKind.Local).AddTicks(8247),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -214,13 +214,25 @@ namespace PromiCRM.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("BondingComplete")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("BondingUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CollectionComplete")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CollectionUserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CountryId")
+                    b.Property<int?>("CountryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CurrencyId")
+                    b.Property<int?>("CurrencyId")
                         .HasColumnType("int");
 
                     b.Property<int?>("CustomerId")
@@ -232,10 +244,16 @@ namespace PromiCRM.Migrations
                     b.Property<string>("Device")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageName")
+                    b.Property<DateTime?>("LaserComplete")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LaserUserId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImagePath")
+                    b.Property<DateTime?>("MilingComplete")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MilingUserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MoreInfo")
@@ -250,22 +268,37 @@ namespace PromiCRM.Migrations
                     b.Property<string>("OrderType")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("PackingComplete")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PackingUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PaintingComplete")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaintingUserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Platforma")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
+                    b.Property<double?>("Price")
                         .HasColumnType("float");
 
                     b.Property<string>("ProductCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductionTime")
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductionTime")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShipmentTypeId")
+                    b.Property<int?>("ShipmentTypeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Status")
@@ -274,11 +307,8 @@ namespace PromiCRM.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("Vat")
+                    b.Property<double?>("Vat")
                         .HasColumnType("float");
-
-                    b.Property<int>("productID")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -288,11 +318,11 @@ namespace PromiCRM.Migrations
 
                     b.HasIndex("CustomerId");
 
+                    b.HasIndex("ProductId");
+
                     b.HasIndex("ShipmentTypeId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("productID");
 
                     b.ToTable("Orders");
 
@@ -305,22 +335,22 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2021, 12, 28, 15, 3, 29, 936, DateTimeKind.Local).AddTicks(362),
+                            Date = new DateTime(2022, 1, 11, 15, 7, 14, 237, DateTimeKind.Local).AddTicks(3797),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2021, 12, 28, 15, 3, 29, 942, DateTimeKind.Local).AddTicks(3704),
+                            OrderFinishDate = new DateTime(2022, 1, 11, 15, 7, 14, 241, DateTimeKind.Local).AddTicks(1686),
                             OrderNumber = 200,
                             OrderType = "eeeee",
                             Platforma = "yeee",
                             Price = 99.989999999999995,
-                            ProductCode = "123rr",
+                            ProductCode = "8582262s",
+                            ProductId = 1,
                             ProductionTime = 1,
                             Quantity = 2,
                             ShipmentTypeId = 1,
                             Status = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
-                            Vat = 21.100000000000001,
-                            productID = 1
+                            Vat = 21.100000000000001
                         });
                 });
 
@@ -617,7 +647,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$JnUvTneHfcHnhvtECOCFMuzVGRb40KJK1Dbsj7um9bP7OD/0Csz4a",
+                            Password = "$2a$11$ZB6DxOETTkbqIy0VEgNjR.oGJsSby4p1ZklsjLkX27r/CHhpvFBku",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -688,7 +718,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2021, 12, 28, 15, 3, 29, 942, DateTimeKind.Local).AddTicks(7692),
+                            LastTimeChanging = new DateTime(2022, 1, 11, 15, 7, 14, 241, DateTimeKind.Local).AddTicks(4693),
                             OrderId = 1,
                             QuantityProductWarehouse = 2
                         });
@@ -741,35 +771,27 @@ namespace PromiCRM.Migrations
                 {
                     b.HasOne("PromiCRM.Models.Country", "Country")
                         .WithMany("Orders")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CountryId");
 
                     b.HasOne("PromiCRM.Models.Currency", "Currency")
                         .WithMany("Orders")
-                        .HasForeignKey("CurrencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CurrencyId");
 
                     b.HasOne("PromiCRM.Models.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId");
 
+                    b.HasOne("PromiCRM.Models.Product", "Product")
+                        .WithMany("Order")
+                        .HasForeignKey("ProductId");
+
                     b.HasOne("PromiCRM.Models.Shipment", "Shipment")
                         .WithMany("Orders")
-                        .HasForeignKey("ShipmentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShipmentTypeId");
 
                     b.HasOne("PromiCRM.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PromiCRM.Models.Product", "Prodduct")
-                        .WithMany("Order")
-                        .HasForeignKey("productID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -779,7 +801,7 @@ namespace PromiCRM.Migrations
 
                     b.Navigation("Customer");
 
-                    b.Navigation("Prodduct");
+                    b.Navigation("Product");
 
                     b.Navigation("Shipment");
 
