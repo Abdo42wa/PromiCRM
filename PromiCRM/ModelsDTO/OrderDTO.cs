@@ -42,6 +42,13 @@ namespace PromiCRM.ModelsDTO
         public string PaintingUserId { get; set; }
         public string PackingUserId { get; set; }
 
+        public int? BondingTime { get; set; }
+        public int? CollectionTime { get; set; }
+        public int? LaserTime { get; set; }
+        public int? MilingTime { get; set; }
+        public int? PaintingTime { get; set; }
+        public int? PackingTime { get; set; }
+
         public DateTime? BondingComplete { get; set; }
         public DateTime? CollectionComplete { get; set; }
         public DateTime? LaserComplete { get; set; }

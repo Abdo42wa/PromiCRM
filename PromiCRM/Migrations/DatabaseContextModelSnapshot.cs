@@ -194,7 +194,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 1, 11, 15, 7, 14, 242, DateTimeKind.Local).AddTicks(8247),
+                            LastAdittion = new DateTime(2022, 1, 12, 22, 57, 28, 911, DateTimeKind.Local).AddTicks(667),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -215,11 +215,17 @@ namespace PromiCRM.Migrations
                     b.Property<DateTime?>("BondingComplete")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("BondingTime")
+                        .HasColumnType("int");
+
                     b.Property<string>("BondingUserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CollectionComplete")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("CollectionTime")
+                        .HasColumnType("int");
 
                     b.Property<string>("CollectionUserId")
                         .HasColumnType("nvarchar(max)");
@@ -245,11 +251,17 @@ namespace PromiCRM.Migrations
                     b.Property<DateTime?>("LaserComplete")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("LaserTime")
+                        .HasColumnType("int");
+
                     b.Property<string>("LaserUserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("MilingComplete")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("MilingTime")
+                        .HasColumnType("int");
 
                     b.Property<string>("MilingUserId")
                         .HasColumnType("nvarchar(max)");
@@ -269,11 +281,17 @@ namespace PromiCRM.Migrations
                     b.Property<DateTime?>("PackingComplete")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("PackingTime")
+                        .HasColumnType("int");
+
                     b.Property<string>("PackingUserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("PaintingComplete")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("PaintingTime")
+                        .HasColumnType("int");
 
                     b.Property<string>("PaintingUserId")
                         .HasColumnType("nvarchar(max)");
@@ -333,10 +351,10 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2022, 1, 11, 15, 7, 14, 237, DateTimeKind.Local).AddTicks(3797),
+                            Date = new DateTime(2022, 1, 12, 22, 57, 28, 905, DateTimeKind.Local).AddTicks(5798),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2022, 1, 11, 15, 7, 14, 241, DateTimeKind.Local).AddTicks(1686),
+                            OrderFinishDate = new DateTime(2022, 1, 12, 22, 57, 28, 909, DateTimeKind.Local).AddTicks(4605),
                             OrderNumber = 200,
                             OrderType = "eeeee",
                             Platforma = "yeee",
@@ -645,7 +663,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$ZB6DxOETTkbqIy0VEgNjR.oGJsSby4p1ZklsjLkX27r/CHhpvFBku",
+                            Password = "$2a$11$vM.LjSlmsgc.Ldei3SoIyubrGu0YPpT2pd6elWtrEecPt08DOYDFq",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -716,7 +734,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2022, 1, 11, 15, 7, 14, 241, DateTimeKind.Local).AddTicks(4693),
+                            LastTimeChanging = new DateTime(2022, 1, 12, 22, 57, 28, 909, DateTimeKind.Local).AddTicks(7922),
                             OrderId = 1,
                             QuantityProductWarehouse = 2
                         });
