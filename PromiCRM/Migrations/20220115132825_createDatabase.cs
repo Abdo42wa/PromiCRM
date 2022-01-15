@@ -380,6 +380,7 @@ namespace PromiCRM.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     QuantityProductWarehouse = table.Column<int>(type: "int", nullable: false),
                     LastTimeChanging = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProductCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrderId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -415,7 +416,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "MaterialsWarehouse",
                 columns: new[] { "Id", "DeliveryTime", "ImageName", "ImagePath", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
-                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 1, 12, 22, 57, 28, 911, DateTimeKind.Local).AddTicks(667), "cm", 22500, "Fanera 3mm", 40 });
+                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 1, 15, 15, 28, 24, 482, DateTimeKind.Local).AddTicks(5973), "cm", 22500, "Fanera 3mm", 40 });
 
             migrationBuilder.InsertData(
                 table: "Products",
@@ -450,7 +451,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$vM.LjSlmsgc.Ldei3SoIyubrGu0YPpT2pd6elWtrEecPt08DOYDFq", "860855183", "Admin", 1, null });
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$jMjXHWK7e8R7m7p9bsaJCugRwvmknnxQhbEw6ksqpJcAQGgoUnzoW", "860855183", "Admin", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Bonus",
@@ -460,7 +461,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "Orders",
                 columns: new[] { "Id", "Address", "BondingComplete", "BondingTime", "BondingUserId", "CollectionComplete", "CollectionTime", "CollectionUserId", "Comment", "CountryId", "CurrencyId", "CustomerId", "Date", "Device", "LaserComplete", "LaserTime", "LaserUserId", "MilingComplete", "MilingTime", "MilingUserId", "MoreInfo", "OrderFinishDate", "OrderNumber", "OrderType", "PackingComplete", "PackingTime", "PackingUserId", "PaintingComplete", "PaintingTime", "PaintingUserId", "Platforma", "Price", "ProductCode", "ProductId", "ProductionTime", "Quantity", "ShipmentTypeId", "Status", "UserId", "Vat" },
-                values: new object[] { 1, "Justiniskiu", null, null, null, null, null, null, "great", 1, 1, 1, new DateTime(2022, 1, 12, 22, 57, 28, 905, DateTimeKind.Local).AddTicks(5798), "ira", null, null, null, null, null, null, "eeeee", new DateTime(2022, 1, 12, 22, 57, 28, 909, DateTimeKind.Local).AddTicks(4605), 200, "eeeee", null, null, null, null, null, null, "yeee", 99.989999999999995, "8582262s", 1, 1, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
+                values: new object[] { 1, "Justiniskiu", null, null, null, null, null, null, "great", 1, 1, 1, new DateTime(2022, 1, 15, 15, 28, 24, 477, DateTimeKind.Local).AddTicks(4323), "ira", null, null, null, null, null, null, "eeeee", new DateTime(2022, 1, 15, 15, 28, 24, 481, DateTimeKind.Local).AddTicks(297), 200, "eeeee", null, null, null, null, null, null, "yeee", 99.989999999999995, "8582262s", 1, 1, 2, 1, false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), 21.100000000000001 });
 
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
@@ -469,8 +470,8 @@ namespace PromiCRM.Migrations
 
             migrationBuilder.InsertData(
                 table: "WarehouseCountings",
-                columns: new[] { "Id", "LastTimeChanging", "OrderId", "QuantityProductWarehouse" },
-                values: new object[] { 1, new DateTime(2022, 1, 12, 22, 57, 28, 909, DateTimeKind.Local).AddTicks(7922), 1, 2 });
+                columns: new[] { "Id", "LastTimeChanging", "OrderId", "ProductCode", "QuantityProductWarehouse" },
+                values: new object[] { 1, new DateTime(2022, 1, 15, 15, 28, 24, 481, DateTimeKind.Local).AddTicks(3748), 1, "8582262s", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bonus_UserId",

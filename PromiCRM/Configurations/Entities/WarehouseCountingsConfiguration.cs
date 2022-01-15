@@ -18,6 +18,7 @@ namespace PromiCRM.Configurations.Entities
                     Id = 1,
                     QuantityProductWarehouse = 2,
                     LastTimeChanging = DateTime.Now,
+                    ProductCode = "8582262s",
                     OrderId = 1
                 }
             );

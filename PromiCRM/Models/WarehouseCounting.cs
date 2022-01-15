@@ -19,6 +19,7 @@ namespace PromiCRM.Models
         [NotMapped]
         public IFormFile File { get; set; }*/
         public DateTime LastTimeChanging { get; set; }
+        public string ProductCode { get; set; }
 
         [ForeignKey(nameof(Order))]
         public int OrderId { get; set; }

@@ -10,7 +10,7 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220112205729_createDatabase")]
+    [Migration("20220115132825_createDatabase")]
     partial class createDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -196,7 +196,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 1, 12, 22, 57, 28, 911, DateTimeKind.Local).AddTicks(667),
+                            LastAdittion = new DateTime(2022, 1, 15, 15, 28, 24, 482, DateTimeKind.Local).AddTicks(5973),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -353,10 +353,10 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2022, 1, 12, 22, 57, 28, 905, DateTimeKind.Local).AddTicks(5798),
+                            Date = new DateTime(2022, 1, 15, 15, 28, 24, 477, DateTimeKind.Local).AddTicks(4323),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2022, 1, 12, 22, 57, 28, 909, DateTimeKind.Local).AddTicks(4605),
+                            OrderFinishDate = new DateTime(2022, 1, 15, 15, 28, 24, 481, DateTimeKind.Local).AddTicks(297),
                             OrderNumber = 200,
                             OrderType = "eeeee",
                             Platforma = "yeee",
@@ -665,7 +665,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$vM.LjSlmsgc.Ldei3SoIyubrGu0YPpT2pd6elWtrEecPt08DOYDFq",
+                            Password = "$2a$11$jMjXHWK7e8R7m7p9bsaJCugRwvmknnxQhbEw6ksqpJcAQGgoUnzoW",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -723,6 +723,9 @@ namespace PromiCRM.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ProductCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("QuantityProductWarehouse")
                         .HasColumnType("int");
 
@@ -736,8 +739,9 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2022, 1, 12, 22, 57, 28, 909, DateTimeKind.Local).AddTicks(7922),
+                            LastTimeChanging = new DateTime(2022, 1, 15, 15, 28, 24, 481, DateTimeKind.Local).AddTicks(3748),
                             OrderId = 1,
+                            ProductCode = "8582262s",
                             QuantityProductWarehouse = 2
                         });
                 });

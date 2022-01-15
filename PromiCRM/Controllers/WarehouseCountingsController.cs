@@ -24,13 +24,15 @@ namespace PromiCRM.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<WarehouseCountingsController> _logger;
         public readonly IBlobService _blobService;
+        public readonly DatabaseContext _database;
 
-        public WarehouseCountingsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<WarehouseCountingsController> logger, IBlobService blobService)
+        public WarehouseCountingsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<WarehouseCountingsController> logger, IBlobService blobService, DatabaseContext database)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
             _blobService = blobService;
+            _database = database;
         }
 
         [HttpGet]
@@ -55,6 +57,21 @@ namespace PromiCRM.Controllers
             var result = _mapper.Map<WarehouseCountingDTO>(warehouseCounting);
 
             return Ok(result);
+        }
+
+        [HttpGet("product/{productCode}")]
+        public async Task<IActionResult> GetWarehouseProduct(string productCode)
+        {
+            var warehouseCounting = await _database.WarehouseCountings.Where(w => w.ProductCode == productCode).
+                GroupBy(o => o.ProductCode).Select(x => new WarehouseCountingDTO
+                {
+                    ProductCode = x.Key,
+                    QuantityProductWarehouse = x.Sum(p => p.QuantityProductWarehouse),
+                    Id = x.Min(p => p.Id)
+                }).OrderByDescending(o => o.QuantityProductWarehouse).FirstOrDefaultAsync();
+            var result = _mapper.Map<WarehouseCountingDTO>(warehouseCounting);
+            return Ok(result);
+
         }
 
 
