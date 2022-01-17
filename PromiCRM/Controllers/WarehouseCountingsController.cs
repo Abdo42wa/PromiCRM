@@ -74,13 +74,27 @@ namespace PromiCRM.Controllers
 
         }
 
+        [HttpGet("productID/{id}")]
+        public async Task<IActionResult> GetWarehouseProductID(int id)
+        {
+            var warehouseCounting = await _database.WarehouseCountings.Where(w => w.OrderId == id).
+                GroupBy(o => o.ProductCode).Select(x => new WarehouseCountingDTO
+                {
+                    ProductCode = x.Key,
+                    QuantityProductWarehouse = x.Sum(p => p.QuantityProductWarehouse),
+                    Id = x.Min(p => p.Id)
+                }).OrderByDescending(o => o.QuantityProductWarehouse).FirstOrDefaultAsync();
+            var result = _mapper.Map<WarehouseCountingDTO>(warehouseCounting);
+            return Ok(result);
+
+        }
 
         [HttpPost]
-        [Authorize(Roles = "ADMINISTRATOR")]
+        //[Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreatewarehouseCounting([FromForm] CreateWarehouseCountingDTO warehouseCountingDTO)
+        public async Task<IActionResult> CreatewarehouseCounting([FromBody] CreateWarehouseCountingDTO warehouseCountingDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -99,7 +113,8 @@ namespace PromiCRM.Controllers
             await _unitOfWork.WarehouseCountings.Insert(warehouseCounting);
             await _unitOfWork.Save();
 
-            return CreatedAtRoute("GetWarehouseCounting", new { id = warehouseCounting.Id }, warehouseCounting);
+           return CreatedAtRoute("GetWarehouseCounting", new { id = warehouseCounting.Id }, warehouseCounting);
+            //return Ok(warehouseCounting);
         }
 
 
