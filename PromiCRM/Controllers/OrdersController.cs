@@ -59,6 +59,10 @@ namespace PromiCRM.Controllers
             var result = _mapper.Map<OrderDTO>(order);
             return Ok(result);
         }
+        /// <summary>
+        /// NOT FINISHED Express orders
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("express")]
         /*[Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -69,6 +73,10 @@ namespace PromiCRM.Controllers
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
+        /// <summary>
+        /// not-standart orders for clients. NOT FINISHED
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("clientsOrders")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -78,7 +86,10 @@ namespace PromiCRM.Controllers
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
-
+        /// <summary>
+        /// Not completed Not-standart and standart orders
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("uncompleted")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -89,7 +100,7 @@ namespace PromiCRM.Controllers
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
                 {
                     ProductCode = x.Key,
-                    Quantity = x.Count(),
+                    Quantity = x.Sum(x => x.Quantity),
                     Id = x.Min(p => p.Id),
                     UserId = x.Min(u => u.UserId),
                     OrderFinishDate = x.Max(o => o.OrderFinishDate)
@@ -122,7 +133,7 @@ namespace PromiCRM.Controllers
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
                 {
                     ProductCode = x.Key,
-                    Quantity = x.Count(),
+                    Quantity = x.Sum(x => x.Quantity),
                     Id = x.Min(p => p.Id),
                     UserId = x.Min(u => u.UserId),
                     OrderFinishDate = x.Max(o => o.OrderFinishDate)
@@ -162,7 +173,7 @@ namespace PromiCRM.Controllers
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
                 {
                     ProductCode = x.Key,
-                    Quantity = x.Count(),
+                    Quantity = x.Sum(x => x.Quantity),
                     Id = x.Min(p => p.Id),
                     UserId = x.Min(u => u.UserId),
                     OrderFinishDate = x.Max(o => o.OrderFinishDate)
@@ -194,7 +205,7 @@ namespace PromiCRM.Controllers
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
                 {
                     ProductCode = x.Key,
-                    Quantity = x.Count(),
+                    Quantity = x.Sum(x => x.Quantity),
                     Id = x.Min(p => p.Id),
                     UserId = x.Min(u => u.UserId),
                     OrderFinishDate = x.Max(o => o.OrderFinishDate)
@@ -213,7 +224,7 @@ namespace PromiCRM.Controllers
                 Where(o => o.Status == true).GroupBy(o => o.ProductCode).
                 Select(x => new OrderDTO { 
                     ProductCode = x.Key,
-                    Quantity = x.Count(),
+                    Quantity = x.Sum(x => x.Quantity),
                     Id = x.Min(p => p.Id),
                     UserId = x.Min(u => u.UserId) 
                 }).OrderByDescending(o => o.Quantity).ToList();
