@@ -194,7 +194,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 1, 18, 10, 44, 59, 436, DateTimeKind.Local).AddTicks(8576),
+                            LastAdittion = new DateTime(2022, 1, 18, 11, 27, 28, 500, DateTimeKind.Local).AddTicks(6791),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -351,10 +351,10 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2022, 1, 18, 10, 44, 59, 432, DateTimeKind.Local).AddTicks(2101),
+                            Date = new DateTime(2022, 1, 18, 11, 27, 28, 498, DateTimeKind.Local).AddTicks(7137),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2022, 1, 18, 10, 44, 59, 435, DateTimeKind.Local).AddTicks(1407),
+                            OrderFinishDate = new DateTime(2022, 1, 18, 11, 27, 28, 499, DateTimeKind.Local).AddTicks(1398),
                             OrderNumber = 200,
                             OrderType = "eeeee",
                             Platforma = "yeee",
@@ -663,7 +663,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$oHTiO05Mpu1d47UUs0t0YOJgsGkDn6H2HOlMgi9BUSJrMHehLAs8i",
+                            Password = "$2a$11$QT5BlsNhttP7oZjzTKvetOvKhvS9hz6KL4ePbGbV2gttxkOIl1iYK",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -737,7 +737,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2022, 1, 18, 10, 44, 59, 435, DateTimeKind.Local).AddTicks(5139),
+                            LastTimeChanging = new DateTime(2022, 1, 18, 11, 27, 28, 499, DateTimeKind.Local).AddTicks(4244),
                             OrderId = 1,
                             ProductCode = "8582262s",
                             QuantityProductWarehouse = 2
@@ -751,14 +751,14 @@ namespace PromiCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Atlikta")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("DarbasApibūdinimas")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Done")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -773,9 +773,9 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Atlikta = false,
-                            DarbasApibūdinimas = "yeee",
-                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2022, 1, 18, 11, 27, 28, 495, DateTimeKind.Local).AddTicks(9775),
+                            Description = "Supildyti frezavimo laiko lentele",
+                            Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
                         });
                 });

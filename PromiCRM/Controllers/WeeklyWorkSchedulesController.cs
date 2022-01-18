@@ -85,6 +85,7 @@ namespace PromiCRM.Controllers
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateWeeklyWorkSchedule)}");
                 return BadRequest("Submited invalid data");
             }
+            weeklyWorkScheduleDTO.Date = DateTime.Now;
             var weeklyWorkSchedule = _mapper.Map<WeeklyWorkSchedule>(weeklyWorkScheduleDTO);
             await _unitOfWork.WeeklyWorkSchedules.Insert(weeklyWorkSchedule);
             await _unitOfWork.Save();

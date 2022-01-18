@@ -15,8 +15,8 @@ namespace PromiCRM.Models
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
         public virtual User User { get; set; }
-        public string DarbasApibūdinimas { get; set; }
-        public bool Atlikta { get; set; }
+        public string Description { get; set; }
+        public bool Done { get; set; }
         public DateTime Date { get; set; }
     }
 }

@@ -12,15 +12,23 @@ namespace PromiCRM.ModelsDTO
         public Guid UserId { get; set; }
 
         [Required]
-        public string DarbasApibūdinimas { get; set; }
+        public string Description { get; set; }
 
         [Required]
-        public bool Atlikta { get; set; }
+        public bool Done { get; set; }
         public DateTime Date { get; set; }
 
     }
-    public class UpdateWeeklyWorkScheduleDTO : CreateWeeklyWorkScheduleDTO
+    public class UpdateWeeklyWorkScheduleDTO
     {
+        [Required]
+        public Guid UserId { get; set; }
+
+        [Required]
+        public string Description { get; set; }
+
+        [Required]
+        public bool Done { get; set; }
     }
     public class WeeklyWorkScheduleDTO : CreateWeeklyWorkScheduleDTO
     {

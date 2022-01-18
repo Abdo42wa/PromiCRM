@@ -18,8 +18,9 @@ namespace PromiCRM.Configurations.Entities
                 {
                     Id = 1,
                     UserId = id,
-                    DarbasApibūdinimas = "yeee",
-                    Atlikta = false
+                    Description = "Supildyti frezavimo laiko lentele",
+                    Done = false,
+                    Date = DateTime.Now
                 }
             );
         }
