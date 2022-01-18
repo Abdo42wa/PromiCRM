@@ -163,7 +163,6 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetOrdersByWeeks()
         {
             DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
-            DateTime date1 = new DateTime(2015, 09, 14); //yyyy, MM, dd
             Calendar cal = dfi.Calendar;
             DateTime today = DateTime.Now;
             DateTime fiveWeeksBefore = today.AddDays(-36);

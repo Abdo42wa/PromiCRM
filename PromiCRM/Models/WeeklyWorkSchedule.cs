@@ -17,5 +17,6 @@ namespace PromiCRM.Models
         public virtual User User { get; set; }
         public string DarbasApibūdinimas { get; set; }
         public bool Atlikta { get; set; }
+        public DateTime Date { get; set; }
     }
 }

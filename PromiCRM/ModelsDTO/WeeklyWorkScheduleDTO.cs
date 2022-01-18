@@ -16,6 +16,7 @@ namespace PromiCRM.ModelsDTO
 
         [Required]
         public bool Atlikta { get; set; }
+        public DateTime Date { get; set; }
 
     }
     public class UpdateWeeklyWorkScheduleDTO : CreateWeeklyWorkScheduleDTO

@@ -8,6 +8,7 @@ using PromiCRM.Models;
 using PromiCRM.ModelsDTO;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,6 +40,25 @@ namespace PromiCRM.Controllers
 
             return Ok(result);
         }
+        /// <summary>
+        /// Get only this week schedule. We do not need other 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("works")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetWeeksWorks()
+        {
+            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+            Calendar cal = dfi.Calendar;
+            DateTime today = DateTime.Now;
+            DateTime weekBefore = today.AddDays(-7);
+
+            var weeklyWorkSchedules = await _unitOfWork.WeeklyWorkSchedules.GetAll(o => o.Date > weekBefore,includeProperties: "User");
+            var results = _mapper.Map<IList<WeeklyWorkScheduleDTO>>(weeklyWorkSchedules);
+            return Ok(results);
+        }
 
         [HttpGet("{id:int}", Name = "GetWeeklyWorkSchedule")]
         [Authorize]
@@ -69,7 +89,11 @@ namespace PromiCRM.Controllers
             await _unitOfWork.WeeklyWorkSchedules.Insert(weeklyWorkSchedule);
             await _unitOfWork.Save();
 
-            return CreatedAtRoute("GetWeeklyWorkSchedule", new { id = weeklyWorkSchedule.Id }, weeklyWorkSchedule);
+            var createdWork = await _unitOfWork.WeeklyWorkSchedules.Get(w => w.Id == weeklyWorkSchedule.Id, includeProperties: "User");
+            var result = _mapper.Map<WeeklyWorkScheduleDTO>(createdWork);
+
+
+            return Ok(result);
         }
 
 
