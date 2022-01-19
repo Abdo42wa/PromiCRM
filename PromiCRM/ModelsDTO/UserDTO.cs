@@ -14,12 +14,30 @@ namespace PromiCRM.ModelsDTO
         [Required]
         public string Password { get; set; }
     }
-
+    //for register we need all fields
     public class UserDTO : LoginUserDTO
     {
         [Required]
         public Guid Id { get; set; }
+        public string PhoneNumber { get; set; }
         [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Surname { get; set; }
+        [Required]
+        public int TypeId { get; set; }
+        public UserType UserType { get; set; }
+        public byte[] UserPhoto { get; set; }
+        public virtual IList<BonusDTO> Bonus { get; set; }
+        public virtual IList<OrderDTO> Orders { get; set; }
+        public virtual IList<WeeklyWorkScheduleDTO> WeeklyWorkSchedules { get; set; }
+        public virtual IList<RecentWorkDTO> RecentWorks { get; set; }
+    }
+
+    public class DisplayUserDTO
+    {
+        [Required]
+        public Guid Id { get; set; }
         public string PhoneNumber { get; set; }
         [Required]
         public string Name { get; set; }

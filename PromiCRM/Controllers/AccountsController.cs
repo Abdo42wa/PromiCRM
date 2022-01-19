@@ -46,7 +46,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var users = await _unitOfWork.Users.GetAll(includeProperties: "UserType");
-            var results = _mapper.Map<IList<UserDTO>>(users);
+            var results = _mapper.Map<IList<DisplayUserDTO>>(users);
 
             return Ok(results);
         }
@@ -91,8 +91,9 @@ namespace PromiCRM.Controllers
             };
             await _unitOfWork.Users.Insert(user);
             await _unitOfWork.Save();
+            var result = _mapper.Map<DisplayUserDTO>(user);
             //return anything in 200 range. means it was succesful
-            return Accepted(user);
+            return Accepted(result);
         }
 
         [HttpPost("login")]

@@ -15,6 +15,7 @@ namespace PromiCRM.Configurations
         {
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<UserType, UserTypeDTO>();
+            CreateMap<User, DisplayUserDTO>().ReverseMap();
 
             CreateMap<SalesChannel, SalesChannelDTO>();
             CreateMap<SalesChannel, CreateSalesChannelDTO>();
