@@ -210,7 +210,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRecentOrders()
         {
-            var orders = await _database.Orders.Where(o => o.Status == true)
+            var orders = await _database.Orders.Include(o=>o.Product).Where(o => o.Status == true)
                 .OrderByDescending(o => o.OrderFinishDate)
                 .Take(10).ToListAsync();
             var results = _mapper.Map<IList<OrderDTO>>(orders);
