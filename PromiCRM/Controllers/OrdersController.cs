@@ -106,30 +106,6 @@ namespace PromiCRM.Controllers
                     OrderFinishDate = o.Max(o => o.OrderFinishDate),
                     MinOrderFinishDate = o.Min(o => o.OrderFinishDate)
                 }).OrderByDescending(o => o.Quantity).ToListAsync();
-            /*var products = await _unitOfWork.Products.GetAll();
-            var orders = _database.Orders.Where(o => o.OrderType != "Sandelis").Where(o => o.Status == false).
-                GroupBy(o => o.ProductCode).Select(x => new OrderDTO
-                {
-                    ProductCode = x.Key,
-                    Quantity = x.Sum(x => x.Quantity),
-                    Id = x.Min(p => p.Id),
-                    UserId = x.Min(u => u.UserId),
-                    OrderFinishDate = x.Max(o => o.OrderFinishDate)
-                }).OrderByDescending(o => o.Quantity).ToList();
-
-            foreach (OrderDTO order in orders)
-            {
-                var obj = products.FirstOrDefault(p => p.Code == order.ProductCode);
-                if (obj != null && obj.ImagePath != null)
-                {
-                    order.ImagePath = obj.ImagePath;
-                }
-                else
-                {
-                    order.ImagePath = "";
-                }
-
-            }*/
             return Ok(orders);
         }
 
@@ -151,31 +127,6 @@ namespace PromiCRM.Controllers
                     MinOrderFinishDate = o.Min(o => o.OrderFinishDate)
                 }).OrderByDescending(o => o.Quantity).ToListAsync();
 
-            return Ok(orders);
-
-            /*var products = await _unitOfWork.Products.GetAll();
-            var orders = _database.Orders.Where(o => o.OrderType == "Sandelis").Where(o => o.Status == false).
-                GroupBy(o => o.ProductCode).Select(x => new OrderDTO
-                {
-                    ProductCode = x.Key,
-                    Quantity = x.Sum(x => x.Quantity),
-                    Id = x.Min(p => p.Id),
-                    UserId = x.Min(u => u.UserId),
-                    OrderFinishDate = x.Max(o => o.OrderFinishDate)
-                }).OrderByDescending(o => o.Quantity).ToList();*/
-/*            foreach (OrderDTO order in orders)
-            {
-                var obj = products.FirstOrDefault(p => p.Code == order.ProductCode);
-                if (obj != null && obj.ImagePath != null)
-                {
-                    order.ImagePath = obj.ImagePath;
-                }
-                else
-                {
-                    order.ImagePath = "";
-                }
-
-            }*/
             return Ok(orders);
         }
         /// <summary>
@@ -247,6 +198,21 @@ namespace PromiCRM.Controllers
             OrderBy(o => o.ProductCode),includeProperties: "Product,User,Shipment,Customer,Country,Currency");
             /*var orders = _database.Orders.Where(o => o.Status == false).
                 OrderByDescending(o => o.OrderFinishDate).OrderBy(o => o.ProductCode).ToList();*/
+            var results = _mapper.Map<IList<OrderDTO>>(orders);
+            return Ok(results);
+        }
+        /// <summary>
+        /// Get newest 10 orders that were made. Ordering by date. From newest
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("recent")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetRecentOrders()
+        {
+            var orders = await _database.Orders.Where(o => o.Status == true)
+                .OrderByDescending(o => o.OrderFinishDate)
+                .Take(10).ToListAsync();
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
