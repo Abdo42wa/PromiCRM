@@ -68,6 +68,7 @@ namespace PromiCRM.ModelsDTO
     {
         public int Id { get; set; }
         public string ImagePath { get; set; }
+        public DateTime MinOrderFinishDate { get; set; }
         public int WeekNumber { get; set; }
         public UserDTO User { get; set; }
         public CustomerDTO Customer { get; set; }

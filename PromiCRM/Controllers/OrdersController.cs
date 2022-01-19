@@ -95,7 +95,18 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedOrders()
         {
-            var products = await _unitOfWork.Products.GetAll();
+            var orders = _database.Orders.Include(o => o.Product)
+                .Where(o => o.Status == false)
+                .GroupBy(o => new { o.ProductCode, o.Product.ImagePath })
+                .Select(o => new OrderDTO
+                {
+                    ProductCode = o.Key.ProductCode,
+                    ImagePath = o.Key.ImagePath,
+                    Quantity = o.Sum(o => o.Quantity),
+                    OrderFinishDate = o.Max(o => o.OrderFinishDate),
+                    MinOrderFinishDate = o.Min(o => o.OrderFinishDate)
+                }).OrderByDescending(o => o.Quantity).ToList();
+            /*var products = await _unitOfWork.Products.GetAll();
             var orders = _database.Orders.Where(o => o.OrderType != "Sandelis").Where(o => o.Status == false).
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
                 {
@@ -118,7 +129,7 @@ namespace PromiCRM.Controllers
                     order.ImagePath = "";
                 }
 
-            }
+            }*/
             return Ok(orders);
         }
 
@@ -128,7 +139,20 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedOrdersForWarehouse()
         {
-            var products = await _unitOfWork.Products.GetAll();
+            var orders = _database.Orders.Include(o => o.Product)
+                .Where(o => o.Status == false).Where(o => o.OrderType == "Sandelis")
+                .GroupBy(x => new { x.ProductCode, x.Product.ImagePath })
+                .Select(o => new OrderDTO
+                {
+                    ProductCode = o.Key.ProductCode,
+                    ImagePath = o.Key.ImagePath,
+                    Quantity = o.Sum(o => o.Quantity),
+                    OrderFinishDate = o.Max(o => o.OrderFinishDate)
+                }).OrderByDescending(o => o.OrderFinishDate).ToList();
+
+            return Ok(orders);
+
+            /*var products = await _unitOfWork.Products.GetAll();
             var orders = _database.Orders.Where(o => o.OrderType == "Sandelis").Where(o => o.Status == false).
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
                 {
@@ -137,8 +161,8 @@ namespace PromiCRM.Controllers
                     Id = x.Min(p => p.Id),
                     UserId = x.Min(u => u.UserId),
                     OrderFinishDate = x.Max(o => o.OrderFinishDate)
-                }).OrderByDescending(o => o.Quantity).ToList();
-            foreach (OrderDTO order in orders)
+                }).OrderByDescending(o => o.Quantity).ToList();*/
+/*            foreach (OrderDTO order in orders)
             {
                 var obj = products.FirstOrDefault(p => p.Code == order.ProductCode);
                 if (obj != null && obj.ImagePath != null)
@@ -150,7 +174,7 @@ namespace PromiCRM.Controllers
                     order.ImagePath = "";
                 }
 
-            }
+            }*/
             return Ok(orders);
         }
         /// <summary>
@@ -212,37 +236,18 @@ namespace PromiCRM.Controllers
             return Ok(orders);
         }
 
-        [HttpGet("warehouseCompleted")]
-/*        [Authorize]*/
+        [HttpGet("urgent")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrdersForWarehouseThatCompleted()
         {
-            var products = await _unitOfWork.Products.GetAll();
-            var ordersWarehouse = _database.Orders.Where(o => o.OrderType == "Sandelis").
-                Where(o => o.Status == true).GroupBy(o => o.ProductCode).
-                Select(x => new OrderDTO { 
-                    ProductCode = x.Key,
-                    Quantity = x.Sum(x => x.Quantity),
-                    Id = x.Min(p => p.Id),
-                    UserId = x.Min(u => u.UserId) 
-                }).OrderByDescending(o => o.Quantity).ToList();
-            /*       var results = _mapper.Map<IList<OrderDTO>>(orders);*/
-            foreach(OrderDTO order in ordersWarehouse)
-            {
-                var obj = products.FirstOrDefault(p => p.Code == order.ProductCode);
-                if(obj != null && obj.ImagePath != null)
-                {
-                    order.ImagePath = obj.ImagePath;
-                }
-                else
-                {
-                    order.ImagePath ="";
-                }
-                    
-            }
-            
-            return Ok(ordersWarehouse);
+            var orders = await _unitOfWork.Orders.GetAll(o => o.Status == false, o => o.OrderByDescending(o => o.OrderFinishDate).
+            OrderBy(o => o.ProductCode),includeProperties: "Product,User,Shipment,Customer,Country,Currency");
+            /*var orders = _database.Orders.Where(o => o.Status == false).
+                OrderByDescending(o => o.OrderFinishDate).OrderBy(o => o.ProductCode).ToList();*/
+            var results = _mapper.Map<IList<OrderDTO>>(orders);
+            return Ok(results);
         }
 
         /// <summary>

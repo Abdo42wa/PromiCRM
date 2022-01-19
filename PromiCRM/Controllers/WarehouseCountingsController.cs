@@ -43,8 +43,25 @@ namespace PromiCRM.Controllers
         {
             var warehouseCounting = await _unitOfWork.WarehouseCountings.GetAll(includeProperties: "Order");
             var result = _mapper.Map<IList<WarehouseCountingDTO>>(warehouseCounting);
-
             return Ok(result);
+        }
+
+        [HttpGet("products")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetWarehouseProducts()
+        {
+            var warehouseCountings = _database.WarehouseCountings.GroupBy(o => o.ProductCode).
+                Select(x => new WarehouseCountingDTO
+                {
+                    ProductCode = x.Key,
+                    QuantityProductWarehouse = x.Sum(x => x.QuantityProductWarehouse),
+                    Id = x.Min(w => w.Id),
+                    LastTimeChanging = x.Max(w => w.LastTimeChanging)
+                }).OrderByDescending(o => o.QuantityProductWarehouse).ToList();
+            var results = _mapper.Map<IList<WarehouseCountingDTO>>(warehouseCountings);
+            return Ok(results);
         }
 
         [HttpGet("{id:int}", Name = "GetWarehouseCounting")]
