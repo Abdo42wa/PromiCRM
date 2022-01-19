@@ -52,14 +52,16 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetWarehouseProducts()
         {
-            var warehouseCountings = _database.WarehouseCountings.GroupBy(o => o.ProductCode).
+            var warehouseCountings = await _database.WarehouseCountings
+                .Include(w => w.Order).ThenInclude(o => o.Product)
+                .GroupBy(w => new { w.ProductCode,w.Order.Product.ImagePath }).
                 Select(x => new WarehouseCountingDTO
                 {
-                    ProductCode = x.Key,
+                    ProductCode = x.Key.ProductCode,
                     QuantityProductWarehouse = x.Sum(x => x.QuantityProductWarehouse),
-                    Id = x.Min(w => w.Id),
-                    LastTimeChanging = x.Max(w => w.LastTimeChanging)
-                }).OrderByDescending(o => o.QuantityProductWarehouse).ToList();
+                    LastTimeChanging = x.Max(w => w.LastTimeChanging),
+                    ImagePath = x.Key.ImagePath
+                }).OrderByDescending(o => o.QuantityProductWarehouse).ToListAsync();
             var results = _mapper.Map<IList<WarehouseCountingDTO>>(warehouseCountings);
             return Ok(results);
         }

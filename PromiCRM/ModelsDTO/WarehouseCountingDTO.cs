@@ -27,6 +27,7 @@ namespace PromiCRM.ModelsDTO
     public class WarehouseCountingDTO : CreateWarehouseCountingDTO
     {
         public int Id { get; set; }
+        public string ImagePath { get; set; }
         public OrderDTO Order { get; set; }
     }
 }

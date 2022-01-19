@@ -95,7 +95,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedOrders()
         {
-            var orders = _database.Orders.Include(o => o.Product)
+            var orders = await _database.Orders.Include(o => o.Product)
                 .Where(o => o.Status == false)
                 .GroupBy(o => new { o.ProductCode, o.Product.ImagePath })
                 .Select(o => new OrderDTO
@@ -105,7 +105,7 @@ namespace PromiCRM.Controllers
                     Quantity = o.Sum(o => o.Quantity),
                     OrderFinishDate = o.Max(o => o.OrderFinishDate),
                     MinOrderFinishDate = o.Min(o => o.OrderFinishDate)
-                }).OrderByDescending(o => o.Quantity).ToList();
+                }).OrderByDescending(o => o.Quantity).ToListAsync();
             /*var products = await _unitOfWork.Products.GetAll();
             var orders = _database.Orders.Where(o => o.OrderType != "Sandelis").Where(o => o.Status == false).
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
@@ -139,7 +139,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedOrdersForWarehouse()
         {
-            var orders = _database.Orders.Include(o => o.Product)
+            var orders = await _database.Orders.Include(o => o.Product)
                 .Where(o => o.Status == false).Where(o => o.OrderType == "Sandelis")
                 .GroupBy(x => new { x.ProductCode, x.Product.ImagePath })
                 .Select(o => new OrderDTO
@@ -149,7 +149,7 @@ namespace PromiCRM.Controllers
                     Quantity = o.Sum(o => o.Quantity),
                     OrderFinishDate = o.Max(o => o.OrderFinishDate),
                     MinOrderFinishDate = o.Min(o => o.OrderFinishDate)
-                }).OrderByDescending(o => o.OrderFinishDate).ToList();
+                }).OrderByDescending(o => o.Quantity).ToListAsync();
 
             return Ok(orders);
 
@@ -192,7 +192,7 @@ namespace PromiCRM.Controllers
             DateTime today = DateTime.Now;
             DateTime fiveWeeksBefore = today.AddDays(-36);
 
-            var orders = _database.Orders.Where(o => o.Status == true).
+            var orders = await _database.Orders.Where(o => o.Status == true).
                 Where(o => o.OrderFinishDate > fiveWeeksBefore).
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
                 {
@@ -201,7 +201,7 @@ namespace PromiCRM.Controllers
                     Id = x.Min(p => p.Id),
                     UserId = x.Min(u => u.UserId),
                     OrderFinishDate = x.Max(o => o.OrderFinishDate)
-                }).OrderByDescending(o => o.Quantity).ToList();
+                }).OrderByDescending(o => o.Quantity).ToListAsync();
 
             foreach (OrderDTO order in orders)
             {
@@ -224,7 +224,7 @@ namespace PromiCRM.Controllers
             DateTime today = DateTime.Now;
             DateTime fiveWeeksBefore = today.AddDays(-30);
 
-            var orders = _database.Orders.Where(o => o.Status == true).
+            var orders = await _database.Orders.Where(o => o.Status == true).
                 Where(o => o.OrderFinishDate > fiveWeeksBefore).
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
                 {
@@ -233,7 +233,7 @@ namespace PromiCRM.Controllers
                     Id = x.Min(p => p.Id),
                     UserId = x.Min(u => u.UserId),
                     OrderFinishDate = x.Max(o => o.OrderFinishDate)
-                }).OrderByDescending(o => o.Quantity).ToList();
+                }).OrderByDescending(o => o.Quantity).ToListAsync();
             return Ok(orders);
         }
 
