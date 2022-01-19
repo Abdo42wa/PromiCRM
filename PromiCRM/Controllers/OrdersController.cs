@@ -147,7 +147,8 @@ namespace PromiCRM.Controllers
                     ProductCode = o.Key.ProductCode,
                     ImagePath = o.Key.ImagePath,
                     Quantity = o.Sum(o => o.Quantity),
-                    OrderFinishDate = o.Max(o => o.OrderFinishDate)
+                    OrderFinishDate = o.Max(o => o.OrderFinishDate),
+                    MinOrderFinishDate = o.Min(o => o.OrderFinishDate)
                 }).OrderByDescending(o => o.OrderFinishDate).ToList();
 
             return Ok(orders);
