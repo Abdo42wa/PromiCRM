@@ -69,7 +69,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedExpressOrders()
         {
-            var orders = await _unitOfWork.Orders.GetAll(o => o.ShipmentTypeId == 1 && o.Status == false, includeProperties: "User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
+            var orders = await _unitOfWork.Orders.GetAll(o => o.ShipmentTypeId == 1 && o.Status == false, orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
