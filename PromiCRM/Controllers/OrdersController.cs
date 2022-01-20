@@ -77,12 +77,12 @@ namespace PromiCRM.Controllers
         /// not-standart orders for clients. NOT FINISHED
         /// </summary>
         /// <returns></returns>
-        [HttpGet("clientsOrders")]
+        [HttpGet("clients")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetNotStandartOrdersForClients()
         {
-            var orders = await _unitOfWork.Orders.GetAll(o => o.OrderType == "Ne-standartinis" && o.Status == false, includeProperties: "Customer,User", orderBy: o => o.OrderByDescending(o => o.Date));
+            var orders = await _unitOfWork.Orders.GetAll(o => o.OrderType == "Ne-standartinis" && o.Status == false, includeProperties: "Customer,User", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
