@@ -23,7 +23,7 @@ namespace PromiCRM.Configurations.Entities
                     Date = DateTime.Now,
                     Platforma = "yeee",
                     MoreInfo = "eeeee",
-                    OrderType = "eeeee",
+                    OrderType = "Standartinis",
                     Quantity = 2,
                     ProductCode = "8582262s",
                     ShipmentTypeId = 1,

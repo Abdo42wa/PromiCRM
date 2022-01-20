@@ -43,7 +43,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrders()
         {
-            var orders = await _unitOfWork.Orders.GetAll(includeProperties: "User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
+            var orders = await _unitOfWork.Orders.GetAll(includeProperties: "Product,User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
@@ -210,7 +210,8 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRecentOrders()
         {
-            var orders = await _database.Orders.Include(o=>o.Product).Include(o => o.User).Where(o => o.Status == true)
+            var orders = await _database.Orders.Include(o => o.User).Include(o => o.Product)
+                .Where(o => o.Status == true)
                 .OrderByDescending(o => o.OrderFinishDate)
                 .Take(10).ToListAsync();
             var results = _mapper.Map<IList<OrderDTO>>(orders);
@@ -247,8 +248,10 @@ namespace PromiCRM.Controllers
             var order = _mapper.Map<Order>(createOrderDTO);
             await _unitOfWork.Orders.Insert(order);
             await _unitOfWork.Save();
+            var createdOrder = await _unitOfWork.Orders.Get(o => o.Id == order.Id, includeProperties: "Product,User,Shipment,Customer,Country,Currency");
+            var results = _mapper.Map<OrderDTO>(createdOrder);
 
-            return CreatedAtRoute("GetOrder", new { id = order.Id }, order);
+            return Ok(results);
         }
 
         [HttpPost("warehouse")]
@@ -285,7 +288,10 @@ namespace PromiCRM.Controllers
             await _unitOfWork.WarehouseCountings.Insert(warehouse);
             await _unitOfWork.Save();
 
-            return CreatedAtRoute("GetOrder", new { id = order.Id }, order);
+            var createdOrder = await _unitOfWork.Orders.Get(o => o.Id == order.Id, includeProperties: "Product,User,Shipment,Customer,Country,Currency");
+            var results = _mapper.Map<OrderDTO>(createdOrder);
+
+            return Ok(results);
         }
 
         /// <summary>
