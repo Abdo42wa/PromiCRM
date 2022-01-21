@@ -63,7 +63,6 @@ namespace PromiCRM.ModelsDTO
     {
 
     }
-
     public class OrderDTO : CreateOrderDTO
     {
         public int Id { get; set; }

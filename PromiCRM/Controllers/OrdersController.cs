@@ -324,6 +324,8 @@ namespace PromiCRM.Controllers
             await _unitOfWork.Save();
             return NoContent();
         }
+
+
         /// <summary>
         /// PUT request when passing object with image to update
         /// </summary>
