@@ -20,6 +20,11 @@ namespace PromiCRM.ModelsDTO
         public int OrderNumber { get; set; }
         public DateTime Date { get; set; }
         public string Platforma { get; set; }
+        // start. we can take from warehouse product if it exist
+        public int WarehouseProductsNumber { get; set; }
+        public DateTime? WarehouseProductsDate { get; set; }
+        public bool WarehouseProductsTaken { get; set; }
+        //end
         public string MoreInfo { get; set; }
         public int Quantity { get; set; }
         public string ProductCode { get; set; }

@@ -135,6 +135,40 @@ namespace PromiCRM.Controllers
            return CreatedAtRoute("GetWarehouseCounting", new { id = warehouseCounting.Id }, warehouseCounting);
             //return Ok(warehouseCounting);
         }
+        /// <summary>
+        /// When making order for warehouse. We want to insert warehouseCounting with same ProductCode doesnt exist.
+        /// If such data exist i just want to add quantity to existing record and update it
+        /// </summary>
+        /// <param name="warehouseCountingDTO"></param>
+        /// <returns></returns>
+        [HttpPost("insert/update")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateOrUpdateData([FromBody]CreateWarehouseCountingDTO warehouseCountingDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Invalid CREATE or Update attempt in {nameof(CreateOrUpdateData)}");
+                return BadRequest("Submited invalid data");
+            }
+            var warehouseData = await _unitOfWork.WarehouseCountings.Get(w => w.ProductCode == warehouseCountingDTO.ProductCode);
+            
+            if(warehouseData == null)
+            {
+                var warehouseCounting = _mapper.Map<WarehouseCounting>(warehouseCountingDTO);
+                await _unitOfWork.WarehouseCountings.Insert(warehouseCounting);
+                await _unitOfWork.Save();
+                return NoContent();
+            }
+            //if record exist update it
+            warehouseData.QuantityProductWarehouse = warehouseData.QuantityProductWarehouse + warehouseCountingDTO.QuantityProductWarehouse;
+            warehouseData.OrderId = warehouseData.OrderId;
+            warehouseData.LastTimeChanging = warehouseCountingDTO.LastTimeChanging;
+            _unitOfWork.WarehouseCountings.Update(warehouseData);
+            await _unitOfWork.Save();
+            return NoContent();
+        }
 
 
         /// <summary>
@@ -201,7 +235,6 @@ namespace PromiCRM.Controllers
             await _unitOfWork.Save();
             return Ok(warehouseCounting);
         }
-
 
         [HttpDelete("{id:int}")]
         [Authorize(Roles = "ADMINISTRATOR")]

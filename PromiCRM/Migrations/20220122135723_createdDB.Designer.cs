@@ -10,7 +10,7 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220120174940_createdDB")]
+    [Migration("20220122135723_createdDB")]
     partial class createdDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -196,7 +196,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 1, 20, 19, 49, 39, 711, DateTimeKind.Local).AddTicks(3105),
+                            LastAdittion = new DateTime(2022, 1, 22, 15, 57, 22, 333, DateTimeKind.Local).AddTicks(757),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -328,6 +328,15 @@ namespace PromiCRM.Migrations
                     b.Property<double?>("Vat")
                         .HasColumnType("float");
 
+                    b.Property<DateTime?>("WarehouseProductsDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("WarehouseProductsNumber")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("WarehouseProductsTaken")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
@@ -353,12 +362,12 @@ namespace PromiCRM.Migrations
                             CountryId = 1,
                             CurrencyId = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2022, 1, 20, 19, 49, 39, 707, DateTimeKind.Local).AddTicks(6613),
+                            Date = new DateTime(2022, 1, 22, 15, 57, 22, 331, DateTimeKind.Local).AddTicks(321),
                             Device = "ira",
                             MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2022, 1, 20, 19, 49, 39, 708, DateTimeKind.Local).AddTicks(1743),
+                            OrderFinishDate = new DateTime(2022, 1, 22, 15, 57, 22, 331, DateTimeKind.Local).AddTicks(4768),
                             OrderNumber = 200,
-                            OrderType = "eeeee",
+                            OrderType = "Standartinis",
                             Platforma = "yeee",
                             Price = 99.989999999999995,
                             ProductCode = "8582262s",
@@ -368,7 +377,9 @@ namespace PromiCRM.Migrations
                             ShipmentTypeId = 1,
                             Status = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
-                            Vat = 21.100000000000001
+                            Vat = 21.100000000000001,
+                            WarehouseProductsNumber = 0,
+                            WarehouseProductsTaken = false
                         });
                 });
 
@@ -456,6 +467,8 @@ namespace PromiCRM.Migrations
                             CollectionTime = 20,
                             HeightWithPackaging = 3.5,
                             HeightWithoutPackaging = 3.0,
+                            ImageName = "Azure",
+                            ImagePath = "https://media.bitdegree.org/storage/media/images/2018/12/azure-interview-questions-logo-2-300x224.png",
                             LaserTime = 10,
                             LengthWithPackaging = 12.0,
                             LengthWithoutPackaging = 10.0,
@@ -665,7 +678,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$zJlTaJJk8NeFtnMWGwOqyOH3G1l0pLgyHRHB45J08H24ijJv4OR3i",
+                            Password = "$2a$11$r8UN9C.H1NxNQx7uIVUTHONPGHszyEw9s36AURN6E8b/9DKbmgoTC",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -739,7 +752,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            LastTimeChanging = new DateTime(2022, 1, 20, 19, 49, 39, 708, DateTimeKind.Local).AddTicks(6022),
+                            LastTimeChanging = new DateTime(2022, 1, 22, 15, 57, 22, 331, DateTimeKind.Local).AddTicks(7840),
                             OrderId = 1,
                             ProductCode = "8582262s",
                             QuantityProductWarehouse = 2
@@ -775,7 +788,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 1, 20, 19, 49, 39, 702, DateTimeKind.Local).AddTicks(6210),
+                            Date = new DateTime(2022, 1, 22, 15, 57, 22, 328, DateTimeKind.Local).AddTicks(511),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
