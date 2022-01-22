@@ -325,6 +325,52 @@ namespace PromiCRM.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// When we want to take from warehouse
+        /// </summary>
+        /// <param name="warehouseCountingDTO"></param>
+        /// <returns></returns>
+        [HttpPut("warehouse/subtract/{id:int}")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CollectProductFromWarehouse([FromBody] UpdateOrderDTO orderDTO, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(CollectProductFromWarehouse)}");
+                return BadRequest("Submited invalid data");
+            }
+            /* var quantity = int.Parse(orderDTO.WarehouseProductsNumber);*/
+            var order = await _unitOfWork.Orders.Get(w => w.Id == id);
+            if(order == null)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(CollectProductFromWarehouse)}");
+                return BadRequest("Submited invalid data");
+            }
+            var warehouseCounting = await _unitOfWork.WarehouseCountings.Get(w => w.ProductCode == orderDTO.ProductCode);
+            
+            warehouseCounting.QuantityProductWarehouse -= orderDTO.WarehouseProductsNumber;
+            warehouseCounting.LastTimeChanging = DateTime.Now;
+            //map/convert orderDTO to order. all values its values go to order model
+            _mapper.Map(orderDTO, order);
+            //if after we take from warehouse product there its quantity is less or equal to 0 delete. else update
+            if (warehouseCounting.QuantityProductWarehouse <= 0)
+            {
+                _unitOfWork.Orders.Update(order);
+                await _unitOfWork.WarehouseCountings.Delete(warehouseCounting.Id);
+                await _unitOfWork.Save();
+                return NoContent();
+            }
+            else
+            {
+                _unitOfWork.Orders.Update(order);
+                _unitOfWork.WarehouseCountings.Update(warehouseCounting);
+                await _unitOfWork.Save();
+                return NoContent();
+            }
+        }
+
 
         /// <summary>
         /// PUT request when passing object with image to update
