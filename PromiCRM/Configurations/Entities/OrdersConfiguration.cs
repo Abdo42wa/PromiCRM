@@ -38,12 +38,12 @@ namespace PromiCRM.Configurations.Entities
                     Vat = 21.1,
                     Status= false,
                     OrderFinishDate = DateTime.Now,
-                    BondingTime = 10,
-                    CollectionTime = 10,
+                    BondingTime = 40,
+                    CollectionTime = 20,
                     LaserTime = 10,
-                    MilingTime = 10,
-                    PaintingTime = 10,
-                    PackingTime = 10
+                    MilingTime = 20,
+                    PaintingTime = 15,
+                    PackingTime = 10,
                 }
             );
         }

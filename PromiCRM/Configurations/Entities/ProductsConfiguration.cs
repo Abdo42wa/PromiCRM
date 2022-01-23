@@ -34,8 +34,8 @@ namespace PromiCRM.Configurations.Entities
                     LaserTime = 10,
                     MilingTime = 20,
                     PaintingTime = 15,
+                    PackingTime = 10,
                     PackagingBoxCode = "pspspsp",
-                    PackingTime = 10.0,
                     ImageName = "Azure",
                     ImagePath = "https://media.bitdegree.org/storage/media/images/2018/12/azure-interview-questions-logo-2-300x224.png"
                 }
