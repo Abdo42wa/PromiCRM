@@ -80,7 +80,7 @@ namespace PromiCRM.Controllers
         [HttpPost]
         [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateBonus([FromBody]CreateBonusDTO bonusDTO)
         {
@@ -92,8 +92,9 @@ namespace PromiCRM.Controllers
             var bonus = _mapper.Map<Bonus>(bonusDTO);
             await _unitOfWork.Bonus.Insert(bonus);
             await _unitOfWork.Save();
-            //created at route GetBonus. Passing Id that it needs to get record
-            return CreatedAtRoute("GetBonus", new { id = bonus.Id}, bonus);
+            var createdBonus = await _unitOfWork.Bonus.Get(x => x.Id == bonus.Id);
+            var result = _mapper.Map<BonusDTO>(createdBonus);
+            return Ok(result);
         }
         /// <summary>
         /// Check if model valid. Check if record exist. and update it
