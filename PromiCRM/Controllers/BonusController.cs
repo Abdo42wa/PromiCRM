@@ -92,7 +92,7 @@ namespace PromiCRM.Controllers
             var bonus = _mapper.Map<Bonus>(bonusDTO);
             await _unitOfWork.Bonus.Insert(bonus);
             await _unitOfWork.Save();
-            var createdBonus = await _unitOfWork.Bonus.Get(x => x.Id == bonus.Id);
+            var createdBonus = await _unitOfWork.Bonus.Get(x => x.Id == bonus.Id, includeProperties: "User");
             var result = _mapper.Map<BonusDTO>(createdBonus);
             return Ok(result);
         }
