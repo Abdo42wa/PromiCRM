@@ -59,6 +59,7 @@ namespace PromiCRM.Controllers
             var result = _mapper.Map<OrderDTO>(order);
             return Ok(result);
         }
+        
         /// <summary>
         /// NOT FINISHED Express orders
         /// </summary>
@@ -109,6 +110,32 @@ namespace PromiCRM.Controllers
             return Ok(orders);
         }
 
+        [HttpGet("planned/time")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUncompletedOrdersTime()
+        {
+            var orders = await _database.Orders.Include(o => o.Product)
+                .Where(o => o.Status == false)
+                .GroupBy(o => new { o.Status })
+                .Select(o => new OrderDTO
+                {
+                    LaserTime = o.Sum(o => o.LaserTime * o.Quantity),
+                    BondingTime = o.Sum(o => o.BondingTime * o.Quantity),
+                    CollectionTime = o.Sum(o => o.CollectionTime * o.Quantity),
+                    MilingTime = o.Sum(o => o.MilingTime * o.Quantity),
+                    PaintingTime = o.Sum(o => o.PaintingTime * o.Quantity),
+                    PackingTime = o.Sum(o => o.PackingTime * o.Quantity),
+                    DoneLaserTime = (int)o.Sum(o => o.LaserUserId != null?o.LaserTime*o.Quantity:o.LaserTime*0),
+                    DoneBondingTime = (int)o.Sum(o => o.BondingUserId != null ? o.BondingTime * o.Quantity : o.BondingTime * 0),
+                    DoneCollectionTime = (int)o.Sum(o => o.CollectionUserId != null ? o.CollectionTime* o.Quantity : o.CollectionTime * 0),
+                    DoneMilingTime = (int)o.Sum(o => o.MilingUserId!= null ? o.MilingTime * o.Quantity : o.MilingTime * 0),
+                    DonePaintingTime = (int)o.Sum(o => o.PaintingUserId!= null ? o.PaintingTime* o.Quantity : o.PaintingTime * 0),
+                    DonePackingTime = (int)o.Sum(o => o.PackingUserId!= null ? o.PackingTime* o.Quantity : o.PackingTime * 0)
+
+                }).ToListAsync();
+            return Ok(orders);
+        }
         [HttpGet("warehouseUncompleted")]
 /*        [Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

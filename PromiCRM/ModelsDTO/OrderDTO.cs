@@ -74,6 +74,15 @@ namespace PromiCRM.ModelsDTO
         public string ImagePath { get; set; }
         public DateTime MinOrderFinishDate { get; set; }
         public int WeekNumber { get; set; }
+
+        //done time
+        public int DoneBondingTime { get; set; }
+        public int DoneCollectionTime { get; set; }
+        public int DoneLaserTime { get; set; }
+        public int DoneMilingTime { get; set; }
+        public int DonePaintingTime { get; set; }
+        public int DonePackingTime { get; set; }
+
         public UserDTO User { get; set; }
         public CustomerDTO Customer { get; set; }
         public ShipmentDTO Shipment { get; set; }
@@ -83,4 +92,5 @@ namespace PromiCRM.ModelsDTO
         public virtual IList<WarehouseCountingDTO> WarehouseCountings { get; set; }
         public ProductDTO Product { get; set; }
     }
+
 }
