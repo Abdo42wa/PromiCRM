@@ -37,7 +37,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMaterials()
         {
-            var materials = await _unitOfWork.ProductMaterials.GetAll(includeProperties: "Product,MaterialWarehouse");
+            var materials = await _unitOfWork.ProductMaterials.GetAll(includeProperties: "Product,MaterialWarehouse,Order");
             var results = _mapper.Map<IList<ProductMaterialDTO>>(materials);
             return Ok(results);
         }
@@ -110,6 +110,26 @@ namespace PromiCRM.Controllers
 
             //get all materials of that product
             var createdMaterials = await _unitOfWork.ProductMaterials.GetAll(p => p.ProductId == productMaterials[0].ProductId, includeProperties: "Product,MaterialWarehouse");
+            var results = _mapper.Map<IList<ProductMaterialDTO>>(createdMaterials);
+            return Ok(results);
+        }
+        /// <summary>
+        /// insert many but orderMaterials(for non-standart orders)
+        /// </summary>
+        /// <param name="productMaterialsDTO"></param>
+        /// <returns></returns>
+        [HttpPost("insert/orders")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateManyOrderMaterials([FromBody] IList<CreateProductMaterialDTO> productMaterialsDTO)
+        {
+            var productMaterials = _mapper.Map<IList<ProductMaterial>>(productMaterialsDTO);
+            _unitOfWork.ProductMaterials.UpdateRange(productMaterials);
+            await _unitOfWork.Save();
+
+            //get all materials of that product
+            var createdMaterials = await _unitOfWork.ProductMaterials.GetAll(p => p.OrderId== productMaterials[0].OrderId, includeProperties: "Product,MaterialWarehouse,Order");
             var results = _mapper.Map<IList<ProductMaterialDTO>>(createdMaterials);
             return Ok(results);
         }
