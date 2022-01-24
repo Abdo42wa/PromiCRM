@@ -67,7 +67,7 @@ namespace PromiCRM.ModelsDTO
         public int Id { get; set; }
         public string ImagePath { get; set; }
         //public OrderDTO Order { get; set; }
-        public virtual IList<OrderDTO> Order { get; set; }
+        public IList<OrderDTO> Order { get; set; }
         /* public ServiceDTO Service { get; set; }*/
         //public virtual IList<ProductMaterialDTO> ProductMaterials { get; set; }
         public IList<ProductMaterialDTO> ProductMaterials { get; set; }

@@ -263,15 +263,56 @@ namespace PromiCRM.Controllers
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateOrder)}");
                 return BadRequest("Submited invalid data");
             }
-           /* if (createOrderDTO.File == null || createOrderDTO.File.Length < 1)
-            {
-                return BadRequest("Submited invalid data. Didnt get image");
-            }*/
-         /*   var fileName = Guid.NewGuid() + Path.GetExtension(createOrderDTO.File.FileName);
-            var imageUrl = await _blobService.UploadBlob(fileName, createOrderDTO.File, "productscontainer");
-            createOrderDTO.ImageName = fileName;
-            createOrderDTO.ImagePath = imageUrl;*/
+            var order = _mapper.Map<Order>(createOrderDTO);
+            await _unitOfWork.Orders.Insert(order);
 
+            //getting all all productMaterials with that productid, and grouping by materialWarehouseId
+            //so to group same materials in one. sum quantities of same productMaterials
+            var productMaterials = await _database.ProductMaterials.Where(p => p.ProductId == order.ProductId)
+                .GroupBy(p => p.MaterialWarehouseId)
+                .Select(x => new ProductMaterialDTO
+                {
+                    Quantity = x.Sum(x => x.Quantity),
+                    ProductId = x.Min(x => x.ProductId),
+                    MaterialWarehouseId = x.Min(x => x.MaterialWarehouseId)
+                }).ToListAsync();
+
+            var materialsWarehouse = await _database.MaterialsWarehouse.ToListAsync();
+            foreach (ProductMaterialDTO material in productMaterials)
+            {
+                //getting each MaterialWarehouse obj by ProductMaterialDTO materialWarehouseId
+                MaterialWarehouse ExistingWarehouseMaterial = materialsWarehouse.FirstOrDefault(m => m.Id == material.MaterialWarehouseId);
+                //multiplying productMaterial.quantity from order quantity of products that we will make
+                ExistingWarehouseMaterial.Quantity -= material.Quantity * order.Quantity;
+                _unitOfWork.MaterialsWarehouse.Update(ExistingWarehouseMaterial);
+            }
+            //save made changes
+            await _unitOfWork.Save();
+            var createdOrder = await _unitOfWork.Orders.Get(o => o.Id == order.Id, includeProperties: "Product,User,Shipment,Customer,Country,Currency");
+            var results = _mapper.Map<OrderDTO>(createdOrder);
+            return Ok(results);
+        }
+
+        [HttpPost("nonstandart")]
+        //[Authorize(Roles = "ADMINISTRATOR")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateNotStandart([FromBody] CreateOrderDTO createOrderDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Invalid CREATE attempt in {nameof(CreateNotStandart)}");
+                return BadRequest("Submited invalid data");
+            }
+            /* if (createOrderDTO.File == null || createOrderDTO.File.Length < 1)
+             {
+                 return BadRequest("Submited invalid data. Didnt get image");
+             }*/
+            /*   var fileName = Guid.NewGuid() + Path.GetExtension(createOrderDTO.File.FileName);
+               var imageUrl = await _blobService.UploadBlob(fileName, createOrderDTO.File, "productscontainer");
+               createOrderDTO.ImageName = fileName;
+               createOrderDTO.ImagePath = imageUrl;*/
             var order = _mapper.Map<Order>(createOrderDTO);
             await _unitOfWork.Orders.Insert(order);
             await _unitOfWork.Save();
@@ -293,18 +334,9 @@ namespace PromiCRM.Controllers
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateOrder)}");
                 return BadRequest("Submited invalid data");
             }
-           /* if (createOrderDTO.File == null || createOrderDTO.File.Length < 1)
-            {
-                return BadRequest("Submited invalid data. Didnt get image");
-            }*/
-           /* var fileName = Guid.NewGuid() + Path.GetExtension(createOrderDTO.File.FileName);
-            var imageUrl = await _blobService.UploadBlob(fileName, createOrderDTO.File, "productscontainer");
-            createOrderDTO.ImageName = fileName;
-            createOrderDTO.ImagePath = imageUrl;*/
 
             var order = _mapper.Map<Order>(createOrderDTO);
             await _unitOfWork.Orders.Insert(order);
-            await _unitOfWork.Save();
 
             var warehouse = new WarehouseCounting
             {
@@ -313,6 +345,9 @@ namespace PromiCRM.Controllers
                 QuantityProductWarehouse = order.Quantity
             };
             await _unitOfWork.WarehouseCountings.Insert(warehouse);
+
+
+
             await _unitOfWork.Save();
 
             var createdOrder = await _unitOfWork.Orders.Get(o => o.Id == order.Id, includeProperties: "Product,User,Shipment,Customer,Country,Currency");

@@ -89,7 +89,8 @@ namespace PromiCRM.ModelsDTO
         public CountryDTO Country { get; set; }
         public CurrencyDTO Currency { get; set; }
 
-        public virtual IList<WarehouseCountingDTO> WarehouseCountings { get; set; }
+        public IList<WarehouseCountingDTO> WarehouseCountings { get; set; }
+        public IList<ProductMaterialDTO> ProductMaterials { get; set; }
         public ProductDTO Product { get; set; }
     }
 

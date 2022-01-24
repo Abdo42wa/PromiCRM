@@ -105,6 +105,7 @@ namespace PromiCRM.Models
 
         public virtual ICollection<WarehouseCounting> WarehouseCountings { get; set; }
         //public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<ProductMaterial> ProductMaterials { get; set; }
 
     }
 }

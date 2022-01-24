@@ -15,13 +15,13 @@ namespace PromiCRM.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MaterialsController : ControllerBase
+    public class ProductMaterialsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<MaterialsController> _logger;
+        private readonly ILogger<ProductMaterialsController> _logger;
 
-        public MaterialsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<MaterialsController> logger)
+        public ProductMaterialsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ProductMaterialsController> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -112,7 +112,6 @@ namespace PromiCRM.Controllers
             var createdMaterials = await _unitOfWork.ProductMaterials.GetAll(p => p.ProductId == productMaterials[0].ProductId, includeProperties: "Product,MaterialWarehouse");
             var results = _mapper.Map<IList<ProductMaterialDTO>>(createdMaterials);
             return Ok(results);
-
         }
         /// <summary>
         /// Check if model valid, check if exist & update it
