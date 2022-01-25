@@ -108,42 +108,7 @@ namespace PromiCRM.Controllers
             return Ok(createdMaterial);
             /*return CreatedAtRoute("GetMaterial", new { id = material.Id }, material);*/
         }
-        [HttpPost("insert")]
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateMany([FromBody]IList<CreateProductMaterialDTO> productMaterialsDTO)
-        {
-            var productMaterials = _mapper.Map<IList<ProductMaterial>>(productMaterialsDTO);
-            _unitOfWork.ProductMaterials.UpdateRange(productMaterials);
-            await _unitOfWork.Save();
 
-            //get all materials of that product
-            var createdMaterials = await _unitOfWork.ProductMaterials.GetAll(p => p.ProductId == productMaterials[0].ProductId, includeProperties: "Product,MaterialWarehouse");
-            var results = _mapper.Map<IList<ProductMaterialDTO>>(createdMaterials);
-            return Ok(results);
-        }
-        /// <summary>
-        /// insert many but orderMaterials(for non-standart orders)
-        /// </summary>
-        /// <param name="productMaterialsDTO"></param>
-        /// <returns></returns>
-        [HttpPost("insert/orders")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateManyOrderMaterials([FromBody] IList<CreateProductMaterialDTO> productMaterialsDTO)
-        {
-            var productMaterials = _mapper.Map<IList<ProductMaterial>>(productMaterialsDTO);
-            _unitOfWork.ProductMaterials.UpdateRange(productMaterials);
-            await _unitOfWork.Save();
-
-            //get all materials of that product
-            var createdMaterials = await _unitOfWork.ProductMaterials.GetAll(p => p.OrderId== productMaterials[0].OrderId, includeProperties: "Product,MaterialWarehouse,Order");
-            var results = _mapper.Map<IList<ProductMaterialDTO>>(createdMaterials);
-            return Ok(results);
-        }
         /// <summary>
         /// Check if model valid, check if exist & update it
         /// </summary>
@@ -174,20 +139,43 @@ namespace PromiCRM.Controllers
             await _unitOfWork.Save();
             return NoContent();
         }
-
+        /// <summary>
+        /// Update for Non-standart order materials. add and update in one
+        /// </summary>
+        /// <param name="productMaterialsDTO"></param>
+        /// <returns></returns>
         [HttpPut("update")]
         [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> UpdateProductMaterials([FromBody]IList<UpdateProductMaterialDTO> productMaterialsDTO)
+        public async Task<IActionResult> UpdateNonStandartOrderMaterials([FromBody]IList<UpdateProductMaterialDTO> productMaterialsDTO)
         {
             var productMaterials = _mapper.Map<IList<ProductMaterial>>(productMaterialsDTO);
             _unitOfWork.ProductMaterials.UpdateRange(productMaterials);
             await _unitOfWork.Save();
             return NoContent();
         }
+        /// <summary>
+        /// Update for Products. add and update in one
+        /// </summary>
+        /// <param name="productMaterialsDTO"></param>
+        /// <returns></returns>
+        [HttpPut("update/products")]
+        [Authorize(Roles = "ADMINISTRATOR")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> UpdateProductMaterials([FromBody] IList<UpdateProductMaterialDTO> productMaterialsDTO)
+        {
+            var productMaterials = _mapper.Map<IList<ProductMaterial>>(productMaterialsDTO);
+            _unitOfWork.ProductMaterials.UpdateRange(productMaterials);
+            await _unitOfWork.Save();
 
+            var createdMaterials = await _unitOfWork.ProductMaterials.GetAll(p => p.ProductId == productMaterials[0].ProductId, includeProperties: "Product,MaterialWarehouse");
+            var results = _mapper.Map<IList<ProductMaterialDTO>>(createdMaterials);
+            return Ok(results);
+        }
 
         /// <summary>
         /// Check if exist and delete it
