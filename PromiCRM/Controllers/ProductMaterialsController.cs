@@ -71,6 +71,17 @@ namespace PromiCRM.Controllers
             var results = _mapper.Map<IList<ProductMaterialDTO>>(materials);
             return Ok(results);
         }
+
+        [HttpGet("order/{id:int}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetMaterialByOrderId(int id)
+        {
+            var materials = await _unitOfWork.ProductMaterials.GetAll(m => m.OrderId == id, includeProperties: "Order,MaterialWarehouse");
+            var results = _mapper.Map<IList<ProductMaterialDTO>>(materials);
+            return Ok(results);
+        }
         /// <summary>
         /// Check if model valid, convert to dto and insert
         /// </summary>
@@ -169,7 +180,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> UpdateProductMaterials([FromBody]IList<ProductMaterialDTO> productMaterialsDTO)
+        public async Task<IActionResult> UpdateProductMaterials([FromBody]IList<UpdateProductMaterialDTO> productMaterialsDTO)
         {
             var productMaterials = _mapper.Map<IList<ProductMaterial>>(productMaterialsDTO);
             _unitOfWork.ProductMaterials.UpdateRange(productMaterials);
