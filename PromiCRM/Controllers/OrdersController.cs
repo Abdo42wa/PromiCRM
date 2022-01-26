@@ -132,7 +132,6 @@ namespace PromiCRM.Controllers
                     DoneMilingTime = (int)o.Sum(o => o.MilingUserId!= null ? o.MilingTime * o.Quantity : o.MilingTime * 0),
                     DonePaintingTime = (int)o.Sum(o => o.PaintingUserId!= null ? o.PaintingTime* o.Quantity : o.PaintingTime * 0),
                     DonePackingTime = (int)o.Sum(o => o.PackingUserId!= null ? o.PackingTime* o.Quantity : o.PackingTime * 0)
-
                 }).ToListAsync();
             return Ok(orders);
         }
@@ -292,7 +291,11 @@ namespace PromiCRM.Controllers
             var results = _mapper.Map<OrderDTO>(createdOrder);
             return Ok(results);
         }
-
+        /// <summary>
+        /// For Not-standart order we will add image
+        /// </summary>
+        /// <param name="createOrderDTO"></param>
+        /// <returns></returns>
         [HttpPost("nonstandart")]
         //[Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -384,6 +387,58 @@ namespace PromiCRM.Controllers
             _mapper.Map(orderDTO, order);
             _unitOfWork.Orders.Update(order);
             await _unitOfWork.Save();
+            return NoContent();
+        }
+        /// <summary>
+        /// When packing is clicked, Non-Standart order is done. And we have to take materials from MaterialsWarehouse
+        /// </summary>
+        /// <param name="orderDTO"></param>
+        /// <returns></returns>
+        [HttpPut("nonstandart/{id:int}")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> NonStandartFinishedUpdate([FromBody]UpdateOrderDTO orderDTO, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(NonStandartFinishedUpdate)}");
+                return BadRequest("Submited invalid data");
+            }
+            var order = await _unitOfWork.Orders.Get(o => o.Id == id);
+            if(order == null)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(NonStandartFinishedUpdate)}");
+                return BadRequest("Submited invalid data");
+            }
+            //put all values from dto to order model
+            _mapper.Map(orderDTO, order);
+            _unitOfWork.Orders.Update(order);
+
+            //getting all all productMaterials with that orderId, and grouping by materialWarehouseId
+            //so to group same materials in one. sum quantities of same productMaterials
+            var productMaterials = await _database.ProductMaterials.Where(p => p.OrderId == order.Id)
+                .GroupBy(p => p.MaterialWarehouseId)
+                .Select(x => new ProductMaterialDTO
+                {
+                    Quantity = x.Sum(x => x.Quantity),
+                    OrderId = x.Min(x => x.OrderId),
+                    MaterialWarehouseId = x.Min(x => x.MaterialWarehouseId)
+                }).ToListAsync();
+
+            var materialsWarehouse = await _database.MaterialsWarehouse.ToListAsync();
+            foreach (ProductMaterialDTO material in productMaterials)
+            {
+                //getting each MaterialWarehouse obj by ProductMaterialDTO materialWarehouseId
+                MaterialWarehouse ExistingWarehouseMaterial = materialsWarehouse.FirstOrDefault(m => m.Id == material.MaterialWarehouseId);
+                //multiplying productMaterial.quantity from order quantity of products that we will make
+                ExistingWarehouseMaterial.Quantity -= material.Quantity * order.Quantity;
+                _unitOfWork.MaterialsWarehouse.Update(ExistingWarehouseMaterial);
+            }
+            //save made changes
+            await _unitOfWork.Save();
+            var createdOrder = await _unitOfWork.Orders.Get(o => o.Id == order.Id, includeProperties: "Product,User,Shipment,Customer,Country,Currency");
+            var results = _mapper.Map<OrderDTO>(createdOrder);
             return NoContent();
         }
 
