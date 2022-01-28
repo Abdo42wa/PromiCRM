@@ -59,7 +59,84 @@ namespace PromiCRM.Controllers
             var result = _mapper.Map<OrderDTO>(order);
             return Ok(result);
         }
-        
+        /// <summary>
+        /// Laukiantys gaminiai. all orders that are not completed
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("main/pendingproducts")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetPendingProducts()
+        {
+            var orders = await _database.Orders.Where(x => x.Status == false)
+                .GroupBy(x => new { x.Status })
+                .Select(o => new OrderDTO
+                {
+                    Quantity = o.Sum(o => o.Quantity)
+                }).ToListAsync();
+            return Ok(orders);
+        }
+        /// <summary>
+        /// Butina siandien atlikti (main dashboard) all orders that are 
+        /// not completed and their deadline is today
+        /// or its late(meaning it was yesterday or .. week ago). summing quantities
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("main/necessary/make/today")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetOrdersNecessaryTodayToMake()
+        {
+            var today = DateTime.Now;
+            var orders = await _database.Orders.Where(o => o.Status == false)
+                .Where(o => o.OrderFinishDate <= today)
+                .GroupBy(o => new { o.Status })
+                .Select(o => new OrderDTO
+                {
+                    Quantity = o.Sum(o => o.Quantity)
+                }).ToListAsync();
+            return Ok(orders);
+        }
+        /// <summary>
+        /// Siandien pagaminta (main dashboard).
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("main/today/products")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetTodayMadeProducts()
+        {
+            var today = DateTime.Now;
+            var orders = await _database.Orders.Where(o => o.Status == true)
+                .Where(o => o.PaintingComplete == today)
+                .GroupBy(o => new { o.Status })
+                .Select(o => new OrderDTO
+                {
+                    Quantity = o.Sum(o => o.Quantity)
+                }).ToListAsync();
+            //!!!!!!!!!!!!!!!!!! reikia prideti orderMadeDate. nes orderFinish date yra tiesiog deadline kada jis turi but padarytas
+            return Ok(orders);
+        }
+        /// <summary>
+        /// Nauji uzsakyti gaminiai (main dashboard). today made orders (no  completed).
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("main/new/orders")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetNewOrders()
+        {
+            var today = DateTime.Now;
+            var orders = await _database.Orders.Where(o => o.Status == false)
+                .Where(o => o.Date == today)
+                .GroupBy(o => new { o.Status })
+                .Select(o => new OrderDTO
+                {
+                    Quantity = o.Sum(o => o.Quantity)
+                }).ToListAsync();
+            return Ok(orders);
+        }
+
         /// <summary>
         /// NOT FINISHED Express orders
         /// </summary>
