@@ -233,6 +233,7 @@ namespace PromiCRM.Controllers
         }
         /// <summary>
         /// getting all completed orders. thats completed orders in past 5 weeks
+        /// only completed "Standartinis" or "Ne-standartinis"
         /// </summary>
         /// <returns></returns>
         [HttpGet("weeksOrders")]
@@ -248,6 +249,7 @@ namespace PromiCRM.Controllers
 
             var orders = await _database.Orders.Where(o => o.Status == true).
                 Where(o => o.CompletionDate.Value.Date > fiveWeeksBefore.Date).
+                Where(o => o.OrderType != "Ne-standartinis").
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
                 {
                     ProductCode = x.Key,
@@ -280,6 +282,7 @@ namespace PromiCRM.Controllers
 
             var orders = await _database.Orders.Where(o => o.Status == true).
                 Where(o => o.CompletionDate.Value.Date > fiveWeeksBefore.Date).
+                Where(o => o.OrderType != "Ne-standartinis").
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
                 {
                     ProductCode = x.Key,
