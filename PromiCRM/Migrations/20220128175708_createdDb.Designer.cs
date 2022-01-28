@@ -10,8 +10,8 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220128164030_createdDB")]
-    partial class createdDB
+    [Migration("20220128175708_createdDb")]
+    partial class createdDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -196,7 +196,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 1, 28, 18, 40, 30, 66, DateTimeKind.Local).AddTicks(9833),
+                            LastAdittion = new DateTime(2022, 1, 28, 19, 57, 8, 75, DateTimeKind.Local).AddTicks(489),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -355,41 +355,6 @@ namespace PromiCRM.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "Justiniskiu",
-                            BondingTime = 40,
-                            CollectionTime = 20,
-                            Comment = "great",
-                            CountryId = 1,
-                            CurrencyId = 1,
-                            CustomerId = 1,
-                            Date = new DateTime(2022, 1, 28, 18, 40, 30, 64, DateTimeKind.Local).AddTicks(8926),
-                            Device = "ira",
-                            LaserTime = 10,
-                            MilingTime = 20,
-                            MoreInfo = "eeeee",
-                            OrderFinishDate = new DateTime(2022, 1, 28, 18, 40, 30, 65, DateTimeKind.Local).AddTicks(3225),
-                            OrderNumber = 200,
-                            OrderType = "Standartinis",
-                            PackingTime = 10,
-                            PaintingTime = 15,
-                            Platforma = "yeee",
-                            Price = 99.989999999999995,
-                            ProductCode = "8582262s",
-                            ProductId = 1,
-                            ProductionTime = 1,
-                            Quantity = 2,
-                            ShipmentTypeId = 1,
-                            Status = false,
-                            UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
-                            Vat = 21.100000000000001,
-                            WarehouseProductsNumber = 0,
-                            WarehouseProductsTaken = false
-                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Product", b =>
@@ -692,7 +657,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$DyO91bflaj3OFkLjGPyIjuYjt7xJiknuL89hLlp0XJTkjvB3TGvwK",
+                            Password = "$2a$11$.BMThSNlQu.1xvT1W2vZPu/3caflyMq/G7ai4oRVHacj7L/FTnkQy",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -761,16 +726,6 @@ namespace PromiCRM.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("WarehouseCountings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            LastTimeChanging = new DateTime(2022, 1, 28, 18, 40, 30, 65, DateTimeKind.Local).AddTicks(7419),
-                            OrderId = 1,
-                            ProductCode = "8582262s",
-                            QuantityProductWarehouse = 2
-                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.WeeklyWorkSchedule", b =>
@@ -802,7 +757,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 1, 28, 18, 40, 30, 60, DateTimeKind.Local).AddTicks(9874),
+                            Date = new DateTime(2022, 1, 28, 19, 57, 8, 69, DateTimeKind.Local).AddTicks(4162),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
