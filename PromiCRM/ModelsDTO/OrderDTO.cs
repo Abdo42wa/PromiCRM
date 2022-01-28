@@ -19,6 +19,8 @@ namespace PromiCRM.ModelsDTO
         public bool Status { get; set; }
         public int OrderNumber { get; set; }
         public DateTime Date { get; set; }
+        public DateTime? CompletionDate { get; set; }
+        public DateTime OrderFinishDate { get; set; }
         public string Platforma { get; set; }
         // start. we can take from warehouse product if it exist
         public int WarehouseProductsNumber { get; set; }
@@ -38,7 +40,6 @@ namespace PromiCRM.ModelsDTO
         public double? Price { get; set; }
         public int? CurrencyId { get; set; }
         public double? Vat { get; set; }
-        public DateTime OrderFinishDate { get; set; }
 
         public string BondingUserId { get; set; }
         public string CollectionUserId { get; set; }

@@ -31,6 +31,7 @@ namespace PromiCRM.Models
         public bool Status { get; set; }
         public int OrderNumber { get; set; }
         public DateTime Date { get; set; }
+        public DateTime? CompletionDate { get; set; }
         public string Platforma { get; set; }
         // start. we can take from warehouse product if it exist
         public int WarehouseProductsNumber { get; set; }

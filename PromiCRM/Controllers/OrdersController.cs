@@ -108,7 +108,7 @@ namespace PromiCRM.Controllers
         {
             var today = DateTime.Today;
             var orders = await _database.Orders.Where(o => o.Status == true)
-                .Where(o => (o.PackingComplete.Value.Date) == today)
+                .Where(o => (o.CompletionDate.Value.Date) == today)
                 .GroupBy(o => new { o.Status })
                 .Select(o => new OrderDTO
                 {
@@ -165,7 +165,7 @@ namespace PromiCRM.Controllers
             return Ok(results);
         }
         /// <summary>
-        /// Not completed Not-standart and standart orders
+        /// Daugiausia nepagamintu produktu. Not completed standart orders
         /// </summary>
         /// <returns></returns>
         [HttpGet("uncompleted")]
@@ -175,14 +175,13 @@ namespace PromiCRM.Controllers
         {
             var orders = await _database.Orders.Include(o => o.Product)
                 .Where(o => o.Status == false)
+                .Where(o => o.OrderType == "Standartinis")
                 .GroupBy(o => new { o.ProductCode, o.Product.ImagePath })
                 .Select(o => new OrderDTO
                 {
                     ProductCode = o.Key.ProductCode,
                     ImagePath = o.Key.ImagePath,
                     Quantity = o.Sum(o => o.Quantity),
-                    OrderFinishDate = o.Max(o => o.OrderFinishDate),
-                    MinOrderFinishDate = o.Min(o => o.OrderFinishDate)
                 }).OrderByDescending(o => o.Quantity).ToListAsync();
             return Ok(orders);
         }
@@ -233,7 +232,7 @@ namespace PromiCRM.Controllers
             return Ok(orders);
         }
         /// <summary>
-        /// getting all completed orders. and adding to each week of year
+        /// getting all completed orders. thats completed orders in past 5 weeks
         /// </summary>
         /// <returns></returns>
         [HttpGet("weeksOrders")]
@@ -243,29 +242,30 @@ namespace PromiCRM.Controllers
         {
             DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
             Calendar cal = dfi.Calendar;
+            var currentCulture = CultureInfo.CurrentCulture;
             DateTime today = DateTime.Now;
             DateTime fiveWeeksBefore = today.AddDays(-36);
 
             var orders = await _database.Orders.Where(o => o.Status == true).
-                Where(o => o.OrderFinishDate > fiveWeeksBefore).
+                Where(o => o.CompletionDate.Value.Date > fiveWeeksBefore.Date).
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
                 {
                     ProductCode = x.Key,
                     Quantity = x.Sum(x => x.Quantity),
                     Id = x.Min(p => p.Id),
                     UserId = x.Min(u => u.UserId),
-                    OrderFinishDate = x.Max(o => o.OrderFinishDate)
+                    CompletionDate = x.Max(o => o.CompletionDate.Value.Date)
                 }).OrderByDescending(o => o.Quantity).ToListAsync();
 
             foreach (OrderDTO order in orders)
             {
-                order.WeekNumber = cal.GetWeekOfYear(order.OrderFinishDate, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+                order.WeekNumber = cal.GetWeekOfYear(order.CompletionDate.Value.Date, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
             }
             return Ok(orders);
         }
 
         /// <summary>
-        /// getting all completed orders. and adding to each week of year
+        /// getting all completed orders in past Month(30 days).
         /// </summary>
         /// <returns></returns>
         [HttpGet("monthOrders")]
@@ -279,14 +279,14 @@ namespace PromiCRM.Controllers
             DateTime fiveWeeksBefore = today.AddDays(-30);
 
             var orders = await _database.Orders.Where(o => o.Status == true).
-                Where(o => o.OrderFinishDate > fiveWeeksBefore).
+                Where(o => o.CompletionDate.Value.Date > fiveWeeksBefore.Date).
                 GroupBy(o => o.ProductCode).Select(x => new OrderDTO
                 {
                     ProductCode = x.Key,
                     Quantity = x.Sum(x => x.Quantity),
                     Id = x.Min(p => p.Id),
                     UserId = x.Min(u => u.UserId),
-                    OrderFinishDate = x.Max(o => o.OrderFinishDate)
+                    CompletionDate = x.Max(o => o.CompletionDate.Value.Date)
                 }).OrderByDescending(o => o.Quantity).ToListAsync();
             return Ok(orders);
         }
@@ -295,7 +295,7 @@ namespace PromiCRM.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetOrdersForWarehouseThatCompleted()
+        public async Task<IActionResult> GetUrgentOrders()
         {
             var orders = await _unitOfWork.Orders.GetAll(o => o.Status == false, o => o.OrderByDescending(o => o.OrderFinishDate).
             OrderBy(o => o.ProductCode),includeProperties: "Product,User,Shipment,Customer,Country,Currency");
@@ -305,7 +305,7 @@ namespace PromiCRM.Controllers
             return Ok(results);
         }
         /// <summary>
-        /// Get newest 10 orders that were made. Ordering by date. From newest
+        /// Get newest 10 orders that were made. Ordering by date. Getting only "Sandelis" "Standartinis" orders
         /// </summary>
         /// <returns></returns>
         [HttpGet("recent")]
@@ -315,7 +315,8 @@ namespace PromiCRM.Controllers
         {
             var orders = await _database.Orders.Include(o => o.User).Include(o => o.Product)
                 .Where(o => o.Status == true)
-                .OrderByDescending(o => o.OrderFinishDate)
+                .Where(o => o.OrderType != "Ne-standartinis")
+                .OrderByDescending(o => o.CompletionDate)
                 .Take(10).ToListAsync();
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
