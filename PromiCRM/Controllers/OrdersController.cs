@@ -73,7 +73,7 @@ namespace PromiCRM.Controllers
                 .Select(o => new OrderDTO
                 {
                     Quantity = o.Sum(o => o.Quantity)
-                }).ToListAsync();
+                }).SingleOrDefaultAsync();
             return Ok(orders);
         }
         /// <summary>
@@ -87,33 +87,33 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrdersNecessaryTodayToMake()
         {
-            var today = DateTime.Now;
+            var today = DateTime.Today;
             var orders = await _database.Orders.Where(o => o.Status == false)
-                .Where(o => o.OrderFinishDate <= today)
+                .Where(o => (o.OrderFinishDate.Date) <= today)
                 .GroupBy(o => new { o.Status })
                 .Select(o => new OrderDTO
                 {
                     Quantity = o.Sum(o => o.Quantity)
-                }).ToListAsync();
+                }).SingleOrDefaultAsync();
             return Ok(orders);
         }
         /// <summary>
         /// Siandien pagaminta (main dashboard).
         /// </summary>
         /// <returns></returns>
-        [HttpGet("main/today/products")]
+        [HttpGet("today/made/products")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTodayMadeProducts()
         {
-            var today = DateTime.Now;
+            var today = DateTime.Today;
             var orders = await _database.Orders.Where(o => o.Status == true)
-                .Where(o => o.PaintingComplete == today)
+                .Where(o => (o.PackingComplete.Value.Date) == today)
                 .GroupBy(o => new { o.Status })
                 .Select(o => new OrderDTO
                 {
                     Quantity = o.Sum(o => o.Quantity)
-                }).ToListAsync();
+                }).SingleOrDefaultAsync();
             //!!!!!!!!!!!!!!!!!! reikia prideti orderMadeDate. nes orderFinish date yra tiesiog deadline kada jis turi but padarytas
             return Ok(orders);
         }
@@ -126,14 +126,14 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetNewOrders()
         {
-            var today = DateTime.Now;
+            var today = DateTime.Today;
             var orders = await _database.Orders.Where(o => o.Status == false)
-                .Where(o => o.Date == today)
+                .Where(o => (o.Date.Date) == today)
                 .GroupBy(o => new { o.Status })
                 .Select(o => new OrderDTO
                 {
                     Quantity = o.Sum(o => o.Quantity)
-                }).ToListAsync();
+                }).SingleOrDefaultAsync();
             return Ok(orders);
         }
 
