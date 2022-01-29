@@ -10,15 +10,15 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220128175708_createdDb")]
-    partial class createdDb
+    [Migration("20220129133254_createdDB")]
+    partial class createdDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.11")
+                .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("PromiCRM.Models.Bonus", b =>
@@ -196,7 +196,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 1, 28, 19, 57, 8, 75, DateTimeKind.Local).AddTicks(489),
+                            LastAdittion = new DateTime(2022, 1, 29, 15, 32, 53, 321, DateTimeKind.Local).AddTicks(4575),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -251,6 +251,12 @@ namespace PromiCRM.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Device")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LaserComplete")
@@ -657,7 +663,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$.BMThSNlQu.1xvT1W2vZPu/3caflyMq/G7ai4oRVHacj7L/FTnkQy",
+                            Password = "$2a$11$9aOLRPfce7fDPKqquaw9x.Fx7zjBKF/v7TbEQyOXPZdcqBGYJuib6",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -709,6 +715,12 @@ namespace PromiCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("LastTimeChanging")
                         .HasColumnType("datetime2");
 
@@ -757,7 +769,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 1, 28, 19, 57, 8, 69, DateTimeKind.Local).AddTicks(4162),
+                            Date = new DateTime(2022, 1, 29, 15, 32, 53, 316, DateTimeKind.Local).AddTicks(3208),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")

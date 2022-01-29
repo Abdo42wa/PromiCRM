@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PromiCRM.Configurations.Entities;
 using PromiCRM.ModelsDTO;
 using System;
@@ -12,7 +10,6 @@ namespace PromiCRM.Models
 {
     public class DatabaseContext : DbContext
     {
-        private readonly UserManager<User> _userManager;
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
        : base(options)
         {

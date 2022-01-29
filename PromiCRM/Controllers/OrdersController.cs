@@ -10,7 +10,6 @@ using PromiCRM.ModelsDTO;
 using PromiCRM.Services;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.SqlServer;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -139,7 +138,8 @@ namespace PromiCRM.Controllers
         }
 
         /// <summary>
-        /// NOT FINISHED Express orders
+        /// NOT FINISHED Express orders. image name i check first if orderImage is null means its "Standart"
+        /// of "Sandelis" order then i can get image from Product. If order imagePath is not null thats "Ne-standartinis"
         /// </summary>
         /// <returns></returns>
         [HttpGet("express")]
@@ -148,7 +148,19 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedExpressOrders()
         {
-            var orders = await _unitOfWork.Orders.GetAll(o => o.ShipmentTypeId == 1 && o.Status == false, orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
+            /*var orders = await _unitOfWork.Orders.GetAll(o => o.ShipmentTypeId == 1 && o.Status == false, orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));*/
+            var orders = await _database.Orders.Include(o => o.Product).
+                Where(o => o.ShipmentTypeId == 1).
+                Where(o => o.Status == false).
+                Select(o => new OrderDTO
+                {
+                    OrderFinishDate = o.OrderFinishDate,
+                    OrderNumber = o.OrderNumber,
+                    Quantity = o.Quantity,
+                    ProductCode = o.ProductCode,
+                    ImagePath = o.ImagePath == null?o.Product.ImagePath:o.ImagePath,
+                    Platforma = o.Platforma
+                }).OrderByDescending(o => o.OrderFinishDate).ToListAsync();
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }

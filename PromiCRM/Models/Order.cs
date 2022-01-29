@@ -23,10 +23,10 @@ namespace PromiCRM.Models
         public virtual Product Product { get; set; }
         public string OrderType { get; set; }
         //for image
-       /* public string ImageName { get; set; }
+        public string ImageName { get; set; }
         public string ImagePath { get; set; }
         [NotMapped]
-        public IFormFile File { get; set; }*/
+        public IFormFile File { get; set; }
 
         public bool Status { get; set; }
         public int OrderNumber { get; set; }
