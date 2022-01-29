@@ -279,17 +279,15 @@ namespace PromiCRM.Controllers
             Calendar cal = dfi.Calendar;
             DateTime today = DateTime.Now;
             DateTime fiveWeeksBefore = today.AddDays(-30);
-
+            //group by completion date. so for example each order of 2022/01/29 will be counted seper
             var orders = await _database.Orders.Where(o => o.Status == true).
                 Where(o => o.CompletionDate.Value.Date > fiveWeeksBefore.Date).
                 Where(o => o.OrderType != "Ne-standartinis").
-                GroupBy(o => o.ProductCode).Select(x => new OrderDTO
+                GroupBy(o => o.CompletionDate.Value.Date).Select(x => new OrderDTO
                 {
-                    ProductCode = x.Key,
                     Quantity = x.Sum(x => x.Quantity),
                     Id = x.Min(p => p.Id),
-                    UserId = x.Min(u => u.UserId),
-                    CompletionDate = x.Max(o => o.CompletionDate.Value.Date)
+                    CompletionDate = x.Key,
                 }).OrderByDescending(o => o.Quantity).ToListAsync();
             return Ok(orders);
         }
