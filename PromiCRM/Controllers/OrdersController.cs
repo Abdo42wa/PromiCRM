@@ -10,6 +10,7 @@ using PromiCRM.ModelsDTO;
 using PromiCRM.Services;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.SqlServer;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -225,7 +226,7 @@ namespace PromiCRM.Controllers
                     ProductCode = o.Key.ProductCode,
                     ImagePath = o.Key.ImagePath,
                     Quantity = o.Sum(o => o.Quantity),
-                    OrderFinishDate = o.Max(o => o.OrderFinishDate),
+                    /*OrderFinishDate = o.Max(o => o.OrderFinishDate),*/
                     MinOrderFinishDate = o.Min(o => o.OrderFinishDate)
                 }).OrderByDescending(o => o.Quantity).ToListAsync();
 
@@ -241,28 +242,30 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrdersByWeeks()
         {
+            //when grouping start from exactly one year ago
+            var startDate = DateTime.Now.AddDays(-1 * 365);
             DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
             Calendar cal = dfi.Calendar;
             var currentCulture = CultureInfo.CurrentCulture;
             DateTime today = DateTime.Now;
             DateTime fiveWeeksBefore = today.AddDays(-36);
-
-            var orders = await _database.Orders.Where(o => o.Status == true).
+            //s
+            var orders = _database.Orders.AsEnumerable().Where(o => o.Status == true).
                 Where(o => o.CompletionDate.Value.Date > fiveWeeksBefore.Date).
                 Where(o => o.OrderType != "Ne-standartinis").
-                GroupBy(o => o.ProductCode).Select(x => new OrderDTO
+                GroupBy(o => cal.GetWeekOfYear(o.CompletionDate.Value.Date, dfi.CalendarWeekRule, dfi.FirstDayOfWeek)).
+                Select(x => new OrderDTO
                 {
-                    ProductCode = x.Key,
                     Quantity = x.Sum(x => x.Quantity),
-                    Id = x.Min(p => p.Id),
-                    UserId = x.Min(u => u.UserId),
-                    CompletionDate = x.Max(o => o.CompletionDate.Value.Date)
-                }).OrderByDescending(o => o.Quantity).ToListAsync();
+                    CompletionDate = x.Max(x => x.CompletionDate.Value.Date),
+                    WeekNumber = x.Key
+                }).OrderBy(o => o.WeekNumber);
+            //OrderByDescending(o => o.Quantity).ToListAsync();
 
-            foreach (OrderDTO order in orders)
+            /*foreach (OrderDTO order in orders)
             {
                 order.WeekNumber = cal.GetWeekOfYear(order.CompletionDate.Value.Date, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
-            }
+            }*/
             return Ok(orders);
         }
 

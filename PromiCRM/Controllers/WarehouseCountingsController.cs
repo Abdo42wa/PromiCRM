@@ -41,11 +41,15 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetWarehouseCountings()
         {
-            var warehouseCounting = await _unitOfWork.WarehouseCountings.GetAll(includeProperties: "Order");
+            var warehouseCounting = await _database.WarehouseCountings.Include(w => w.Order).
+                ThenInclude(o => o.Product).ToListAsync();
             var result = _mapper.Map<IList<WarehouseCountingDTO>>(warehouseCounting);
             return Ok(result);
         }
-
+        /// <summary>
+        /// Getting warehouse products. grouping products with same productCode
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("products")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
