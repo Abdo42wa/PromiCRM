@@ -10,17 +10,11 @@ namespace PromiCRM.ModelsDTO
     {
         [Required]
         public string Title { get; set; }
-        [Required]
         public string ContactPerson { get; set; }
-        [Required]
         public string Email { get; set; }
-        [Required]
         public string PhoneNumber { get; set; }
-        [Required]
         public string DeliveryAddress { get; set; }
-        [Required]
         public double Discount { get; set; }
-        [Required]
         public double BrokerageFee { get; set; }
         [Required]
         public Guid UserId { get; set; }
