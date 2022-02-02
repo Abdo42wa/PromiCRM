@@ -77,7 +77,7 @@ namespace PromiCRM.Controllers
                 return BadRequest("Submited invalid data. Didnt get image");
             }
             var fileName = Guid.NewGuid() + Path.GetExtension(warehouseMaterialForm.File.FileName);
-            var imageUrl = await _blobService.UploadBlob(fileName, warehouseMaterialForm.File, "productscontainer");
+            var imageUrl = await _blobService.UploadBlob(fileName, warehouseMaterialForm.File, "materials");
             warehouseMaterialForm.ImageName = fileName;
             warehouseMaterialForm.ImagePath = imageUrl;
             var material = _mapper.Map<MaterialWarehouse>(warehouseMaterialForm);
@@ -139,7 +139,7 @@ namespace PromiCRM.Controllers
                 return BadRequest("Submited invalid data. Didnt get image");
             }
             /*var fileName = Guid.NewGuid() + Path.GetExtension(warehouseMaterialForm.File.FileName);*/
-            var imageUrl = await _blobService.UploadBlob(warehouseMaterialForm.ImageName, warehouseMaterialForm.File, "productscontainer");
+            var imageUrl = await _blobService.UploadBlob(warehouseMaterialForm.ImageName, warehouseMaterialForm.File, "materials");
             warehouseMaterialForm.ImagePath = imageUrl;
             //get material by id
             var material = await _unitOfWork.MaterialsWarehouse.Get(m => m.Id == id);
