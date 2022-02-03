@@ -57,6 +57,7 @@ namespace PromiCRM.Models
         public int ProductionTime { get; set; }
         public string Address { get; set; }
 
+
         [ForeignKey(nameof(Country))]
         public int? CountryId { get; set; }
         public virtual Country Country { get; set; }
