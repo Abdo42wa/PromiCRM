@@ -26,6 +26,6 @@ namespace PromiCRM.Models
         public virtual ICollection<WeeklyWorkSchedule> WeeklyWorkSchedules { get; set; }
         public virtual ICollection<SalesChannel> SalesChannels { get; set; }
         public virtual ICollection<RecentWork> RecentWorks { get; set; }
-        public virtual ICollection<OrderService> OrderServices { get; set; }
+        public virtual ICollection<UserService> UserServices { get; set; }
     }
 }

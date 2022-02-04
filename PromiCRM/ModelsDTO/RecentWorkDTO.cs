@@ -12,6 +12,7 @@ namespace PromiCRM.ModelsDTO
         public int? Quantity { get; set; }
         public string WorkTitle { get; set; }
         public DateTime? Time { get; set; }
+        public DateTime? CompletionDate { get; set; }
     }
     public class UpdateRecentWorkDTO : CreateRecentWorkDTO
     {

@@ -10,8 +10,8 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220204154749_addOrderServices")]
-    partial class addOrderServices
+    [Migration("20220204174433_addedUserServices")]
+    partial class addedUserServices
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -196,7 +196,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 2, 4, 17, 47, 48, 485, DateTimeKind.Local).AddTicks(246),
+                            LastAdittion = new DateTime(2022, 2, 4, 19, 44, 32, 96, DateTimeKind.Local).AddTicks(3233),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -745,11 +745,36 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$EmNLtp/EvJ341.O/tAWBX.zgYNnKFllKFBQV8uNAOgKeG1JGy6MpO",
+                            Password = "$2a$11$CXmbkdelEBaSeK84r/twhOfxgqe2wROs6M3e.1lZmGSwLF7cUV26S",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
                         });
+                });
+
+            modelBuilder.Entity("PromiCRM.Models.UserService", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CompletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderServiceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserServices");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.UserType", b =>
@@ -851,7 +876,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 2, 4, 17, 47, 48, 479, DateTimeKind.Local).AddTicks(4835),
+                            Date = new DateTime(2022, 2, 4, 19, 44, 32, 91, DateTimeKind.Local).AddTicks(7219),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
@@ -995,6 +1020,25 @@ namespace PromiCRM.Migrations
                     b.Navigation("UserType");
                 });
 
+            modelBuilder.Entity("PromiCRM.Models.UserService", b =>
+                {
+                    b.HasOne("PromiCRM.Models.OrderService", "OrderService")
+                        .WithMany("UserServices")
+                        .HasForeignKey("OrderServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PromiCRM.Models.User", "User")
+                        .WithMany("UserServices")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderService");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PromiCRM.Models.WarehouseCounting", b =>
                 {
                     b.HasOne("PromiCRM.Models.Order", "Order")
@@ -1046,6 +1090,11 @@ namespace PromiCRM.Migrations
                     b.Navigation("WarehouseCountings");
                 });
 
+            modelBuilder.Entity("PromiCRM.Models.OrderService", b =>
+                {
+                    b.Navigation("UserServices");
+                });
+
             modelBuilder.Entity("PromiCRM.Models.Product", b =>
                 {
                     b.Navigation("Order");
@@ -1076,6 +1125,8 @@ namespace PromiCRM.Migrations
                     b.Navigation("RecentWorks");
 
                     b.Navigation("SalesChannels");
+
+                    b.Navigation("UserServices");
 
                     b.Navigation("WeeklyWorkSchedules");
                 });

@@ -21,10 +21,7 @@ namespace PromiCRM.Models
         [ForeignKey(nameof(Service))]
         public int ServiceId { get; set; }
         public virtual Service Service { get; set; }
-        [ForeignKey(nameof(User))]
-        public Guid? UserId { get; set; }
-        public virtual User User { get; set; }
-        
         public int TimeConsumption { get; set; }
+        public virtual ICollection<UserService> UserServices { get; set; }
     }
 }

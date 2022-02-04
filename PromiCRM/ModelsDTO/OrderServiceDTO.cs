@@ -12,7 +12,6 @@ namespace PromiCRM.ModelsDTO
         //and service id(laseriavimas,frezavimas ...)
         public int ServiceId { get; set; }
         public int TimeConsumption { get; set; }
-        public Guid? UserId { get; set; }
     }
     public class UpdateOrderServiceDTO : CreateOrderServiceDTO
     {
@@ -21,9 +20,9 @@ namespace PromiCRM.ModelsDTO
     public class OrderServiceDTO
     {
         public int Id { get; set; }
-        public virtual ProductDTO Product { get; set; }
-        public virtual OrderDTO Order { get; set; }
-        public virtual ServiceDTO Service { get; set; }
-        public virtual UserDTO User { get; set; }
+        public ProductDTO Product { get; set; }
+        public OrderDTO Order { get; set; }
+        public ServiceDTO Service { get; set; }
+        public IList<UserServiceDTO> UserServices { get; set; }
     }
 }

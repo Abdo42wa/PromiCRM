@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PromiCRM.Migrations
 {
-    public partial class addOrderServices : Migration
+    public partial class addedUserServices : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -457,6 +457,33 @@ namespace PromiCRM.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserServices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderServiceId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CompletionDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserServices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserServices_OrderServices_OrderServiceId",
+                        column: x => x.OrderServiceId,
+                        principalTable: "OrderServices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserServices_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Countries",
                 columns: new[] { "Id", "Continent", "Name", "ShortName" },
@@ -479,7 +506,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "MaterialsWarehouse",
                 columns: new[] { "Id", "DeliveryTime", "ImageName", "ImagePath", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
-                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 2, 4, 17, 47, 48, 485, DateTimeKind.Local).AddTicks(246), "cm", 22500, "Fanera 3mm", 40 });
+                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 2, 4, 19, 44, 32, 96, DateTimeKind.Local).AddTicks(3233), "cm", 22500, "Fanera 3mm", 40 });
 
             migrationBuilder.InsertData(
                 table: "Products",
@@ -528,7 +555,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$EmNLtp/EvJ341.O/tAWBX.zgYNnKFllKFBQV8uNAOgKeG1JGy6MpO", "860855183", "Admin", 1, null });
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$CXmbkdelEBaSeK84r/twhOfxgqe2wROs6M3e.1lZmGSwLF7cUV26S", "860855183", "Admin", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Bonus",
@@ -538,7 +565,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
                 columns: new[] { "Id", "Date", "Description", "Done", "UserId" },
-                values: new object[] { 1, new DateTime(2022, 2, 4, 17, 47, 48, 479, DateTimeKind.Local).AddTicks(4835), "Supildyti frezavimo laiko lentele", false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
+                values: new object[] { 1, new DateTime(2022, 2, 4, 19, 44, 32, 91, DateTimeKind.Local).AddTicks(7219), "Supildyti frezavimo laiko lentele", false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bonus_UserId",
@@ -633,6 +660,16 @@ namespace PromiCRM.Migrations
                 column: "TypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserServices_OrderServiceId",
+                table: "UserServices",
+                column: "OrderServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserServices_UserId",
+                table: "UserServices",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WarehouseCountings_OrderId",
                 table: "WarehouseCountings",
                 column: "OrderId");
@@ -649,9 +686,6 @@ namespace PromiCRM.Migrations
                 name: "Bonus");
 
             migrationBuilder.DropTable(
-                name: "OrderServices");
-
-            migrationBuilder.DropTable(
                 name: "ProductMaterials");
 
             migrationBuilder.DropTable(
@@ -661,19 +695,25 @@ namespace PromiCRM.Migrations
                 name: "SalesChannels");
 
             migrationBuilder.DropTable(
+                name: "UserServices");
+
+            migrationBuilder.DropTable(
                 name: "WarehouseCountings");
 
             migrationBuilder.DropTable(
                 name: "WeeklyWorkSchedules");
 
             migrationBuilder.DropTable(
-                name: "Services");
-
-            migrationBuilder.DropTable(
                 name: "MaterialsWarehouse");
 
             migrationBuilder.DropTable(
+                name: "OrderServices");
+
+            migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "Countries");
