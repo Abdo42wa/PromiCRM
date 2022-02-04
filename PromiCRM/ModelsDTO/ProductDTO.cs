@@ -72,5 +72,6 @@ namespace PromiCRM.ModelsDTO
         //public virtual IList<ProductMaterialDTO> ProductMaterials { get; set; }
         public IList<ProductMaterialDTO> ProductMaterials { get; set; }
         public IList<RecentWorkDTO> RecentWorks { get; set; }
+        public IList<OrderServiceDTO> OrderServices { get; set; }
     }
 }

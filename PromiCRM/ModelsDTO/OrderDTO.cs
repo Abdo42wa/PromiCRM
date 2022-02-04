@@ -92,6 +92,7 @@ namespace PromiCRM.ModelsDTO
 
         public IList<WarehouseCountingDTO> WarehouseCountings { get; set; }
         public IList<ProductMaterialDTO> ProductMaterials { get; set; }
+        public IList<OrderServiceDTO> OrderServices { get; set; }
         public ProductDTO Product { get; set; }
     }
 

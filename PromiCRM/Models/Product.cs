@@ -42,5 +42,7 @@ namespace PromiCRM.Models
         public virtual ICollection<ProductMaterial> ProductMaterials { get; set; }
         public virtual ICollection<RecentWork> RecentWorks { get; set; }
         public virtual ICollection<Order> Order { get; set; }
+        
+        public virtual ICollection<OrderService> OrderServices { get; set; }
     }
 }
