@@ -25,8 +25,10 @@ namespace PromiCRM.Models
         public DbSet<ProductMaterial> ProductMaterials { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Service> Services { get; set; }
+        public DbSet<OrderService> OrderServices { get; set; }
         public DbSet<RecentWork> RecentWorks { get; set; }
-/*        public DbSet<Service> Services { get; set; }*/
+        
         public DbSet<Shipment> Shipments { get; set; }
         public DbSet<WarehouseCounting> WarehouseCountings { get; set; }
         public DbSet<WeeklyWorkSchedule> WeeklyWorkSchedules { get; set; }
@@ -42,7 +44,7 @@ namespace PromiCRM.Models
             builder.ApplyConfiguration(new CountriesConfiguration());
             builder.ApplyConfiguration(new CurrenciesConfiguration());
             builder.ApplyConfiguration(new CustomerConfiguration());
-            /*builder.ApplyConfiguration(new ServicesConfiguration());*/
+            builder.ApplyConfiguration(new ServicesConfiguration());
             builder.ApplyConfiguration(new ShipmentsConfiguration());
             builder.ApplyConfiguration(new WeeklyWorkSchedulesConfiguration());
             //KOLKAS UZKOMENTUOJU KAD PAZET KAIP VEIKIA

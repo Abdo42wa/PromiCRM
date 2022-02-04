@@ -53,5 +53,6 @@ namespace PromiCRM.ModelsDTO
         public virtual IList<OrderDTO> Orders { get; set; }
         public virtual IList<WeeklyWorkScheduleDTO> WeeklyWorkSchedules { get; set; }
         public virtual IList<RecentWorkDTO> RecentWorks { get; set; }
+        public virtual IList<OrderServiceDTO> OrderServices { get; set; }
     }
 }

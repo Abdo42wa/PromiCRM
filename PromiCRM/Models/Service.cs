@@ -11,6 +11,6 @@ namespace PromiCRM.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<OrderService> OrderServices { get; set; };
+        public virtual ICollection<OrderService> OrderServices { get; set; }
     }
 }

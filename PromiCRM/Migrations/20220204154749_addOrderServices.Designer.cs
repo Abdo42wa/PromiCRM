@@ -10,8 +10,8 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220129133254_createdDB")]
-    partial class createdDB
+    [Migration("20220204154749_addOrderServices")]
+    partial class addOrderServices
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -196,7 +196,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 1, 29, 15, 32, 53, 321, DateTimeKind.Local).AddTicks(4575),
+                            LastAdittion = new DateTime(2022, 2, 4, 17, 47, 48, 485, DateTimeKind.Local).AddTicks(246),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -361,6 +361,36 @@ namespace PromiCRM.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("PromiCRM.Models.OrderService", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeConsumption")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("OrderServices");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Product", b =>
@@ -573,6 +603,58 @@ namespace PromiCRM.Migrations
                     b.ToTable("SalesChannels");
                 });
 
+            modelBuilder.Entity("PromiCRM.Models.Service", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Services");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Lazeriavimas"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Frezavimas"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Dažymas"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Šlifavimas"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Suklijavimas"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Surinkimas"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Pakavimas"
+                        });
+                });
+
             modelBuilder.Entity("PromiCRM.Models.Shipment", b =>
                 {
                     b.Property<int>("Id")
@@ -663,7 +745,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$9aOLRPfce7fDPKqquaw9x.Fx7zjBKF/v7TbEQyOXPZdcqBGYJuib6",
+                            Password = "$2a$11$EmNLtp/EvJ341.O/tAWBX.zgYNnKFllKFBQV8uNAOgKeG1JGy6MpO",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -769,7 +851,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 1, 29, 15, 32, 53, 316, DateTimeKind.Local).AddTicks(3208),
+                            Date = new DateTime(2022, 2, 4, 17, 47, 48, 479, DateTimeKind.Local).AddTicks(4835),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
@@ -826,6 +908,29 @@ namespace PromiCRM.Migrations
                     b.Navigation("Shipment");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PromiCRM.Models.OrderService", b =>
+                {
+                    b.HasOne("PromiCRM.Models.Order", "Order")
+                        .WithMany("OrderServices")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("PromiCRM.Models.Product", "Product")
+                        .WithMany("OrderServices")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("PromiCRM.Models.Service", "Service")
+                        .WithMany("OrderServices")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.ProductMaterial", b =>
@@ -934,6 +1039,8 @@ namespace PromiCRM.Migrations
 
             modelBuilder.Entity("PromiCRM.Models.Order", b =>
                 {
+                    b.Navigation("OrderServices");
+
                     b.Navigation("ProductMaterials");
 
                     b.Navigation("WarehouseCountings");
@@ -943,9 +1050,16 @@ namespace PromiCRM.Migrations
                 {
                     b.Navigation("Order");
 
+                    b.Navigation("OrderServices");
+
                     b.Navigation("ProductMaterials");
 
                     b.Navigation("RecentWorks");
+                });
+
+            modelBuilder.Entity("PromiCRM.Models.Service", b =>
+                {
+                    b.Navigation("OrderServices");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Shipment", b =>
