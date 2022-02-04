@@ -22,7 +22,9 @@ namespace PromiCRM.Repository
         private IGenericRepository<Order> _orders;
         private IGenericRepository<Product> _products;
         private IGenericRepository<RecentWork> _recentWorks;
-/*        private IGenericRepository<Service> _services;*/
+        private IGenericRepository<Service> _services;
+        private IGenericRepository<OrderService> _orderServices;
+        private IGenericRepository<UserService> _userServices;
         private IGenericRepository<Shipment> _shipments;
         private IGenericRepository<WarehouseCounting> _warehouseCountings;
         private IGenericRepository<WeeklyWorkSchedule> _weeklyWorkSchedules;
@@ -47,7 +49,9 @@ namespace PromiCRM.Repository
 
         public IGenericRepository<Product> Products => _products ??= new GenericRepository<Product>(_context);
         public IGenericRepository<RecentWork> RecentWorks => _recentWorks ??= new GenericRepository<RecentWork>(_context);
-        /*public IGenericRepository<Service> Services => _services ??= new GenericRepository<Service>(_context);*/
+        public IGenericRepository<Service> Services => _services ??= new GenericRepository<Service>(_context);
+        public IGenericRepository<OrderService> OrderServices => _orderServices ??= new GenericRepository<OrderService>(_context);
+        public IGenericRepository<UserService> UserServices => _userServices ??= new GenericRepository<UserService>(_context);
 
         public IGenericRepository<Shipment> Shipments => _shipments ??= new GenericRepository<Shipment>(_context);
 
