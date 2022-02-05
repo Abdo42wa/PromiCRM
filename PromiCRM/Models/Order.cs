@@ -62,37 +62,7 @@ namespace PromiCRM.Models
         public virtual Country Country { get; set; }
         
         public string Comment { get; set; }
-
-    /*    BondingTime = 40,
-                    CollectionTime = 20,
-                    LaserTime = 10,
-                    MilingTime = 20,
-                    PaintingTime = 15,
-                    PackagingBoxCode = "pspspsp",
-                    PackingTime = 10.0*/
-        public string BondingUserId { get; set; }
-        public string CollectionUserId { get; set; }
-        public string LaserUserId { get; set; }
-        public string MilingUserId { get; set; }
-        public string PaintingUserId { get; set; }
-        public string PackingUserId { get; set; }
-
-        public int? BondingTime { get; set; }
-        public int? CollectionTime { get; set; }
-        public int? LaserTime { get; set; }
-        public int? MilingTime { get; set; }
-        public int? PaintingTime { get; set; }
-        public int? PackingTime { get; set; }
-
-        public DateTime? BondingComplete { get; set; }
-        public DateTime? CollectionComplete { get; set; }
-        public DateTime? LaserComplete { get; set; }
-        public DateTime? MilingComplete { get; set; }
-        public DateTime? PaintingComplete { get; set; }
-        public DateTime? PackingComplete { get; set; }
-
-
-
+      
         public double? Price { get; set; }
 
         [ForeignKey(nameof(Currency))]

@@ -11,9 +11,9 @@ namespace PromiCRM.ModelsDTO
     {
         //public int OrderId { get; set; }
         //for photo
-       /* public string ImageName { get; set; }
+        public string ImageName { get; set; }
         public string ImagePath { get; set; }
-        public IFormFile File { get; set; }*/
+        public IFormFile File { get; set; }
         public string Link { get; set; }
         public string Code { get; set; }
         public string Category { get; set; }
@@ -26,13 +26,9 @@ namespace PromiCRM.ModelsDTO
         public double HeightWithPackaging { get; set; }
         public double WeightGross { get; set; }
         public double WeightNetto { get; set; }
-        public int? CollectionTime { get; set; }
-        public int? BondingTime { get; set; }
-        public int? PaintingTime { get; set; }
-        public int? LaserTime { get; set; }
-        public int? MilingTime { get; set; }
         public string PackagingBoxCode { get; set; }
         public double PackingTime { get; set; }
+        public IList<OrderServiceDTO> OrderServices { get; set; }
     }
 
     public class UpdateProductDTO
@@ -54,13 +50,7 @@ namespace PromiCRM.ModelsDTO
         public double HeightWithPackaging { get; set; }
         public double WeightGross { get; set; }
         public double WeightNetto { get; set; }
-        public int? CollectionTime { get; set; }
-        public int? BondingTime { get; set; }
-        public int? PaintingTime { get; set; }
-        public int? LaserTime { get; set; }
-        public int? MilingTime { get; set; }
         public string PackagingBoxCode { get; set; }
-        public double PackingTime { get; set; }
     }
     public class ProductDTO : CreateProductDTO
     {
@@ -72,6 +62,5 @@ namespace PromiCRM.ModelsDTO
         //public virtual IList<ProductMaterialDTO> ProductMaterials { get; set; }
         public IList<ProductMaterialDTO> ProductMaterials { get; set; }
         public IList<RecentWorkDTO> RecentWorks { get; set; }
-        public IList<OrderServiceDTO> OrderServices { get; set; }
     }
 }

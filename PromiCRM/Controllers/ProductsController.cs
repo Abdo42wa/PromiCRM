@@ -43,7 +43,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetProducts()
         {
             /*var products = await _unitOfWork.Products.GetAll(includeProperties: "MaterialWarehouse");*/
-            var products = await _database.Products.Include(p => p.ProductMaterials).ThenInclude(d => d.MaterialWarehouse).ToListAsync();
+            var products = await _database.Products.Include(p => p.ProductMaterials).ThenInclude(d => d.MaterialWarehouse).Include(p => p.OrderServices).ToListAsync();
             return Ok(products);
         }
 
@@ -90,17 +90,22 @@ namespace PromiCRM.Controllers
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateProduct)}");
                 return BadRequest("Submited invalid data");
             }
-         /*   if(productDTO.File == null || productDTO.File.Length < 1)
+            if (productDTO.File == null || productDTO.File.Length < 1)
             {
                 return BadRequest("Submited invalid data. Didnt get image");
-            }*/
-           /* var fileName = Guid.NewGuid() + Path.GetExtension(productDTO.File.FileName);
+            }
+            var fileName = Guid.NewGuid() + Path.GetExtension(productDTO.File.FileName);
             var imageUrl = await _blobService.UploadBlob(fileName, productDTO.File, "productscontainer");
             productDTO.ImageName = fileName;
-            productDTO.ImagePath = imageUrl;*/
+            productDTO.ImagePath = imageUrl;
 
             var product = _mapper.Map<Product>(productDTO);
             await _unitOfWork.Products.Insert(product);
+            foreach(OrderService service in product.OrderServices)
+            {
+                service.ProductId = product.Id;
+                _unitOfWork.OrderServices.Update(service);
+            }
             await _unitOfWork.Save();
             return CreatedAtRoute("GetProduct", new { id = product.Id }, product);
         }

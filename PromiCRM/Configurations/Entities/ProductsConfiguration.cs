@@ -29,12 +29,6 @@ namespace PromiCRM.Configurations.Entities
                     HeightWithPackaging = 3.5,
                     WeightGross = 10.2,
                     WeightNetto = 9.0,
-                    BondingTime = 40,
-                    CollectionTime = 20,
-                    LaserTime = 10,
-                    MilingTime = 20,
-                    PaintingTime = 15,
-                    PackingTime = 10,
                     PackagingBoxCode = "pspspsp",
                     ImageName = "Azure",
                     ImagePath = "https://media.bitdegree.org/storage/media/images/2018/12/azure-interview-questions-logo-2-300x224.png"

@@ -41,28 +41,6 @@ namespace PromiCRM.ModelsDTO
         public int? CurrencyId { get; set; }
         public double? Vat { get; set; }
 
-        public string BondingUserId { get; set; }
-        public string CollectionUserId { get; set; }
-        public string LaserUserId { get; set; }
-        public string MilingUserId { get; set; }
-        public string PaintingUserId { get; set; }
-        public string PackingUserId { get; set; }
-
-        public int? BondingTime { get; set; }
-        public int? CollectionTime { get; set; }
-        public int? LaserTime { get; set; }
-        public int? MilingTime { get; set; }
-        public int? PaintingTime { get; set; }
-        public int? PackingTime { get; set; }
-
-        public DateTime? BondingComplete { get; set; }
-        public DateTime? CollectionComplete { get; set; }
-        public DateTime? LaserComplete { get; set; }
-        public DateTime? MilingComplete { get; set; }
-        public DateTime? PaintingComplete { get; set; }
-        public DateTime? PackingComplete { get; set; }
-
-
     }
 
     public class UpdateOrderDTO : CreateOrderDTO
@@ -76,14 +54,6 @@ namespace PromiCRM.ModelsDTO
         public DateTime MinOrderFinishDate { get; set; }
         public int WeekNumber { get; set; }
 
-        //done time
-        public int DoneBondingTime { get; set; }
-        public int DoneCollectionTime { get; set; }
-        public int DoneLaserTime { get; set; }
-        public int DoneMilingTime { get; set; }
-        public int DonePaintingTime { get; set; }
-        public int DonePackingTime { get; set; }
-
         public UserDTO User { get; set; }
         public CustomerDTO Customer { get; set; }
         public ShipmentDTO Shipment { get; set; }
@@ -92,8 +62,8 @@ namespace PromiCRM.ModelsDTO
 
         public IList<WarehouseCountingDTO> WarehouseCountings { get; set; }
         public IList<ProductMaterialDTO> ProductMaterials { get; set; }
-        public IList<OrderServiceDTO> OrderServices { get; set; }
         public ProductDTO Product { get; set; }
+        public IList<OrderServiceDTO> OrderServices { get; set; }
     }
 
 }
