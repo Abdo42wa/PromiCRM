@@ -79,35 +79,41 @@ namespace PromiCRM.Controllers
         /// <param name="productDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize]
+        /*[Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateProduct([FromForm] CreateProductDTO productDTO)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductDTO productDTO)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateProduct)}");
                 return BadRequest("Submited invalid data");
             }
-            if (productDTO.File == null || productDTO.File.Length < 1)
+            /*if (productDTO.File == null || productDTO.File.Length < 1)
             {
                 return BadRequest("Submited invalid data. Didnt get image");
             }
             var fileName = Guid.NewGuid() + Path.GetExtension(productDTO.File.FileName);
-            var imageUrl = await _blobService.UploadBlob(fileName, productDTO.File, "productscontainer");
+            var imageUrl = await _blobService.UploadBlob(fileName, productDTO.File, "products");
             productDTO.ImageName = fileName;
-            productDTO.ImagePath = imageUrl;
+            productDTO.ImagePath = imageUrl;*/
 
             var product = _mapper.Map<Product>(productDTO);
             await _unitOfWork.Products.Insert(product);
-            foreach(OrderService service in product.OrderServices)
+            /*foreach (OrderService service in product.OrderServices)
             {
                 service.ProductId = product.Id;
                 _unitOfWork.OrderServices.Update(service);
-            }
+            }*/
+            /*_unitOfWork.OrderServices.UpdateRange(product.OrderServices);*/
             await _unitOfWork.Save();
+            var createdProduct = await _database.Products.
+                Include(p => p.ProductMaterials).
+                ThenInclude(d => d.MaterialWarehouse).
+                Include(p => p.OrderServices).ThenInclude(p => p.Service).FirstOrDefaultAsync();
             return CreatedAtRoute("GetProduct", new { id = product.Id }, product);
+/*            return Ok(product);*/
         }
 
 

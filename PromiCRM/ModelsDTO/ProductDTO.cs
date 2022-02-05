@@ -27,8 +27,7 @@ namespace PromiCRM.ModelsDTO
         public double WeightGross { get; set; }
         public double WeightNetto { get; set; }
         public string PackagingBoxCode { get; set; }
-        public double PackingTime { get; set; }
-        public IList<OrderServiceDTO> OrderServices { get; set; }
+        public virtual IList<OrderServiceDTO> OrderServices { get; set; }
     }
 
     public class UpdateProductDTO
@@ -55,7 +54,7 @@ namespace PromiCRM.ModelsDTO
     public class ProductDTO : CreateProductDTO
     {
         public int Id { get; set; }
-        public string ImagePath { get; set; }
+        /*public string ImagePath { get; set; }*/
         //public OrderDTO Order { get; set; }
         public IList<OrderDTO> Order { get; set; }
         /* public ServiceDTO Service { get; set; }*/

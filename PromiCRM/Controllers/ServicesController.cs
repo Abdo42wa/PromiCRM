@@ -29,7 +29,7 @@ namespace PromiCRM.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        /*[Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSalesChannels()
@@ -40,7 +40,7 @@ namespace PromiCRM.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetServiceById")]
-        [Authorize]
+        /*[Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(int id)
@@ -55,7 +55,7 @@ namespace PromiCRM.Controllers
         /// <param name="salesChannelDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "ADMINISTRATOR")]
+        /*[Authorize(Roles = "ADMINISTRATOR")]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -110,7 +110,7 @@ namespace PromiCRM.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "ADMINISTRATOR")]
+        /*[Authorize(Roles = "ADMINISTRATOR")]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
