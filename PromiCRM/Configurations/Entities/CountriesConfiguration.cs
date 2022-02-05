@@ -17,8 +17,7 @@ namespace PromiCRM.Configurations.Entities
                 {
                     Id = 1,
                     Name = "Lithuania",
-                    ShortName = "LT",
-                    Continent = "Europe"
+                    ShortName = "LT"
                 }
             );
         }

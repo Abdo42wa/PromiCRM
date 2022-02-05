@@ -62,9 +62,6 @@ namespace PromiCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Continent")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -79,7 +76,6 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Continent = "Europe",
                             Name = "Lithuania",
                             ShortName = "LT"
                         });
@@ -194,7 +190,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 1, 30, 15, 12, 42, 175, DateTimeKind.Local).AddTicks(3135),
+                            LastAdittion = new DateTime(2022, 2, 5, 22, 57, 49, 471, DateTimeKind.Local).AddTicks(1947),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -210,24 +206,6 @@ namespace PromiCRM.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("BondingComplete")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("BondingTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BondingUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CollectionComplete")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CollectionTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CollectionUserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comment")
@@ -257,24 +235,6 @@ namespace PromiCRM.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("LaserComplete")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("LaserTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LaserUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("MilingComplete")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("MilingTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MilingUserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("MoreInfo")
                         .HasColumnType("nvarchar(max)");
 
@@ -285,24 +245,6 @@ namespace PromiCRM.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("OrderType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PackingComplete")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("PackingTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PackingUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PaintingComplete")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("PaintingTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PaintingUserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Platforma")
@@ -361,6 +303,36 @@ namespace PromiCRM.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("PromiCRM.Models.OrderService", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeConsumption")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("OrderService");
+                });
+
             modelBuilder.Entity("PromiCRM.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -368,17 +340,11 @@ namespace PromiCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BondingTime")
-                        .HasColumnType("int");
-
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CollectionTime")
-                        .HasColumnType("int");
 
                     b.Property<double>("HeightWithPackaging")
                         .HasColumnType("float");
@@ -392,9 +358,6 @@ namespace PromiCRM.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("LaserTime")
-                        .HasColumnType("int");
-
                     b.Property<double>("LengthWithPackaging")
                         .HasColumnType("float");
 
@@ -404,20 +367,11 @@ namespace PromiCRM.Migrations
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MilingTime")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PackagingBoxCode")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("PackingTime")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("PaintingTime")
-                        .HasColumnType("int");
 
                     b.Property<double>("WeightGross")
                         .HasColumnType("float");
@@ -439,23 +393,17 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            BondingTime = 40,
                             Category = "Good",
                             Code = "8582262s",
-                            CollectionTime = 20,
                             HeightWithPackaging = 3.5,
                             HeightWithoutPackaging = 3.0,
                             ImageName = "Azure",
                             ImagePath = "https://media.bitdegree.org/storage/media/images/2018/12/azure-interview-questions-logo-2-300x224.png",
-                            LaserTime = 10,
                             LengthWithPackaging = 12.0,
                             LengthWithoutPackaging = 10.0,
                             Link = "sss",
-                            MilingTime = 20,
                             Name = "Produktas",
                             PackagingBoxCode = "pspspsp",
-                            PackingTime = 10.0,
-                            PaintingTime = 15,
                             WeightGross = 10.199999999999999,
                             WeightNetto = 9.0,
                             WidthWithPackaging = 5.5,
@@ -571,6 +519,21 @@ namespace PromiCRM.Migrations
                     b.ToTable("SalesChannels");
                 });
 
+            modelBuilder.Entity("PromiCRM.Models.Service", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Service");
+                });
+
             modelBuilder.Entity("PromiCRM.Models.Shipment", b =>
                 {
                     b.Property<int>("Id")
@@ -661,11 +624,36 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$7739QBP4jfwrHbY1uZr7FujKo5/ft/12ULU/THDd1kCroTM1mHsey",
+                            Password = "$2a$11$A4zT7ur/Fy9TMYOldtWR4.b5huyz1vTNJDhX0GbJ7RnGD7uPSdxk.",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
                         });
+                });
+
+            modelBuilder.Entity("PromiCRM.Models.UserService", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CompletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderServiceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserService");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.UserType", b =>
@@ -767,7 +755,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 1, 30, 15, 12, 42, 169, DateTimeKind.Local).AddTicks(2238),
+                            Date = new DateTime(2022, 2, 5, 22, 57, 49, 466, DateTimeKind.Local).AddTicks(5080),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
@@ -824,6 +812,29 @@ namespace PromiCRM.Migrations
                     b.Navigation("Shipment");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PromiCRM.Models.OrderService", b =>
+                {
+                    b.HasOne("PromiCRM.Models.Order", "Order")
+                        .WithMany("OrderServices")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("PromiCRM.Models.Product", "Product")
+                        .WithMany("OrderServices")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("PromiCRM.Models.Service", "Service")
+                        .WithMany("OrderServices")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.ProductMaterial", b =>
@@ -888,6 +899,25 @@ namespace PromiCRM.Migrations
                     b.Navigation("UserType");
                 });
 
+            modelBuilder.Entity("PromiCRM.Models.UserService", b =>
+                {
+                    b.HasOne("PromiCRM.Models.OrderService", "OrderService")
+                        .WithMany("UserServices")
+                        .HasForeignKey("OrderServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PromiCRM.Models.User", "User")
+                        .WithMany("UserServices")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderService");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PromiCRM.Models.WarehouseCounting", b =>
                 {
                     b.HasOne("PromiCRM.Models.Order", "Order")
@@ -932,18 +962,32 @@ namespace PromiCRM.Migrations
 
             modelBuilder.Entity("PromiCRM.Models.Order", b =>
                 {
+                    b.Navigation("OrderServices");
+
                     b.Navigation("ProductMaterials");
 
                     b.Navigation("WarehouseCountings");
+                });
+
+            modelBuilder.Entity("PromiCRM.Models.OrderService", b =>
+                {
+                    b.Navigation("UserServices");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Product", b =>
                 {
                     b.Navigation("Order");
 
+                    b.Navigation("OrderServices");
+
                     b.Navigation("ProductMaterials");
 
                     b.Navigation("RecentWorks");
+                });
+
+            modelBuilder.Entity("PromiCRM.Models.Service", b =>
+                {
+                    b.Navigation("OrderServices");
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Shipment", b =>
@@ -960,6 +1004,8 @@ namespace PromiCRM.Migrations
                     b.Navigation("RecentWorks");
 
                     b.Navigation("SalesChannels");
+
+                    b.Navigation("UserServices");
 
                     b.Navigation("WeeklyWorkSchedules");
                 });

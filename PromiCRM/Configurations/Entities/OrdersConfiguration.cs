@@ -37,13 +37,7 @@ namespace PromiCRM.Configurations.Entities
                     CurrencyId = 1,
                     Vat = 21.1,
                     Status= false,
-                    OrderFinishDate = DateTime.Now,
-                    BondingTime = 40,
-                    CollectionTime = 20,
-                    LaserTime = 10,
-                    MilingTime = 20,
-                    PaintingTime = 15,
-                    PackingTime = 10,
+                    OrderFinishDate = DateTime.Now
                 }
             );
         }

@@ -209,7 +209,7 @@ namespace PromiCRM.Controllers
                 .GroupBy(o => new { o.Status })
                 .Select(o => new OrderDTO
                 {
-                    LaserTime = o.Sum(o => o.LaserTime * o.Quantity),
+                    /*LaserTime = o.Sum(o => o.LaserTime * o.Quantity),
                     BondingTime = o.Sum(o => o.BondingTime * o.Quantity),
                     CollectionTime = o.Sum(o => o.CollectionTime * o.Quantity),
                     MilingTime = o.Sum(o => o.MilingTime * o.Quantity),
@@ -220,7 +220,7 @@ namespace PromiCRM.Controllers
                     DoneCollectionTime = (int)o.Sum(o => o.CollectionUserId != null ? o.CollectionTime* o.Quantity : o.CollectionTime * 0),
                     DoneMilingTime = (int)o.Sum(o => o.MilingUserId!= null ? o.MilingTime * o.Quantity : o.MilingTime * 0),
                     DonePaintingTime = (int)o.Sum(o => o.PaintingUserId!= null ? o.PaintingTime* o.Quantity : o.PaintingTime * 0),
-                    DonePackingTime = (int)o.Sum(o => o.PackingUserId!= null ? o.PackingTime* o.Quantity : o.PackingTime * 0)
+                    DonePackingTime = (int)o.Sum(o => o.PackingUserId!= null ? o.PackingTime* o.Quantity : o.PackingTime * 0)*/
                 }).ToListAsync();
             return Ok(orders);
         }
