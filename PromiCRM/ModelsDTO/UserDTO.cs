@@ -28,10 +28,11 @@ namespace PromiCRM.ModelsDTO
         public int TypeId { get; set; }
         public UserType UserType { get; set; }
         public byte[] UserPhoto { get; set; }
-        public virtual IList<BonusDTO> Bonus { get; set; }
-        public virtual IList<OrderDTO> Orders { get; set; }
-        public virtual IList<WeeklyWorkScheduleDTO> WeeklyWorkSchedules { get; set; }
-        public virtual IList<RecentWorkDTO> RecentWorks { get; set; }
+        public IList<BonusDTO> Bonus { get; set; }
+        public IList<OrderDTO> Orders { get; set; }
+        public IList<WeeklyWorkScheduleDTO> WeeklyWorkSchedules { get; set; }
+        public IList<RecentWorkDTO> RecentWorks { get; set; }
+        public IList<UserService> UserServices { get; set; } 
     }
 
     public class DisplayUserDTO

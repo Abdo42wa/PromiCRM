@@ -9,11 +9,8 @@ namespace PromiCRM.ModelsDTO
     public class CreateServiceDTO
     {
         [Required]
-        [StringLength(maximumLength: 100, MinimumLength = 10, ErrorMessage = "The Service  Name cannot be more than 100 or less than 10 ")]
+        [StringLength(maximumLength: 40, MinimumLength = 3, ErrorMessage = "The Service  Name cannot be more than 40 or less than 5 ")]
         public string Name { get; set; }
-        [Required]
-        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "The Service  Time cannot be more than 50 or less than 3 ")]
-        public int Time { get; set; }
     }
     public class UpdateServiceDTO : CreateServiceDTO
     {
@@ -22,6 +19,6 @@ namespace PromiCRM.ModelsDTO
     public class ServiceDTO : CreateServiceDTO
     {
         public int Id { get; set; }
-        public virtual IList<ProductDTO> Products { get; set; }
+        public IList<OrderServiceDTO> OrderServices { get; set; }
     }
 }
