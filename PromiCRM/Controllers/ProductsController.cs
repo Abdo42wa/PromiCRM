@@ -94,10 +94,10 @@ namespace PromiCRM.Controllers
             {
                 return BadRequest("Submited invalid data. Didnt get image");
             }
-            var fileName = Guid.NewGuid() + Path.GetExtension(productDTO.File.FileName);
+/*            var fileName = Guid.NewGuid() + Path.GetExtension(productDTO.File.FileName);
             var imageUrl = await _blobService.UploadBlob(fileName, productDTO.File, "products");
             productDTO.ImageName = fileName;
-            productDTO.ImagePath = imageUrl;
+            productDTO.ImagePath = imageUrl;*/
 
             var product = _mapper.Map<Product>(productDTO);
             await _unitOfWork.Products.Insert(product);
