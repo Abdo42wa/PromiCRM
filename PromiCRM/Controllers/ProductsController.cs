@@ -37,7 +37,7 @@ namespace PromiCRM.Controllers
 
 
         [HttpGet]
-        [Authorize]
+        /*[Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProducts()
@@ -79,7 +79,7 @@ namespace PromiCRM.Controllers
         /// <param name="productDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize]
+        /*[Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -90,25 +90,26 @@ namespace PromiCRM.Controllers
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateProduct)}");
                 return BadRequest("Submited invalid data");
             }
-            if (productDTO.File == null || productDTO.File.Length < 1)
-            {
-                return BadRequest("Submited invalid data. Didnt get image");
-            }
-/*            var fileName = Guid.NewGuid() + Path.GetExtension(productDTO.File.FileName);
-            var imageUrl = await _blobService.UploadBlob(fileName, productDTO.File, "products");
-            productDTO.ImageName = fileName;
-            productDTO.ImagePath = imageUrl;*/
+            /* if (productDTO.File == null || productDTO.File.Length < 1)
+             {
+                 return BadRequest("Submited invalid data. Didnt get image");
+             }*/
+            /*            var fileName = Guid.NewGuid() + Path.GetExtension(productDTO.File.FileName);
+                        var imageUrl = await _blobService.UploadBlob(fileName, productDTO.File, "products");
+                        productDTO.ImageName = fileName;
+                        productDTO.ImagePath = imageUrl;*/
 
             var product = _mapper.Map<Product>(productDTO);
             await _unitOfWork.Products.Insert(product);
             await _unitOfWork.Save();
             var createdProduct = await _database.Products.
+                Include(p => p.OrderServices).
                 Include(p => p.ProductMaterials).
                 ThenInclude(d => d.MaterialWarehouse).
-                Include(p => p.OrderServices).FirstOrDefaultAsync();
+                FirstOrDefaultAsync(o => o.Id == product.Id);
             var result = _mapper.Map<ProductDTO>(createdProduct);
-            /*return CreatedAtRoute("GetProduct", new { id = product.Id }, product);*/
             return Ok(result);
+/*            return Ok(productDTO);*/
         }
 
 

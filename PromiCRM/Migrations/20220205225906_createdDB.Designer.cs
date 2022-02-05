@@ -10,7 +10,7 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220205205750_createdDB")]
+    [Migration("20220205225906_createdDB")]
     partial class createdDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -192,7 +192,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 2, 5, 22, 57, 49, 471, DateTimeKind.Local).AddTicks(1947),
+                            LastAdittion = new DateTime(2022, 2, 6, 0, 59, 5, 489, DateTimeKind.Local).AddTicks(2929),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -626,7 +626,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$A4zT7ur/Fy9TMYOldtWR4.b5huyz1vTNJDhX0GbJ7RnGD7uPSdxk.",
+                            Password = "$2a$11$fnFmweCVbzfhMgMC/G7jb.bk3uE99hdo3qSR9zBoTaFj/UJ4C1Tyi",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -757,7 +757,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 2, 5, 22, 57, 49, 466, DateTimeKind.Local).AddTicks(5080),
+                            Date = new DateTime(2022, 2, 6, 0, 59, 5, 482, DateTimeKind.Local).AddTicks(7236),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
