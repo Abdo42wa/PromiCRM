@@ -38,7 +38,7 @@ namespace PromiCRM.Controllers
             return Ok(results);
         }
 
-        [HttpGet("{id:int}", Name = "GetById")]
+        [HttpGet("{id:int}", Name = "GetOrderServiceById")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -69,7 +69,7 @@ namespace PromiCRM.Controllers
             var orderService = _mapper.Map<OrderService>(orderServiceDTO);
             await _unitOfWork.OrderServices.Insert(orderService);
             await _unitOfWork.Save();
-            return CreatedAtRoute("GetById", new { id = orderService.Id }, orderService);
+            return CreatedAtRoute("GetOrderServiceById", new { id = orderService.Id }, orderService);
         }
         /// <summary>
         /// Check if model valid. check if exist and update

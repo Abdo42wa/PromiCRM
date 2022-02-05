@@ -39,7 +39,7 @@ namespace PromiCRM.Controllers
             return Ok(results);
         }
 
-        [HttpGet("{id:int}", Name = "GetById")]
+        [HttpGet("{id:int}", Name = "GetServiceById")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -70,7 +70,7 @@ namespace PromiCRM.Controllers
             var service = _mapper.Map<Service>(serviceDTO);
             await _unitOfWork.Services.Insert(service);
             await _unitOfWork.Save();
-            return CreatedAtRoute("GetById", new { id = service.Id}, service);
+            return CreatedAtRoute("GetServiceById", new { id = service.Id}, service);
             /*return CreatedAtRoute("GetById", new { id = salesChannel.Id }, salesChannel);*/
         }
         /// <summary>
