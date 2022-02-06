@@ -14,8 +14,7 @@ namespace PromiCRM.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ShortName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Continent = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ShortName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -412,8 +411,8 @@ namespace PromiCRM.Migrations
 
             migrationBuilder.InsertData(
                 table: "Countries",
-                columns: new[] { "Id", "Continent", "Name", "ShortName" },
-                values: new object[] { 1, "Europe", "Lithuania", "LT" });
+                columns: new[] { "Id", "Name", "ShortName" },
+                values: new object[] { 1, "Lithuania", "LT" });
 
             migrationBuilder.InsertData(
                 table: "Currencies",
@@ -432,7 +431,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "MaterialsWarehouse",
                 columns: new[] { "Id", "DeliveryTime", "ImageName", "ImagePath", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
-                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 1, 30, 15, 12, 42, 175, DateTimeKind.Local).AddTicks(3135), "cm", 22500, "Fanera 3mm", 40 });
+                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 2, 5, 23, 29, 21, 589, DateTimeKind.Local).AddTicks(8741), "cm", 22500, "Fanera 3mm", 40 });
 
             migrationBuilder.InsertData(
                 table: "Products",
@@ -467,7 +466,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$7739QBP4jfwrHbY1uZr7FujKo5/ft/12ULU/THDd1kCroTM1mHsey", "860855183", "Admin", 1, null });
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$aVoZz.Wmz3LhS/3SeYm2/.HSEpWWi.NnTvXm58OO847Qe5i0beITu", "860855183", "Admin", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Bonus",
@@ -477,7 +476,7 @@ namespace PromiCRM.Migrations
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
                 columns: new[] { "Id", "Date", "Description", "Done", "UserId" },
-                values: new object[] { 1, new DateTime(2022, 1, 30, 15, 12, 42, 169, DateTimeKind.Local).AddTicks(2238), "Supildyti frezavimo laiko lentele", false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
+                values: new object[] { 1, new DateTime(2022, 2, 5, 23, 29, 21, 585, DateTimeKind.Local).AddTicks(5600), "Supildyti frezavimo laiko lentele", false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bonus_UserId",

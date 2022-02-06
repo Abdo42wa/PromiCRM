@@ -10,7 +10,7 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220130131242_createDatabase")]
+    [Migration("20220205212922_createDatabase")]
     partial class createDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,9 +64,6 @@ namespace PromiCRM.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Continent")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -81,7 +78,6 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Continent = "Europe",
                             Name = "Lithuania",
                             ShortName = "LT"
                         });
@@ -196,7 +192,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 1, 30, 15, 12, 42, 175, DateTimeKind.Local).AddTicks(3135),
+                            LastAdittion = new DateTime(2022, 2, 5, 23, 29, 21, 589, DateTimeKind.Local).AddTicks(8741),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -663,7 +659,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$7739QBP4jfwrHbY1uZr7FujKo5/ft/12ULU/THDd1kCroTM1mHsey",
+                            Password = "$2a$11$aVoZz.Wmz3LhS/3SeYm2/.HSEpWWi.NnTvXm58OO847Qe5i0beITu",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -769,7 +765,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 1, 30, 15, 12, 42, 169, DateTimeKind.Local).AddTicks(2238),
+                            Date = new DateTime(2022, 2, 5, 23, 29, 21, 585, DateTimeKind.Local).AddTicks(5600),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")

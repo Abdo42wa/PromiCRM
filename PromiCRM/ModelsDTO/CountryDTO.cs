@@ -8,14 +8,14 @@ namespace PromiCRM.ModelsDTO
 {
     public class CreateCountryDTO
     {
-       
+      
         public string Name { get; set; }
-       
+        
         public string ShortName { get; set; }
   
     }
 
-    public class UpdateCountryDTO
+    public class UpdateCountryDTO : CreateCountryDTO
     {
 
     }
