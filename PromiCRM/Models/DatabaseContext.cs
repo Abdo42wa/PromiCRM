@@ -51,6 +51,7 @@ namespace PromiCRM.Models
             builder.ApplyConfiguration(new ProductsConfiguration());
             builder.ApplyConfiguration(new MaterialsWarehouseConfiguration());
             builder.ApplyConfiguration(new MaterialsConfiguration());
+            builder.ApplyConfiguration(new OrderServicesConfiguration());
         }
     }
 }

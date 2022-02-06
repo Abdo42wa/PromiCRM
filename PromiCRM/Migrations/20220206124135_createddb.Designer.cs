@@ -10,8 +10,8 @@ using PromiCRM.Models;
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220205225906_createdDB")]
-    partial class createdDB
+    [Migration("20220206124135_createddb")]
+    partial class createddb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -192,7 +192,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 2, 6, 0, 59, 5, 489, DateTimeKind.Local).AddTicks(2929),
+                            LastAdittion = new DateTime(2022, 2, 6, 14, 41, 34, 927, DateTimeKind.Local).AddTicks(5540),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -333,6 +333,29 @@ namespace PromiCRM.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("OrderService");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ProductId = 1,
+                            ServiceId = 1,
+                            TimeConsumption = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ProductId = 1,
+                            ServiceId = 2,
+                            TimeConsumption = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ProductId = 1,
+                            ServiceId = 3,
+                            TimeConsumption = 0
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Product", b =>
@@ -533,7 +556,44 @@ namespace PromiCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Service");
+                    b.ToTable("Services");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Lazeriavimas"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Frezavimas"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Dažymas"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Šlifavimas"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Suklijavimas"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Surinkimas"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Pakavimas"
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Shipment", b =>
@@ -626,7 +686,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$fnFmweCVbzfhMgMC/G7jb.bk3uE99hdo3qSR9zBoTaFj/UJ4C1Tyi",
+                            Password = "$2a$11$hYLxM0TsX799MuEyvv4Qhui/E1QzU9njwQn0ZWtTigakBX/dELUlK",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -757,7 +817,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 2, 6, 0, 59, 5, 482, DateTimeKind.Local).AddTicks(7236),
+                            Date = new DateTime(2022, 2, 6, 14, 41, 34, 924, DateTimeKind.Local).AddTicks(3591),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")

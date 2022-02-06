@@ -190,7 +190,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 2, 6, 1, 0, 32, 242, DateTimeKind.Local).AddTicks(6829),
+                            LastAdittion = new DateTime(2022, 2, 6, 14, 41, 34, 927, DateTimeKind.Local).AddTicks(5540),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -331,6 +331,29 @@ namespace PromiCRM.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("OrderService");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ProductId = 1,
+                            ServiceId = 1,
+                            TimeConsumption = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ProductId = 1,
+                            ServiceId = 2,
+                            TimeConsumption = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ProductId = 1,
+                            ServiceId = 3,
+                            TimeConsumption = 0
+                        });
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Product", b =>
@@ -661,7 +684,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$wWRja9HxjWC.uDJiCjhA6unZuGWGLw9JjduXJe3g9jBaWO.ew1oAu",
+                            Password = "$2a$11$hYLxM0TsX799MuEyvv4Qhui/E1QzU9njwQn0ZWtTigakBX/dELUlK",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -792,7 +815,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 2, 6, 1, 0, 32, 237, DateTimeKind.Local).AddTicks(581),
+                            Date = new DateTime(2022, 2, 6, 14, 41, 34, 924, DateTimeKind.Local).AddTicks(3591),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")

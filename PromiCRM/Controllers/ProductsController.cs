@@ -43,7 +43,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetProducts()
         {
             /*var products = await _unitOfWork.Products.GetAll(includeProperties: "MaterialWarehouse");*/
-            var products = await _database.Products.Include(p => p.ProductMaterials).ThenInclude(d => d.MaterialWarehouse).Include(p => p.OrderServices).ToListAsync();
+            var products = await _database.Products.Include(p => p.ProductMaterials).ThenInclude(d => d.MaterialWarehouse).Include(p => p.OrderServices).ThenInclude(e => e.Service).ToListAsync();
             return Ok(products);
         }
 
@@ -104,6 +104,7 @@ namespace PromiCRM.Controllers
             await _unitOfWork.Save();
             var createdProduct = await _database.Products.
                 Include(p => p.OrderServices).
+                ThenInclude(e => e.Service).
                 Include(p => p.ProductMaterials).
                 ThenInclude(d => d.MaterialWarehouse).
                 FirstOrDefaultAsync(o => o.Id == product.Id);

@@ -35,7 +35,8 @@ namespace PromiCRM
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DatabaseContext>(
-               options => options.UseSqlServer(Configuration.GetConnectionString("lukasConnection")));
+               options => options.UseSqlServer(Configuration.GetConnectionString("lukasConnection"),
+               p => p.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
 
             services.AddAuthentication();
