@@ -12,6 +12,8 @@ namespace PromiCRM.Models
     {
         [Key]
         public int Id { get; set; }
+        public string CountryName { get; set; }
+        public string CurrencyName { get; set; }
         // we need to conect the user table some how with the order tab
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
@@ -52,9 +54,6 @@ namespace PromiCRM.Models
         public virtual Country Country { get; set; }
         public string Comment { get; set; }
         public double? Price { get; set; }
-        [ForeignKey(nameof(Currency))]
-        public int? CurrencyId { get; set; }
-        public virtual Currency Currency { get; set; }
         public double? Vat { get; set; }
         public DateTime OrderFinishDate { get; set; }
 

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PromiCRM.Models;
 
 namespace PromiCRM.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220208155200_addedCountryNameAndCurrency")]
+    partial class addedCountryNameAndCurrency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,6 +80,33 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             Name = "Lithuania",
                             ShortName = "LT"
+                        });
+                });
+
+            modelBuilder.Entity("PromiCRM.Models.Currency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Currencies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Euras"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Doleris"
                         });
                 });
 
@@ -163,7 +192,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 2, 8, 18, 15, 25, 340, DateTimeKind.Local).AddTicks(2795),
+                            LastAdittion = new DateTime(2022, 2, 8, 17, 51, 59, 187, DateTimeKind.Local).AddTicks(1819),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -192,6 +221,9 @@ namespace PromiCRM.Migrations
 
                     b.Property<string>("CountryName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CurrencyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("CurrencyName")
                         .HasColumnType("nvarchar(max)");
@@ -265,6 +297,8 @@ namespace PromiCRM.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("CurrencyId");
 
                     b.HasIndex("CustomerId");
 
@@ -658,7 +692,7 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$9S5iBn5swIPBKA9jdMjdtunc/nBWv3Zl7Hjj3Nue/c21lYPoauxZS",
+                            Password = "$2a$11$X.YAVAK.Qwa22kWdkCf0seN1qr5OkLdCI.okHyGaGjjI5BXwBwHy6",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -789,7 +823,7 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 2, 8, 18, 15, 25, 336, DateTimeKind.Local).AddTicks(4759),
+                            Date = new DateTime(2022, 2, 8, 17, 51, 59, 182, DateTimeKind.Local).AddTicks(9735),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
@@ -813,6 +847,10 @@ namespace PromiCRM.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("CountryId");
 
+                    b.HasOne("PromiCRM.Models.Currency", "Currency")
+                        .WithMany("Orders")
+                        .HasForeignKey("CurrencyId");
+
                     b.HasOne("PromiCRM.Models.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId");
@@ -832,6 +870,8 @@ namespace PromiCRM.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
+
+                    b.Navigation("Currency");
 
                     b.Navigation("Customer");
 
@@ -969,6 +1009,11 @@ namespace PromiCRM.Migrations
                 });
 
             modelBuilder.Entity("PromiCRM.Models.Country", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("PromiCRM.Models.Currency", b =>
                 {
                     b.Navigation("Orders");
                 });

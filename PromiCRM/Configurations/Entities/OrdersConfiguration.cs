@@ -34,7 +34,6 @@ namespace PromiCRM.Configurations.Entities
                     Comment = "great",
                     Device = "ira",
                     Price = 99.99,
-                    CurrencyId = 1,
                     Vat = 21.1,
                     Status= false,
                     OrderFinishDate = DateTime.Now

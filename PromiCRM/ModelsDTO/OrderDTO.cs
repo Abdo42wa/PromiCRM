@@ -10,6 +10,8 @@ namespace PromiCRM.ModelsDTO
     public class CreateOrderDTO
     {
         public Guid UserId { get; set; }
+        public string CountryName { get; set; }
+        public string CurrencyName { get; set; }
         public string OrderType { get; set; }
         //for image
         public string ImageName { get; set; }
@@ -38,13 +40,13 @@ namespace PromiCRM.ModelsDTO
         public int? CountryId { get; set; }
         public string Comment { get; set; }
         public double? Price { get; set; }
-        public int? CurrencyId { get; set; }
         public double? Vat { get; set; }
+        public IList<OrderServiceDTO> OrderServices { get; set; }
     }
 
     public class UpdateOrderDTO : CreateOrderDTO
     {
-
+        
     }
     public class OrderDTO : CreateOrderDTO
     {
@@ -64,11 +66,9 @@ namespace PromiCRM.ModelsDTO
         public CustomerDTO Customer { get; set; }
         public ShipmentDTO Shipment { get; set; }
         public CountryDTO Country { get; set; }
-        public CurrencyDTO Currency { get; set; }
 
         public IList<WarehouseCountingDTO> WarehouseCountings { get; set; }
         public IList<ProductMaterialDTO> ProductMaterials { get; set; }
-        public IList<OrderServiceDTO> OrderServices { get; set; }
         
     }
 

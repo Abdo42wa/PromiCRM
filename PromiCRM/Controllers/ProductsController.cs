@@ -55,8 +55,6 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetProduct(int id)
         {
             var product = await _unitOfWork.Products.Get(c => c.Id == id, includeProperties: "Order,ProductMaterials");
-
-
             var result = _mapper.Map<ProductDTO>(product);
             return Ok(result);
         }

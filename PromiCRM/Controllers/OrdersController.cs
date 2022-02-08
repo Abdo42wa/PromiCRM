@@ -36,17 +36,47 @@ namespace PromiCRM.Controllers
             _database = database;
         }
 
-
+        //getting all orders that are not not-standart
         [HttpGet]
         /*[Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrders()
         {
-            var orders = await _unitOfWork.Orders.GetAll(includeProperties: "Product,User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
+            var orders = await _database.Orders.Where(o => o.OrderType != "Ne-standartinis").
+                Include(o => o.User).
+                Include(o => o.Shipment).
+                Include(o => o.Customer).
+                Include(o => o.Country).
+                Include(o => o.Product).
+                ThenInclude(o => o.OrderServices).
+                ThenInclude(o => o.Service).
+                AsNoTracking().
+                ToListAsync();
+            //var orders = await _unitOfWork.Orders.GetAll(includeProperties: "Product,User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
+        //getting only not-standart orders
+        [HttpGet("nonstandart")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetNotStandartOrders()
+        {
+            var orders = await _database.Orders.Where(o => o.OrderType == "Ne-standartinis").
+                Include(o => o.User).
+                Include(o => o.Shipment).
+                Include(o => o.Customer).
+                Include(o => o.Country).
+                Include(o => o.OrderServices).
+                ThenInclude(p => p.Service).
+                OrderByDescending(o => o.OrderFinishDate).
+                AsNoTracking().
+                ToListAsync();
+            var results = _mapper.Map<IList<OrderDTO>>(orders);
+            return Ok(results);
+        }
+
 
 
         [HttpGet("{id:int}", Name = "GetOrder")]
@@ -381,7 +411,17 @@ namespace PromiCRM.Controllers
             }
             //save made changes
             await _unitOfWork.Save();
-            var createdOrder = await _unitOfWork.Orders.Get(o => o.Id == order.Id, includeProperties: "Product,User,Shipment,Customer,Country,Currency");
+            /*var createdOrder = await _unitOfWork.Orders.Get(o => o.Id == order.Id, includeProperties: "Product,User,Shipment,Customer,Country");*/
+            var createdOrder = await _database.Orders.Where(o => o.Id == order.Id).
+                Include(o => o.User).
+                Include(o => o.Shipment).
+                Include(o => o.Customer).
+                Include(o => o.Country).
+                Include(o => o.Product).
+                ThenInclude(o => o.OrderServices).
+                ThenInclude(p => p.Service).
+                AsNoTracking().
+                FirstOrDefaultAsync();
             var results = _mapper.Map<OrderDTO>(createdOrder);
             return Ok(results);
         }

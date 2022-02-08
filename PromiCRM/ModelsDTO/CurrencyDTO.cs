@@ -21,6 +21,6 @@ namespace PromiCRM.ModelsDTO
     public class CurrencyDTO : CreateCurrencyDTO
     {
         public int Id { get; set; }
-        public virtual IList<OrderDTO> Orders { get; set; }
+        /*public virtual IList<OrderDTO> Orders { get; set; }*/
     }
 }

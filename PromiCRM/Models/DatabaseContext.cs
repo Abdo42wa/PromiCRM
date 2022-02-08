@@ -19,7 +19,7 @@ namespace PromiCRM.Models
         public DbSet<SalesChannel> SalesChannels { get; set; }
         public DbSet<Bonus> Bonus { get; set; }
         public DbSet<Country> Countries { get; set; }
-        public DbSet<Currency> Currencies { get; set; }
+        /*public DbSet<Currency> Currencies { get; set; }*/
         public DbSet<Customer> Customers { get; set; }
         public DbSet<MaterialWarehouse> MaterialsWarehouse { get; set; }
         public DbSet<ProductMaterial> ProductMaterials { get; set; }
@@ -40,7 +40,6 @@ namespace PromiCRM.Models
             builder.ApplyConfiguration(new UsersConfiguration());
             builder.ApplyConfiguration(new BonusConfiguration());
             builder.ApplyConfiguration(new CountriesConfiguration());
-            builder.ApplyConfiguration(new CurrenciesConfiguration());
             builder.ApplyConfiguration(new CustomerConfiguration());
             builder.ApplyConfiguration(new ServicesConfiguration());
             builder.ApplyConfiguration(new ShipmentsConfiguration());
