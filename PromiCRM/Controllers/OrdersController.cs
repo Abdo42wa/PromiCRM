@@ -456,7 +456,16 @@ namespace PromiCRM.Controllers
             var order = _mapper.Map<Order>(createOrderDTO);
             await _unitOfWork.Orders.Insert(order);
             await _unitOfWork.Save();
-            var createdOrder = await _unitOfWork.Orders.Get(o => o.Id == order.Id, includeProperties: "User,Customer,ProductMaterials");
+            var createdOrder = await _database.Orders.Where(o => o.Id == order.Id).
+                Include(o => o.User).
+                Include(o => o.Shipment).
+                Include(o => o.Customer).
+                Include(o => o.Country).
+                Include(o => o.OrderServices).
+                ThenInclude(p => p.Service).
+                OrderByDescending(o => o.OrderFinishDate).
+                AsNoTracking().
+                FirstOrDefaultAsync();
             var results = _mapper.Map<OrderDTO>(createdOrder);
 
             return Ok(results);
