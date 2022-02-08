@@ -137,6 +137,8 @@ namespace PromiCRM.Controllers
 
             _mapper.Map(productDTO, product);
             _unitOfWork.Products.Update(product);
+            if (product.OrderServices.Count > 0)
+                _unitOfWork.OrderServices.UpdateRange(product.OrderServices);
             await _unitOfWork.Save();
             return NoContent();
         }
@@ -176,6 +178,8 @@ namespace PromiCRM.Controllers
 
             _mapper.Map(productDTO, product);
             _unitOfWork.Products.Update(product);
+            if(product.OrderServices.Count > 0)
+                _unitOfWork.OrderServices.UpdateRange(product.OrderServices);
             await _unitOfWork.Save();
             return Ok(product);
         }

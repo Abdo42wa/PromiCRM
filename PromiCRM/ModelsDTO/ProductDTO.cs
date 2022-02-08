@@ -50,6 +50,7 @@ namespace PromiCRM.ModelsDTO
         public double WeightGross { get; set; }
         public double WeightNetto { get; set; }
         public string PackagingBoxCode { get; set; }
+        public IList<OrderServiceDTO> OrderServices { get; set; }
     }
     public class ProductDTO : CreateProductDTO
     {
