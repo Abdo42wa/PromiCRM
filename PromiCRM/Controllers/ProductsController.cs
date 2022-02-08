@@ -160,13 +160,13 @@ namespace PromiCRM.Controllers
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateProductWithImage)}");
                 return BadRequest("Submited invalid data");
             }
-            if (productDTO.File == null || productDTO.File.Length < 1)
+            //FOR NOW WE DONT NEED THIS
+            /*if (productDTO.File == null || productDTO.File.Length < 1)
             {
                 return BadRequest("Submited invalid data. Didnt get image");
             }
-            /*var fileName = Guid.NewGuid() + Path.GetExtension(warehouseMaterialForm.File.FileName);*/
             var imageUrl = await _blobService.UploadBlob(productDTO.ImageName, productDTO.File, "products");
-            productDTO.ImagePath = imageUrl;
+            productDTO.ImagePath = imageUrl;*/
             //get product by id
             var product = await _unitOfWork.Products.Get(c => c.Id == id);
             if (product == null)
