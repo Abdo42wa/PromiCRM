@@ -49,7 +49,7 @@ namespace PromiCRM.Controllers
                 Include(o => o.Country).
                 Include(o => o.Product).
                 ThenInclude(o => o.OrderServices).
-                ThenInclude(o => o.Service).
+                ThenInclude(o => o.UserServices).
                 AsNoTracking().
                 ToListAsync();
             //var orders = await _unitOfWork.Orders.GetAll(includeProperties: "Product,User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
@@ -68,7 +68,7 @@ namespace PromiCRM.Controllers
                 Include(o => o.Customer).
                 Include(o => o.Country).
                 Include(o => o.OrderServices).
-                ThenInclude(p => p.Service).
+                ThenInclude(p => p.UserServices).
                 OrderByDescending(o => o.OrderFinishDate).
                 AsNoTracking().
                 ToListAsync();
@@ -76,15 +76,41 @@ namespace PromiCRM.Controllers
             return Ok(results);
         }
 
-
-
-        [HttpGet("{id:int}", Name = "GetOrder")]
-        /*[Authorize]*/
+        [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrder(int id)
         {
-            var order = await _unitOfWork.Orders.Get(c => c.Id == id, includeProperties: "User,Shipment,Customer,Country,Currency");
+            var order = await _database.Orders.Where(o => o.Id == id).
+               Include(o => o.User).
+               Include(o => o.Shipment).
+               Include(o => o.Customer).
+               Include(o => o.Country).
+               Include(o => o.Product).
+               ThenInclude(o => o.OrderServices).
+               ThenInclude(o => o.Service).
+               AsNoTracking().
+               FirstOrDefaultAsync();
+            var result = _mapper.Map<OrderDTO>(order);
+            return Ok(result);
+        }
+
+        [HttpGet("nonstandart/{id:int}", Name = "GetOrder")]
+        /*[Authorize]*/
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetNonStandartOrder(int id)
+        {
+            var order = await _database.Orders.Where(o => o.Id == id).
+                Include(o => o.User).
+                Include(o => o.Shipment).
+                Include(o => o.Customer).
+                Include(o => o.Country).
+                Include(o => o.OrderServices).
+                ThenInclude(p => p.Service).
+                OrderByDescending(o => o.OrderFinishDate).
+                AsNoTracking().
+                FirstOrDefaultAsync();
             var result = _mapper.Map<OrderDTO>(order);
             return Ok(result);
         }
