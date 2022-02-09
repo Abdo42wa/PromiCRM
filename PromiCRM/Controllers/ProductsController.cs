@@ -4,14 +4,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
-using PromiCRM.Services;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiCore.Services;
+using PromiData.Models;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
@@ -26,7 +22,7 @@ namespace PromiCRM.Controllers
         private readonly DatabaseContext _database;
         private readonly IBlobService _blobService;
 
-        public ProductsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ProductsController> logger,DatabaseContext databaseContext, IBlobService blobService)
+        public ProductsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ProductsController> logger, DatabaseContext databaseContext, IBlobService blobService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -59,17 +55,17 @@ namespace PromiCRM.Controllers
             return Ok(result);
         }
 
-      /*  [HttpGet("order/{id:int}")]
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetProductsByOrder(int id)
-        {
-            var products = await _database.Products.Where(p => p.OrderId == id).Include(p => p.ProductMaterials).ThenInclude(d => d.MaterialWarehouse).ToListAsync();
-            *//*var products = await _unitOfWork.Products.GetAll(p => p.OrderId == id, includeProperties: "Order,ProductMaterials");*//*
-            var results = _mapper.Map<IList<ProductDTO>>(products);
-            return Ok(results);
-        }*/
+        /*  [HttpGet("order/{id:int}")]
+          [Authorize]
+          [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+          [ProducesResponseType(StatusCodes.Status200OK)]
+          public async Task<IActionResult> GetProductsByOrder(int id)
+          {
+              var products = await _database.Products.Where(p => p.OrderId == id).Include(p => p.ProductMaterials).ThenInclude(d => d.MaterialWarehouse).ToListAsync();
+              *//*var products = await _unitOfWork.Products.GetAll(p => p.OrderId == id, includeProperties: "Order,ProductMaterials");*//*
+              var results = _mapper.Map<IList<ProductDTO>>(products);
+              return Ok(results);
+          }*/
 
         /// <summary>
         /// create image, then save record 
@@ -109,7 +105,7 @@ namespace PromiCRM.Controllers
                 FirstOrDefaultAsync(o => o.Id == product.Id);
             var result = _mapper.Map<ProductDTO>(createdProduct);
             return Ok(result);
-/*            return Ok(productDTO);*/
+            /*            return Ok(productDTO);*/
         }
 
 
@@ -151,7 +147,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateProductWithImage([FromForm]UpdateProductDTO productDTO, int id)
+        public async Task<IActionResult> UpdateProductWithImage([FromForm] UpdateProductDTO productDTO, int id)
         {
             if (!ModelState.IsValid)
             {
@@ -176,7 +172,7 @@ namespace PromiCRM.Controllers
 
             _mapper.Map(productDTO, product);
             _unitOfWork.Products.Update(product);
-            if(product.OrderServices.Count > 0)
+            if (product.OrderServices.Count > 0)
                 _unitOfWork.OrderServices.UpdateRange(product.OrderServices);
             await _unitOfWork.Save();
             return Ok(product);

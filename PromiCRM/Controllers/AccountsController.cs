@@ -1,18 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
-using PromiCRM.Services;
-using System;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiCore.Services;
+using PromiData.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
@@ -26,7 +21,7 @@ namespace PromiCRM.Controllers
         private readonly ILogger<AccountsController> _logger;
         private readonly IAuthManager _authManager;
 
-        public AccountsController(IUnitOfWork unitOfWork,IMapper mapper, ILogger<AccountsController> logger, IAuthManager authManager)
+        public AccountsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<AccountsController> logger, IAuthManager authManager)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -34,7 +29,7 @@ namespace PromiCRM.Controllers
             _authManager = authManager;
         }
 
-         /// <summary>
+        /// <summary>
         /// get all users convert to dtos and return
         /// </summary>
         /// <returns></returns>
@@ -125,7 +120,7 @@ namespace PromiCRM.Controllers
             //return anything in 200 range. means it was succesful
             // return new object iwth an expression called Token. It'lll equal to
             // authManager method CrateToken which will return Token
-            return Accepted(new { Token = token});
+            return Accepted(new { Token = token });
         }
 
     }

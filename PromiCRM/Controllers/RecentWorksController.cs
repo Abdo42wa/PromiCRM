@@ -4,10 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
-using System;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiData.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -100,7 +99,7 @@ namespace PromiCRM.Controllers
                 return BadRequest("Submited invalid data");
             }
             var recentWork = await _unitOfWork.RecentWorks.Get(s => s.Id == id);
-            if (recentWork== null)
+            if (recentWork == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateRecentWork)}");
                 return BadRequest("Submited invalid data");
@@ -124,8 +123,8 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteRecentWork(int id)
         {
-            var recentWork= await _unitOfWork.RecentWorks.Get(s => s.Id == id);
-            if (recentWork== null)
+            var recentWork = await _unitOfWork.RecentWorks.Get(s => s.Id == id);
+            if (recentWork == null)
             {
                 _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteRecentWork)}");
                 return BadRequest("Submited invalid data");

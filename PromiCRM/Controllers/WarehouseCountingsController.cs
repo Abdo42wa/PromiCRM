@@ -4,13 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
-using PromiCRM.Services;
-using System;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiCore.Services;
+using PromiData.Models;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -58,7 +56,7 @@ namespace PromiCRM.Controllers
         {
             var warehouseCountings = await _database.WarehouseCountings
                 .Include(w => w.Order).ThenInclude(o => o.Product)
-                .GroupBy(w => new { w.ProductCode,w.Order.Product.ImagePath }).
+                .GroupBy(w => new { w.ProductCode, w.Order.Product.ImagePath }).
                 Select(x => new WarehouseCountingDTO
                 {
                     ProductCode = x.Key.ProductCode,
@@ -136,7 +134,7 @@ namespace PromiCRM.Controllers
             await _unitOfWork.WarehouseCountings.Insert(warehouseCounting);
             await _unitOfWork.Save();
 
-           return CreatedAtRoute("GetWarehouseCounting", new { id = warehouseCounting.Id }, warehouseCounting);
+            return CreatedAtRoute("GetWarehouseCounting", new { id = warehouseCounting.Id }, warehouseCounting);
             //return Ok(warehouseCounting);
         }
         /// <summary>
@@ -149,7 +147,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateOrUpdateData([FromBody]CreateWarehouseCountingDTO warehouseCountingDTO)
+        public async Task<IActionResult> CreateOrUpdateData([FromBody] CreateWarehouseCountingDTO warehouseCountingDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -157,8 +155,8 @@ namespace PromiCRM.Controllers
                 return BadRequest("Submited invalid data");
             }
             var warehouseData = await _unitOfWork.WarehouseCountings.Get(w => w.ProductCode == warehouseCountingDTO.ProductCode);
-            
-            if(warehouseData == null)
+
+            if (warehouseData == null)
             {
                 var warehouseCounting = _mapper.Map<WarehouseCounting>(warehouseCountingDTO);
                 await _unitOfWork.WarehouseCountings.Insert(warehouseCounting);

@@ -3,12 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
-using System;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiData.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
@@ -66,7 +64,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateCountry([FromBody]CreateCountryDTO countryDTO)
+        public async Task<IActionResult> CreateCountry([FromBody] CreateCountryDTO countryDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -77,7 +75,7 @@ namespace PromiCRM.Controllers
             await _unitOfWork.Countries.Insert(country);
             await _unitOfWork.Save();
             //return CreatedAtRoute. Provide route name. It will call GetCountry, and we provide country.id. it will find it
-            return CreatedAtRoute("GetCountry", new { id = country.Id},country);
+            return CreatedAtRoute("GetCountry", new { id = country.Id }, country);
         }
         /// <summary>
         /// Check if model valid. Check if exist & update it
@@ -90,7 +88,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateCountry([FromBody]UpdateCountryDTO countryDTO, int id)
+        public async Task<IActionResult> UpdateCountry([FromBody] UpdateCountryDTO countryDTO, int id)
         {
             if (!ModelState.IsValid)
             {
@@ -98,7 +96,7 @@ namespace PromiCRM.Controllers
                 return BadRequest("Submited invalid data");
             }
             var country = await _unitOfWork.Countries.Get(c => c.Id == id);
-            if(country == null)
+            if (country == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateCountry)}");
                 return BadRequest("Submited invalid data");
@@ -124,7 +122,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> DeleteCountry(int id)
         {
             var country = _unitOfWork.Countries.Get(c => c.Id == id);
-            if(country == null)
+            if (country == null)
             {
                 _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteCountry)}");
                 return BadRequest("Submited invalid data");

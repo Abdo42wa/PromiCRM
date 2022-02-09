@@ -2,12 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
-using System;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiData.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
@@ -51,7 +49,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateUserService([FromBody]CreateUserServiceDTO userServiceDTO)
+        public async Task<IActionResult> CreateUserService([FromBody] CreateUserServiceDTO userServiceDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -68,7 +66,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateUserService([FromBody]UpdateUserServiceDTO userServiceDTO, int id)
+        public async Task<IActionResult> UpdateUserService([FromBody] UpdateUserServiceDTO userServiceDTO, int id)
         {
             if (!ModelState.IsValid)
             {
@@ -76,7 +74,7 @@ namespace PromiCRM.Controllers
                 return BadRequest("Submited invalid data");
             }
             var userService = await _unitOfWork.UserServices.Get(u => u.Id == id);
-            if(userService == null)
+            if (userService == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateUserService)}");
                 return BadRequest("Submited invalid data");
@@ -95,7 +93,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> DeleteUserService(int id)
         {
             var userService = await _unitOfWork.UserServices.Get(s => s.Id == id);
-            if(userService == null)
+            if (userService == null)
             {
                 _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteUserService)}");
                 return BadRequest("Submited invalid data");

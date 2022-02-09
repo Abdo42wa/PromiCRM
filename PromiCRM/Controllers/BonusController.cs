@@ -2,14 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiData.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
@@ -82,7 +80,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateBonus([FromBody]CreateBonusDTO bonusDTO)
+        public async Task<IActionResult> CreateBonus([FromBody] CreateBonusDTO bonusDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -107,7 +105,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateBonus([FromBody]UpdateBonusDTO bonusDTO, int id)
+        public async Task<IActionResult> UpdateBonus([FromBody] UpdateBonusDTO bonusDTO, int id)
         {
             if (!ModelState.IsValid)
             {
@@ -116,7 +114,7 @@ namespace PromiCRM.Controllers
             }
 
             var bonus = await _unitOfWork.Bonus.Get(b => b.Id == id);
-            if(bonus == null)
+            if (bonus == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateBonus)}");
                 return BadRequest("Submited data is invalid");
@@ -141,7 +139,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> DeleteBonus(int id)
         {
             var bonus = _unitOfWork.Bonus.Get(b => b.Id == id);
-            if(bonus == null)
+            if (bonus == null)
             {
                 _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteBonus)}");
                 return BadRequest("Submited data is invalid");

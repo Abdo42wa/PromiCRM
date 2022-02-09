@@ -4,14 +4,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
-using PromiCRM.Services;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiCore.Services;
+using PromiData.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -188,7 +187,7 @@ namespace PromiCRM.Controllers
                     OrderNumber = o.OrderNumber,
                     Quantity = o.Quantity,
                     ProductCode = o.ProductCode,
-                    ImagePath = o.ImagePath == null?o.Product.ImagePath:o.ImagePath,
+                    ImagePath = o.ImagePath == null ? o.Product.ImagePath : o.ImagePath,
                     Platforma = o.Platforma
                 }).OrderByDescending(o => o.OrderFinishDate).ToListAsync();
             var results = _mapper.Map<IList<OrderDTO>>(orders);
@@ -255,7 +254,7 @@ namespace PromiCRM.Controllers
             return Ok(orders);
         }
         [HttpGet("warehouseUncompleted")]
-/*        [Authorize]*/
+        /*        [Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedOrdersForWarehouse()
@@ -344,7 +343,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetUrgentOrders()
         {
             var orders = await _unitOfWork.Orders.GetAll(o => o.Status == false, o => o.OrderByDescending(o => o.OrderFinishDate).
-            OrderBy(o => o.ProductCode),includeProperties: "Product,User,Shipment,Customer,Country,Currency");
+            OrderBy(o => o.ProductCode), includeProperties: "Product,User,Shipment,Customer,Country,Currency");
             /*var orders = _database.Orders.Where(o => o.Status == false).
                 OrderByDescending(o => o.OrderFinishDate).OrderBy(o => o.ProductCode).ToList();*/
             var results = _mapper.Map<IList<OrderDTO>>(orders);
@@ -512,7 +511,7 @@ namespace PromiCRM.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("{id:int}")]
-/*        [Authorize(Roles = "ADMINISTRATOR")]*/
+        /*        [Authorize(Roles = "ADMINISTRATOR")]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -535,16 +534,45 @@ namespace PromiCRM.Controllers
             await _unitOfWork.Save();
             return NoContent();
         }
+
+        [HttpPut("nonstandart/{id:int}")]
+        /*        [Authorize(Roles = "ADMINISTRATOR")]*/
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateNonStandartOrder([FromBody] UpdateOrderDTO orderDTO, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrder)}");
+                return BadRequest("Submited invalid data");
+            }
+            var order = await _unitOfWork.Orders.Get(c => c.Id == id);
+            if (order == null)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrder)}");
+                return BadRequest("Submited invalid data");
+            }
+
+            _mapper.Map(orderDTO, order);
+            _unitOfWork.Orders.Update(order);
+            if (order.OrderServices.Count > 0)
+                _unitOfWork.OrderServices.UpdateRange(order.OrderServices);
+            await _unitOfWork.Save();
+            return NoContent();
+        }
+
+
         /// <summary>
         /// When packing is clicked, Non-Standart order is done. And we have to take materials from MaterialsWarehouse
         /// </summary>
         /// <param name="orderDTO"></param>
         /// <returns></returns>
-        [HttpPut("nonstandart/{id:int}")]
+        [HttpPut("nonstandart/finished/{id:int}")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> NonStandartFinishedUpdate([FromBody]UpdateOrderDTO orderDTO, int id)
+        public async Task<IActionResult> NonStandartFinishedUpdate([FromBody] UpdateOrderDTO orderDTO, int id)
         {
             if (!ModelState.IsValid)
             {
@@ -552,7 +580,7 @@ namespace PromiCRM.Controllers
                 return BadRequest("Submited invalid data");
             }
             var order = await _unitOfWork.Orders.Get(o => o.Id == id);
-            if(order == null)
+            if (order == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(NonStandartFinishedUpdate)}");
                 return BadRequest("Submited invalid data");
@@ -606,13 +634,13 @@ namespace PromiCRM.Controllers
             }
             /* var quantity = int.Parse(orderDTO.WarehouseProductsNumber);*/
             var order = await _unitOfWork.Orders.Get(w => w.Id == id);
-            if(order == null)
+            if (order == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(CollectProductFromWarehouse)}");
                 return BadRequest("Submited invalid data");
             }
             var warehouseCounting = await _unitOfWork.WarehouseCountings.Get(w => w.ProductCode == orderDTO.ProductCode);
-            
+
             warehouseCounting.QuantityProductWarehouse -= orderDTO.WarehouseProductsNumber;
             warehouseCounting.LastTimeChanging = DateTime.Now;
             //map/convert orderDTO to order. all values its values go to order model
@@ -635,44 +663,44 @@ namespace PromiCRM.Controllers
         }
 
 
-       /* /// <summary>
-        /// PUT request when passing object with image to update
-        /// </summary>
-        /// <param name="orderDTO"></param>
-        /// <returns></returns>
-        [HttpPut("image/{id:int}")]
-        [Authorize(Roles = "ADMINISTRATOR")]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateOrderImage([FromForm] UpdateOrderDTO orderDTO, int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrderImage)}");
-                return BadRequest("Submited invalid data");
-            }
-            if (orderDTO.File == null || orderDTO.File.Length < 1)
-            {
-                return BadRequest("Submited invalid data. Didnt get image");
-            }
-            //var fileName = Guid.NewGuid() + Path.GetExtension(warehouseMaterialForm.File.FileName);
-            var fileName = Guid.NewGuid() + Path.GetExtension(MaterialWarehouseForm.File.FileName);
-            var imageUrl = await _blobService.UploadBlob(orderDTO.ImageName, orderDTO.File, "productscontainer");
-            orderDTO.ImagePath = imageUrl;
+        /* /// <summary>
+         /// PUT request when passing object with image to update
+         /// </summary>
+         /// <param name="orderDTO"></param>
+         /// <returns></returns>
+         [HttpPut("image/{id:int}")]
+         [Authorize(Roles = "ADMINISTRATOR")]
+         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+         [ProducesResponseType(StatusCodes.Status200OK)]
+         public async Task<IActionResult> UpdateOrderImage([FromForm] UpdateOrderDTO orderDTO, int id)
+         {
+             if (!ModelState.IsValid)
+             {
+                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrderImage)}");
+                 return BadRequest("Submited invalid data");
+             }
+             if (orderDTO.File == null || orderDTO.File.Length < 1)
+             {
+                 return BadRequest("Submited invalid data. Didnt get image");
+             }
+             //var fileName = Guid.NewGuid() + Path.GetExtension(warehouseMaterialForm.File.FileName);
+             var fileName = Guid.NewGuid() + Path.GetExtension(MaterialWarehouseForm.File.FileName);
+             var imageUrl = await _blobService.UploadBlob(orderDTO.ImageName, orderDTO.File, "productscontainer");
+             orderDTO.ImagePath = imageUrl;
 
-            var order = await _unitOfWork.Orders.Get(c => c.Id == id);
-            if (order == null)
-            {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrderImage)}");
-                return BadRequest("Submited invalid data");
-            }
+             var order = await _unitOfWork.Orders.Get(c => c.Id == id);
+             if (order == null)
+             {
+                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrderImage)}");
+                 return BadRequest("Submited invalid data");
+             }
 
-            _mapper.Map(orderDTO, order);
-            _unitOfWork.Orders.Update(order);
-            await _unitOfWork.Save();
-            return Ok(order);
-        }*/
+             _mapper.Map(orderDTO, order);
+             _unitOfWork.Orders.Update(order);
+             await _unitOfWork.Save();
+             return Ok(order);
+         }*/
 
 
         [HttpDelete("{id:int}")]

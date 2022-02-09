@@ -3,12 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
-using System;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiData.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
@@ -70,7 +68,7 @@ namespace PromiCRM.Controllers
             var service = _mapper.Map<Service>(serviceDTO);
             await _unitOfWork.Services.Insert(service);
             await _unitOfWork.Save();
-            return CreatedAtRoute("GetServiceById", new { id = service.Id}, service);
+            return CreatedAtRoute("GetServiceById", new { id = service.Id }, service);
             /*return CreatedAtRoute("GetById", new { id = salesChannel.Id }, salesChannel);*/
         }
         /// <summary>

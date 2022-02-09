@@ -3,14 +3,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
-using PromiCRM.Services;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiCore.Services;
+using PromiData.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
@@ -44,7 +43,7 @@ namespace PromiCRM.Controllers
             return Ok(results);
         }
 
-        [HttpGet("{id:int}",Name = "GetWarehouseMaterial")]
+        [HttpGet("{id:int}", Name = "GetWarehouseMaterial")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -65,14 +64,14 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateMaterial([FromForm]MaterialWarehouseForm warehouseMaterialForm)
+        public async Task<IActionResult> CreateMaterial([FromForm] MaterialWarehouseForm warehouseMaterialForm)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateMaterial)}");
                 return BadRequest("Submited invalid data");
             }
-            if(warehouseMaterialForm.File == null || warehouseMaterialForm.File.Length < 1)
+            if (warehouseMaterialForm.File == null || warehouseMaterialForm.File.Length < 1)
             {
                 return BadRequest("Submited invalid data. Didnt get image");
             }
@@ -98,14 +97,15 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> UpdateWarehouseMaterial([FromBody] UpdateMaterialWarehouseDTO materialWarehouseDTO, int id) {
+        public async Task<IActionResult> UpdateWarehouseMaterial([FromBody] UpdateMaterialWarehouseDTO materialWarehouseDTO, int id)
+        {
             if (!ModelState.IsValid)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateWarehouseMaterial)}");
                 return BadRequest("Submited invalid data");
             }
             var material = await _unitOfWork.MaterialsWarehouse.Get(m => m.Id == id);
-            if(material == null)
+            if (material == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateWarehouseMaterial)}");
                 return BadRequest("Submited invalid data");
@@ -160,7 +160,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> UpdateMany([FromBody]IList<MaterialWarehouseDTO> materialsDTO)
+        public async Task<IActionResult> UpdateMany([FromBody] IList<MaterialWarehouseDTO> materialsDTO)
         {
             var materialsWarehouse = _mapper.Map<IList<MaterialWarehouse>>(materialsDTO);
             _unitOfWork.MaterialsWarehouse.UpdateRange(materialsWarehouse);
@@ -176,7 +176,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> DeleteMaterial(int id)
         {
             var material = await _unitOfWork.MaterialsWarehouse.Get(m => m.Id == id);
-            if(material == null)
+            if (material == null)
             {
                 _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteMaterial)}");
                 return BadRequest("Submited invalid data");

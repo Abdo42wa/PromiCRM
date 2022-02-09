@@ -3,13 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiData.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
@@ -55,7 +54,7 @@ namespace PromiCRM.Controllers
             DateTime today = DateTime.Now;
             DateTime weekBefore = today.AddDays(-7);
 
-            var weeklyWorkSchedules = await _unitOfWork.WeeklyWorkSchedules.GetAll(o => o.Date > weekBefore,includeProperties: "User");
+            var weeklyWorkSchedules = await _unitOfWork.WeeklyWorkSchedules.GetAll(o => o.Date > weekBefore, includeProperties: "User");
             var results = _mapper.Map<IList<WeeklyWorkScheduleDTO>>(weeklyWorkSchedules);
             return Ok(results);
         }

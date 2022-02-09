@@ -3,12 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
-using System;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiData.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
@@ -149,7 +147,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> UpdateNonStandartOrderMaterials([FromBody]IList<UpdateProductMaterialDTO> productMaterialsDTO)
+        public async Task<IActionResult> UpdateNonStandartOrderMaterials([FromBody] IList<UpdateProductMaterialDTO> productMaterialsDTO)
         {
             var productMaterials = _mapper.Map<IList<ProductMaterial>>(productMaterialsDTO);
             _unitOfWork.ProductMaterials.UpdateRange(productMaterials);

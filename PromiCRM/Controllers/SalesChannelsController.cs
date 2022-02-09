@@ -3,12 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PromiCRM.IRepository;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
-using System;
+using PromiCore.IRepository;
+using PromiCore.ModelsDTO;
+using PromiData.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
@@ -59,7 +57,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> CreateSalesChannel([FromBody]CreateSalesChannelDTO salesChannelDTO)
+        public async Task<IActionResult> CreateSalesChannel([FromBody] CreateSalesChannelDTO salesChannelDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -86,7 +84,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> UpdateSalesChannel(int id,[FromBody]UpdateSalesChannelDTO salesChannelDTO)
+        public async Task<IActionResult> UpdateSalesChannel(int id, [FromBody] UpdateSalesChannelDTO salesChannelDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -94,7 +92,7 @@ namespace PromiCRM.Controllers
                 return BadRequest("Submited invalid data");
             }
             var salesChannel = await _unitOfWork.SalesChannels.Get(s => s.Id == id);
-            if(salesChannel == null)
+            if (salesChannel == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateSalesChannel)}");
                 return BadRequest("Submited invalid data");
@@ -119,7 +117,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> DeleteSalesChannel(int id)
         {
             var salesChannel = await _unitOfWork.SalesChannels.Get(s => s.Id == id);
-            if(salesChannel == null)
+            if (salesChannel == null)
             {
                 _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteSalesChannel)}");
                 return BadRequest("Submited invalid data");
