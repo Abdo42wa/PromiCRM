@@ -42,14 +42,15 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetOrders()
         {
+            /*ThenInclude(o => o.UserServices).*/
             var orders = await _database.Orders.Where(o => o.OrderType != "Ne-standartinis").
                 Include(o => o.User).
                 Include(o => o.Shipment).
                 Include(o => o.Customer).
                 Include(o => o.Country).
+                Include(o => o.UserServices).
                 Include(o => o.Product).
                 ThenInclude(o => o.OrderServices).
-                ThenInclude(o => o.UserServices).
                 AsNoTracking().
                 ToListAsync();
             //var orders = await _unitOfWork.Orders.GetAll(includeProperties: "Product,User,Shipment,Customer,Country,Currency", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
@@ -68,7 +69,7 @@ namespace PromiCRM.Controllers
                 Include(o => o.Customer).
                 Include(o => o.Country).
                 Include(o => o.OrderServices).
-                ThenInclude(p => p.UserServices).
+                Include(o => o.UserServices).
                 OrderByDescending(o => o.OrderFinishDate).
                 AsNoTracking().
                 ToListAsync();

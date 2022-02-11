@@ -17,7 +17,9 @@ namespace PromiData.Models
         ///OrderId i need for Standart and Warehouse orders. becouse we need to asign completed
         ///tasks for orders that we make. And when we create Product we create many OrderService obj with TimeConsumption
         ///it has productId but doesnt have orderId. becouse we asign TimeConsumption of services(frezavimas) for particular Product
+        [ForeignKey(nameof(Order))]
         public int? OrderId { get; set; }
+        public virtual Order Order { get; set; }
         public DateTime CompletionDate { get; set; }
     }
 }

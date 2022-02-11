@@ -58,6 +58,8 @@ namespace PromiData.Models
         //public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<ProductMaterial> ProductMaterials { get; set; }
         public virtual ICollection<OrderService> OrderServices { get; set; }
+        //one to many relationship with UserService too. Becouse we asign UserService to orders that we make
+        public virtual ICollection<UserService> UserServices { get; set; }
 
     }
 }
