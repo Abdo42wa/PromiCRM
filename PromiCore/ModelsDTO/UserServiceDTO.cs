@@ -9,7 +9,7 @@ namespace PromiCore.ModelsDTO
         public int? OrderId { get; set; }
         public DateTime CompletionDate { get; set; }
     }
-    public class UpdateUserServiceDTO : CreateServiceDTO
+    public class UpdateUserServiceDTO : CreateUserServiceDTO
     {
     }
     public class UserServiceDTO : CreateUserServiceDTO
