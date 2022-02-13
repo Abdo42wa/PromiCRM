@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PromiData.Migrations
 {
-    public partial class createdDB : Migration
+    public partial class createDatabas : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,8 @@ namespace PromiData.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ShortName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ShortName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Continent = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -201,6 +202,9 @@ namespace PromiData.Migrations
                     ProductCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShipmentTypeId = table.Column<int>(type: "int", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: true),
+                    CustomerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ShippingCost = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ShippingNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Device = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductionTime = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -422,11 +426,18 @@ namespace PromiData.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderServiceId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: true),
                     CompletionDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserService", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserService_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UserService_OrderService_OrderServiceId",
                         column: x => x.OrderServiceId,
@@ -443,8 +454,8 @@ namespace PromiData.Migrations
 
             migrationBuilder.InsertData(
                 table: "Countries",
-                columns: new[] { "Id", "Name", "ShortName" },
-                values: new object[] { 1, "Lithuania", "LT" });
+                columns: new[] { "Id", "Continent", "Name", "ShortName" },
+                values: new object[] { 1, null, "Lithuania", "LT" });
 
             migrationBuilder.InsertData(
                 table: "Customers",
@@ -454,7 +465,7 @@ namespace PromiData.Migrations
             migrationBuilder.InsertData(
                 table: "MaterialsWarehouse",
                 columns: new[] { "Id", "DeliveryTime", "ImageName", "ImagePath", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
-                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 2, 9, 10, 41, 55, 754, DateTimeKind.Local).AddTicks(8795), "cm", 22500, "Fanera 3mm", 40 });
+                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 2, 13, 12, 52, 57, 174, DateTimeKind.Local).AddTicks(9552), "cm", 22500, "Fanera 3mm", 40 });
 
             migrationBuilder.InsertData(
                 table: "Products",
@@ -513,7 +524,7 @@ namespace PromiData.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$O7DNZs/B6l.EBepQ0zBohOZPTikt6LvrtnsWPlF7rLDgHmTw4W9/y", "860855183", "Admin", 1, null });
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$GcIk5.FCA7BaQZjpJ9ugDOCR.WpAmAr2y/BgTtfrqG140.EaqG4z.", "860855183", "Admin", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Bonus",
@@ -523,7 +534,7 @@ namespace PromiData.Migrations
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
                 columns: new[] { "Id", "Date", "Description", "Done", "UserId" },
-                values: new object[] { 1, new DateTime(2022, 2, 9, 10, 41, 55, 749, DateTimeKind.Local).AddTicks(7340), "Supildyti frezavimo laiko lentele", false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
+                values: new object[] { 1, new DateTime(2022, 2, 13, 12, 52, 57, 170, DateTimeKind.Local).AddTicks(1983), "Supildyti frezavimo laiko lentele", false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bonus_UserId",
@@ -611,6 +622,11 @@ namespace PromiData.Migrations
                 name: "IX_Users_TypeId",
                 table: "Users",
                 column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserService_OrderId",
+                table: "UserService",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserService_OrderServiceId",

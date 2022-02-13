@@ -9,6 +9,7 @@ namespace PromiData.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string ShortName { get; set; }
+        public string Continent { get; set; }
 
         //relationship one to many. each country can have multiple orders
         public ICollection<Order> Orders { get; set; }

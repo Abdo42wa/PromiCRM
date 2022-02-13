@@ -31,6 +31,11 @@ namespace PromiCore.ModelsDTO
         public string ProductCode { get; set; }
         public int? ShipmentTypeId { get; set; }
         public int? CustomerId { get; set; }
+
+        public string CustomerName { get; set; }
+
+        public string ShippingCost { get; set; }
+        public string ShippingNumber { get; set; }
         public string Device { get; set; }
         public int ProductionTime { get; set; }
         public string Address { get; set; }

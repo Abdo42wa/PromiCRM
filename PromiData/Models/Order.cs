@@ -43,6 +43,12 @@ namespace PromiData.Models
         [ForeignKey(nameof(Customer))]
         public int? CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
+
+
+        public string CustomerName { get; set; }
+
+        public string ShippingCost { get; set; }
+        public string ShippingNumber { get; set; }
         public string Device { get; set; }
         public int ProductionTime { get; set; }
         public string Address { get; set; }

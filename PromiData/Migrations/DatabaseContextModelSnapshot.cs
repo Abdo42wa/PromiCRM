@@ -62,6 +62,9 @@ namespace PromiData.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Continent")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -163,7 +166,7 @@ namespace PromiData.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 2, 11, 18, 4, 42, 332, DateTimeKind.Local).AddTicks(8089),
+                            LastAdittion = new DateTime(2022, 2, 13, 12, 52, 57, 174, DateTimeKind.Local).AddTicks(9552),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -198,6 +201,9 @@ namespace PromiData.Migrations
 
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -243,6 +249,12 @@ namespace PromiData.Migrations
 
                     b.Property<int?>("ShipmentTypeId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ShippingCost")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
@@ -658,7 +670,7 @@ namespace PromiData.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$Un0iZKPD9sbHkxgl7n98luGtakxmhoYmXySoTDdI5.II/6nZqNnw.",
+                            Password = "$2a$11$GcIk5.FCA7BaQZjpJ9ugDOCR.WpAmAr2y/BgTtfrqG140.EaqG4z.",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -794,7 +806,7 @@ namespace PromiData.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 2, 11, 18, 4, 42, 329, DateTimeKind.Local).AddTicks(5002),
+                            Date = new DateTime(2022, 2, 13, 12, 52, 57, 170, DateTimeKind.Local).AddTicks(1983),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")

@@ -10,8 +10,8 @@ using PromiData.Models;
 namespace PromiData.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220209084156_createdDB")]
-    partial class createdDB
+    [Migration("20220213105257_createDatabas")]
+    partial class createDatabas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,6 +63,9 @@ namespace PromiData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Continent")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -165,7 +168,7 @@ namespace PromiData.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 2, 9, 10, 41, 55, 754, DateTimeKind.Local).AddTicks(8795),
+                            LastAdittion = new DateTime(2022, 2, 13, 12, 52, 57, 174, DateTimeKind.Local).AddTicks(9552),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -200,6 +203,9 @@ namespace PromiData.Migrations
 
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -245,6 +251,12 @@ namespace PromiData.Migrations
 
                     b.Property<int?>("ShipmentTypeId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ShippingCost")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
@@ -660,7 +672,7 @@ namespace PromiData.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$O7DNZs/B6l.EBepQ0zBohOZPTikt6LvrtnsWPlF7rLDgHmTw4W9/y",
+                            Password = "$2a$11$GcIk5.FCA7BaQZjpJ9ugDOCR.WpAmAr2y/BgTtfrqG140.EaqG4z.",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -677,6 +689,9 @@ namespace PromiData.Migrations
                     b.Property<DateTime>("CompletionDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<int>("OrderServiceId")
                         .HasColumnType("int");
 
@@ -684,6 +699,8 @@ namespace PromiData.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("OrderServiceId");
 
@@ -791,7 +808,7 @@ namespace PromiData.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 2, 9, 10, 41, 55, 749, DateTimeKind.Local).AddTicks(7340),
+                            Date = new DateTime(2022, 2, 13, 12, 52, 57, 170, DateTimeKind.Local).AddTicks(1983),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
@@ -931,6 +948,10 @@ namespace PromiData.Migrations
 
             modelBuilder.Entity("PromiData.Models.UserService", b =>
                 {
+                    b.HasOne("PromiData.Models.Order", "Order")
+                        .WithMany("UserServices")
+                        .HasForeignKey("OrderId");
+
                     b.HasOne("PromiData.Models.OrderService", "OrderService")
                         .WithMany("UserServices")
                         .HasForeignKey("OrderServiceId")
@@ -942,6 +963,8 @@ namespace PromiData.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Order");
 
                     b.Navigation("OrderService");
 
@@ -990,6 +1013,8 @@ namespace PromiData.Migrations
                     b.Navigation("OrderServices");
 
                     b.Navigation("ProductMaterials");
+
+                    b.Navigation("UserServices");
 
                     b.Navigation("WarehouseCountings");
                 });
