@@ -43,7 +43,7 @@ namespace PromiCore.ModelsDTO
 
     public class UpdateOrderDTO : CreateOrderDTO
     {
-
+        public IList<UserServiceDTO> UserServices { get; set; }
     }
     public class OrderDTO : CreateOrderDTO
     {

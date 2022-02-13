@@ -496,41 +496,6 @@ namespace PromiCRM.Controllers
 
             return Ok(results);
         }
-
-        [HttpPost("warehouse")]
-        //[Authorize(Roles = "ADMINISTRATOR")]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateOrderAndWarehouse([FromForm] CreateOrderDTO createOrderDTO)
-        {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError($"Invalid CREATE attempt in {nameof(CreateOrder)}");
-                return BadRequest("Submited invalid data");
-            }
-
-            var order = _mapper.Map<Order>(createOrderDTO);
-            await _unitOfWork.Orders.Insert(order);
-
-            var warehouse = new WarehouseCounting
-            {
-                OrderId = order.Id,
-                LastTimeChanging = DateTime.Now,
-                QuantityProductWarehouse = order.Quantity
-            };
-            await _unitOfWork.WarehouseCountings.Insert(warehouse);
-
-
-
-            await _unitOfWork.Save();
-
-            var createdOrder = await _unitOfWork.Orders.Get(o => o.Id == order.Id, includeProperties: "Product,User,Shipment,Customer,Country,Currency");
-            var results = _mapper.Map<OrderDTO>(createdOrder);
-
-            return Ok(results);
-        }
-
         /// <summary>
         /// update request when image(IFormFile) is not passed. just updating values
         /// </summary>
@@ -555,11 +520,40 @@ namespace PromiCRM.Controllers
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrder)}");
                 return BadRequest("Submited invalid data");
             }
-
             _mapper.Map(orderDTO, order);
             _unitOfWork.Orders.Update(order);
             await _unitOfWork.Save();
             return NoContent();
+        }
+        /// <summary>
+        /// when user selects that PACKING is done. it will update UserServices 
+        /// and update Order to status true(complete)
+        /// </summary>
+        /// <param name="orderDTO"></param>
+        /// <returns></returns>
+        [HttpPut("warehouse/standart/finished/{id:int}")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateOrderAndComplete([FromBody]UpdateOrderDTO orderDTO, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrderAndComplete)}");
+                return BadRequest("Submited invalid data");
+            }
+            var order = await _unitOfWork.Orders.Get(o => o.Id == id);
+            if(order == null)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateOrderAndComplete)}");
+                return BadRequest("Submited invalid data");
+            }
+            _mapper.Map(orderDTO, order);
+            _unitOfWork.UserServices.UpdateRange(order.UserServices);
+            _unitOfWork.Orders.Update(order);
+            await _unitOfWork.Save();
+            return Ok(order.UserServices);
+
         }
 
         [HttpPut("nonstandart/{id:int}")]
@@ -597,7 +591,7 @@ namespace PromiCRM.Controllers
         /// <returns></returns>
         [HttpPut("nonstandart/finished/{id:int}")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> NonStandartFinishedUpdate([FromBody] UpdateOrderDTO orderDTO, int id)
         {
@@ -614,7 +608,9 @@ namespace PromiCRM.Controllers
             }
             //put all values from dto to order model
             _mapper.Map(orderDTO, order);
+            _unitOfWork.UserServices.UpdateRange(order.UserServices);
             _unitOfWork.Orders.Update(order);
+            
 
             //getting all all productMaterials with that orderId, and grouping by materialWarehouseId
             //so to group same materials in one. sum quantities of same productMaterials
@@ -638,9 +634,8 @@ namespace PromiCRM.Controllers
             }
             //save made changes
             await _unitOfWork.Save();
-            var createdOrder = await _unitOfWork.Orders.Get(o => o.Id == order.Id, includeProperties: "Product,User,Shipment,Customer,Country,Currency");
-            var results = _mapper.Map<OrderDTO>(createdOrder);
-            return NoContent();
+
+            return Ok(order.UserServices);
         }
 
         /// <summary>
