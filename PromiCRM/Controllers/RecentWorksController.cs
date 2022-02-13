@@ -37,7 +37,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRecentWorks()
         {
-            var recentWorks = await _database.RecentWorks.Include(r => r.User).Include(r => r.Product).ThenInclude(p => p.Order).OrderByDescending(r => r.Time).ToListAsync();
+            var recentWorks = await _database.RecentWorks.Include(r => r.User).Include(r => r.Product).ThenInclude(p => p.Orders).OrderByDescending(r => r.Time).ToListAsync();
             /*var recentWorks = await _unitOfWork.RecentWorks.GetAll(includeProperties: "User,Product",orderBy: q => q.OrderByDescending(r => r.Time));*/
             var results = _mapper.Map<IList<RecentWorkDTO>>(recentWorks);
             return Ok(results);
@@ -75,7 +75,7 @@ namespace PromiCRM.Controllers
             await _unitOfWork.RecentWorks.Insert(recentWork);
             await _unitOfWork.Save();
             /*var createdRecentWork= await _unitOfWork.RecentWorks.Get(s => s.Id == recentWork.Id, includeProperties: "User,Product");*/
-            var createdRecentWork = await _database.RecentWorks.Include(r => r.User).Include(r => r.Product).ThenInclude(p => p.Order).FirstOrDefaultAsync(r => r.Id == recentWork.Id);
+            var createdRecentWork = await _database.RecentWorks.Include(r => r.User).Include(r => r.Product).ThenInclude(p => p.Orders).FirstOrDefaultAsync(r => r.Id == recentWork.Id);
             var result = _mapper.Map<RecentWorkDTO>(createdRecentWork);
             return Ok(result);
             /*return CreatedAtRoute("GetById", new { id = salesChannel.Id }, salesChannel);*/

@@ -15,7 +15,7 @@ namespace PromiData.Models
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
         public virtual User User { get; set; }
-        [ForeignKey(nameof(Order))]
+        [ForeignKey(nameof(Product))]
         public int? ProductId { get; set; }
         public virtual Product Product { get; set; }
         public string OrderType { get; set; }
