@@ -8,6 +8,7 @@ namespace PromiCore.ModelsDTO
         public Guid UserId { get; set; }
         public int? OrderId { get; set; }
         public DateTime CompletionDate { get; set; }
+        public int? ProductServiceId { get; set; }
     }
     public class UpdateUserServiceDTO : CreateUserServiceDTO
     {
@@ -18,6 +19,8 @@ namespace PromiCore.ModelsDTO
         public OrderServiceDTO OrderService { get; set; }
         public UserDTO User { get; set; }
         public OrderDTO Order { get; set; }
+
+        public  ProductServiceDTO ProductService { get; set; }
     }
 
 }

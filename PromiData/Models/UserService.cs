@@ -21,5 +21,10 @@ namespace PromiData.Models
         public int? OrderId { get; set; }
         public virtual Order Order { get; set; }
         public DateTime CompletionDate { get; set; }
+
+        [ForeignKey(nameof(ProductService))]
+        public int? ProductServiceId { get; set; }
+
+        public virtual ProductService ProductService { get; set; }
     }
 }

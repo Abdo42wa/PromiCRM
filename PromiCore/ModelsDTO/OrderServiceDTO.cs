@@ -4,7 +4,7 @@ namespace PromiCore.ModelsDTO
 {
     public class CreateOrderServiceDTO
     {
-        public int? ProductId { get; set; }
+        //public int? ProductId { get; set; }
         public int? OrderId { get; set; }
         //and service id(laseriavimas,frezavimas ...)
         public int ServiceId { get; set; }

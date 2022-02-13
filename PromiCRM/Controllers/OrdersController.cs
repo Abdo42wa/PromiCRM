@@ -260,24 +260,14 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedOrdersTime()
         {
-            var orders = await _database.Orders.Include(o => o.Product).ThenInclude(p => p.OrderServices).Include(u => u.UserServices)
-                .Where(o => o.Status == false)
-                .GroupBy(o => new { o.Status })
+            var orders = await _database.Orders.Include(o => o.Product).Include(u => u.OrderServices)
+                //.Where(o => o.Order.Status == false)
+                //.GroupBy(o => new { o.ServiceId })
                 .Select(o => new WorkTimeDTO
                 {
+                    //LaserTime = o.Sum(o => o.ServiceId * o.TimeConsumption)
                     
-                    /*LaserTime = o.Sum(o => o.LaserTime * o.Quantity),
-                    BondingTime = o.Sum(o => o.BondingTime * o.Quantity),
-                    CollectionTime = o.Sum(o => o.CollectionTime * o.Quantity),
-                    MilingTime = o.Sum(o => o.MilingTime * o.Quantity),
-                    PaintingTime = o.Sum(o => o.PaintingTime * o.Quantity),
-                    PackingTime = o.Sum(o => o.PackingTime * o.Quantity),
-                    DoneLaserTime = (int)o.Sum(o => o.LaserUserId != null?o.LaserTime*o.Quantity:o.LaserTime*0),
-                    DoneBondingTime = (int)o.Sum(o => o.BondingUserId != null ? o.BondingTime * o.Quantity : o.BondingTime * 0),
-                    DoneCollectionTime = (int)o.Sum(o => o.CollectionUserId != null ? o.CollectionTime* o.Quantity : o.CollectionTime * 0),
-                    DoneMilingTime = (int)o.Sum(o => o.MilingUserId!= null ? o.MilingTime * o.Quantity : o.MilingTime * 0),
-                    DonePaintingTime = (int)o.Sum(o => o.PaintingUserId!= null ? o.PaintingTime* o.Quantity : o.PaintingTime * 0),
-                    DonePackingTime = (int)o.Sum(o => o.PackingUserId!= null ? o.PackingTime* o.Quantity : o.PackingTime * 0)*/
+                  
                 }).ToListAsync();
             return Ok(orders);
         }

@@ -8,26 +8,26 @@ namespace PromiData.Configurations.Entities
     {
         public void Configure(EntityTypeBuilder<OrderService> builder)
         {
-            builder.HasData(
-                new OrderService
-                {
-                    Id = 1,
-                    ProductId = 1,
-                    ServiceId = 1
-                },
-                new OrderService
-                {
-                    Id = 2,
-                    ProductId = 1,
-                    ServiceId = 2
-                },
-                new OrderService
-                {
-                    Id = 3,
-                    ProductId = 1,
-                    ServiceId = 3
-                }
-                );
+           /* builder.HasData(
+                *//* new OrderService
+                 {
+                     Id = 1,
+                     ProductId = 1,
+                     ServiceId = 1
+                 },
+                 new OrderService
+                 {
+                     Id = 2,
+                     ProductId = 1,
+                     ServiceId = 2
+                 },
+                 new OrderService
+                 {
+                     Id = 3,
+                     ProductId = 1,
+                     ServiceId = 3
+                 }*//*
+                );*/
         }
     }
 }

@@ -32,5 +32,7 @@ namespace PromiData.Models
         public virtual ICollection<RecentWork> RecentWorks { get; set; }
         public virtual ICollection<Order> Order { get; set; }
         public virtual ICollection<OrderService> OrderServices { get; set; }
+
+        public virtual ICollection<ProductService> ProductServices { get; set; }
     }
 }
