@@ -12,7 +12,12 @@ namespace PromiCRM.ModelsDTO
         public string Name { get; set; }
         
         public string ShortName { get; set; }
+<<<<<<< Updated upstream:PromiCRM/ModelsDTO/CountryDTO.cs
   
+=======
+        public string Continent { get; set; }
+
+>>>>>>> Stashed changes:PromiCore/ModelsDTO/CountryDTO.cs
     }
 
     public class UpdateCountryDTO : CreateCountryDTO

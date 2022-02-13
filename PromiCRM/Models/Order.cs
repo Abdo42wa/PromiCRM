@@ -50,10 +50,16 @@ namespace PromiCRM.Models
 
         [ForeignKey(nameof(Customer))]
         public int? CustomerId { get; set; }
+        public string CustomerName { get; set; }
         public virtual Customer Customer { get; set; }
         
         public string Device { get; set; }
 
+<<<<<<< Updated upstream:PromiCRM/Models/Order.cs
+=======
+        public string ShippingCost { get; set; }
+        public string ShippingNumber { get; set; }
+>>>>>>> Stashed changes:PromiData/Models/Order.cs
         public int ProductionTime { get; set; }
         public string Address { get; set; }
 

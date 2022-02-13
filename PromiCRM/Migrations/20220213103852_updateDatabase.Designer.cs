@@ -3,23 +3,25 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PromiCRM.Models;
+using PromiData.Models;
 
-namespace PromiCRM.Migrations
+namespace PromiData.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220213103852_updateDatabase")]
+    partial class updateDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.13")
+                .HasAnnotation("ProductVersion", "5.0.14")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("PromiCRM.Models.Bonus", b =>
+            modelBuilder.Entity("PromiData.Models.Bonus", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,7 +57,7 @@ namespace PromiCRM.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Country", b =>
+            modelBuilder.Entity("PromiData.Models.Country", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,34 +86,7 @@ namespace PromiCRM.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Currency", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Currencies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Euras"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Doleris"
-                        });
-                });
-
-            modelBuilder.Entity("PromiCRM.Models.Customer", b =>
+            modelBuilder.Entity("PromiData.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -149,7 +124,7 @@ namespace PromiCRM.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.MaterialWarehouse", b =>
+            modelBuilder.Entity("PromiData.Models.MaterialWarehouse", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -193,11 +168,7 @@ namespace PromiCRM.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-<<<<<<< Updated upstream:PromiCRM/Migrations/DatabaseContextModelSnapshot.cs
-                            LastAdittion = new DateTime(2022, 2, 5, 23, 29, 21, 589, DateTimeKind.Local).AddTicks(8741),
-=======
                             LastAdittion = new DateTime(2022, 2, 13, 12, 38, 51, 698, DateTimeKind.Local).AddTicks(2997),
->>>>>>> Stashed changes:PromiData/Migrations/DatabaseContextModelSnapshot.cs
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -205,7 +176,7 @@ namespace PromiCRM.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Order", b =>
+            modelBuilder.Entity("PromiData.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -213,24 +184,6 @@ namespace PromiCRM.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("BondingComplete")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("BondingTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BondingUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CollectionComplete")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CollectionTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CollectionUserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comment")
@@ -242,8 +195,11 @@ namespace PromiCRM.Migrations
                     b.Property<int?>("CountryId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CurrencyId")
-                        .HasColumnType("int");
+                    b.Property<string>("CountryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CurrencyName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
@@ -263,24 +219,6 @@ namespace PromiCRM.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("LaserComplete")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("LaserTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LaserUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("MilingComplete")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("MilingTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MilingUserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("MoreInfo")
                         .HasColumnType("nvarchar(max)");
 
@@ -291,24 +229,6 @@ namespace PromiCRM.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("OrderType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PackingComplete")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("PackingTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PackingUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PaintingComplete")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("PaintingTime")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PaintingUserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Platforma")
@@ -360,8 +280,6 @@ namespace PromiCRM.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.HasIndex("CurrencyId");
-
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("ProductId");
@@ -373,24 +291,71 @@ namespace PromiCRM.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Product", b =>
+            modelBuilder.Entity("PromiData.Models.OrderService", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BondingTime")
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeConsumption")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("OrderService");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ProductId = 1,
+                            ServiceId = 1,
+                            TimeConsumption = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ProductId = 1,
+                            ServiceId = 2,
+                            TimeConsumption = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ProductId = 1,
+                            ServiceId = 3,
+                            TimeConsumption = 0
+                        });
+                });
+
+            modelBuilder.Entity("PromiData.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CollectionTime")
-                        .HasColumnType("int");
 
                     b.Property<double>("HeightWithPackaging")
                         .HasColumnType("float");
@@ -404,9 +369,6 @@ namespace PromiCRM.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("LaserTime")
-                        .HasColumnType("int");
-
                     b.Property<double>("LengthWithPackaging")
                         .HasColumnType("float");
 
@@ -416,20 +378,11 @@ namespace PromiCRM.Migrations
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MilingTime")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PackagingBoxCode")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("PackingTime")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("PaintingTime")
-                        .HasColumnType("int");
 
                     b.Property<double>("WeightGross")
                         .HasColumnType("float");
@@ -451,23 +404,17 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-                            BondingTime = 40,
                             Category = "Good",
                             Code = "8582262s",
-                            CollectionTime = 20,
                             HeightWithPackaging = 3.5,
                             HeightWithoutPackaging = 3.0,
                             ImageName = "Azure",
                             ImagePath = "https://media.bitdegree.org/storage/media/images/2018/12/azure-interview-questions-logo-2-300x224.png",
-                            LaserTime = 10,
                             LengthWithPackaging = 12.0,
                             LengthWithoutPackaging = 10.0,
                             Link = "sss",
-                            MilingTime = 20,
                             Name = "Produktas",
                             PackagingBoxCode = "pspspsp",
-                            PackingTime = 10.0,
-                            PaintingTime = 15,
                             WeightGross = 10.199999999999999,
                             WeightNetto = 9.0,
                             WidthWithPackaging = 5.5,
@@ -475,7 +422,7 @@ namespace PromiCRM.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.ProductMaterial", b =>
+            modelBuilder.Entity("PromiData.Models.ProductMaterial", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -514,7 +461,7 @@ namespace PromiCRM.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.RecentWork", b =>
+            modelBuilder.Entity("PromiData.Models.RecentWork", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -545,7 +492,7 @@ namespace PromiCRM.Migrations
                     b.ToTable("RecentWorks");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.SalesChannel", b =>
+            modelBuilder.Entity("PromiData.Models.SalesChannel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -583,7 +530,59 @@ namespace PromiCRM.Migrations
                     b.ToTable("SalesChannels");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Shipment", b =>
+            modelBuilder.Entity("PromiData.Models.Service", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Services");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Lazeriavimas"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Frezavimas"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Dažymas"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Šlifavimas"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Suklijavimas"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Surinkimas"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Pakavimas"
+                        });
+                });
+
+            modelBuilder.Entity("PromiData.Models.Shipment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -630,7 +629,7 @@ namespace PromiCRM.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.User", b =>
+            modelBuilder.Entity("PromiData.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -673,18 +672,44 @@ namespace PromiCRM.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-<<<<<<< Updated upstream:PromiCRM/Migrations/DatabaseContextModelSnapshot.cs
-                            Password = "$2a$11$aVoZz.Wmz3LhS/3SeYm2/.HSEpWWi.NnTvXm58OO847Qe5i0beITu",
-=======
                             Password = "$2a$11$GF7QIt5Vb/.RJ31XRE9.4.F11lFuQIUxAUc6kgerPHFvPAGE3OFZO",
->>>>>>> Stashed changes:PromiData/Migrations/DatabaseContextModelSnapshot.cs
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
                         });
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.UserType", b =>
+            modelBuilder.Entity("PromiData.Models.UserService", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CompletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("OrderServiceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserService");
+                });
+
+            modelBuilder.Entity("PromiData.Models.UserType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -722,7 +747,7 @@ namespace PromiCRM.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.WarehouseCounting", b =>
+            modelBuilder.Entity("PromiData.Models.WarehouseCounting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -754,7 +779,7 @@ namespace PromiCRM.Migrations
                     b.ToTable("WarehouseCountings");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.WeeklyWorkSchedule", b =>
+            modelBuilder.Entity("PromiData.Models.WeeklyWorkSchedule", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -783,20 +808,16 @@ namespace PromiCRM.Migrations
                         new
                         {
                             Id = 1,
-<<<<<<< Updated upstream:PromiCRM/Migrations/DatabaseContextModelSnapshot.cs
-                            Date = new DateTime(2022, 2, 5, 23, 29, 21, 585, DateTimeKind.Local).AddTicks(5600),
-=======
                             Date = new DateTime(2022, 2, 13, 12, 38, 51, 694, DateTimeKind.Local).AddTicks(134),
->>>>>>> Stashed changes:PromiData/Migrations/DatabaseContextModelSnapshot.cs
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
                         });
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Bonus", b =>
+            modelBuilder.Entity("PromiData.Models.Bonus", b =>
                 {
-                    b.HasOne("PromiCRM.Models.User", "User")
+                    b.HasOne("PromiData.Models.User", "User")
                         .WithMany("Bonus")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -805,37 +826,31 @@ namespace PromiCRM.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Order", b =>
+            modelBuilder.Entity("PromiData.Models.Order", b =>
                 {
-                    b.HasOne("PromiCRM.Models.Country", "Country")
+                    b.HasOne("PromiData.Models.Country", "Country")
                         .WithMany("Orders")
                         .HasForeignKey("CountryId");
 
-                    b.HasOne("PromiCRM.Models.Currency", "Currency")
-                        .WithMany("Orders")
-                        .HasForeignKey("CurrencyId");
-
-                    b.HasOne("PromiCRM.Models.Customer", "Customer")
+                    b.HasOne("PromiData.Models.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("PromiCRM.Models.Product", "Product")
+                    b.HasOne("PromiData.Models.Product", "Product")
                         .WithMany("Order")
                         .HasForeignKey("ProductId");
 
-                    b.HasOne("PromiCRM.Models.Shipment", "Shipment")
+                    b.HasOne("PromiData.Models.Shipment", "Shipment")
                         .WithMany("Orders")
                         .HasForeignKey("ShipmentTypeId");
 
-                    b.HasOne("PromiCRM.Models.User", "User")
+                    b.HasOne("PromiData.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Country");
-
-                    b.Navigation("Currency");
 
                     b.Navigation("Customer");
 
@@ -846,19 +861,42 @@ namespace PromiCRM.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.ProductMaterial", b =>
+            modelBuilder.Entity("PromiData.Models.OrderService", b =>
                 {
-                    b.HasOne("PromiCRM.Models.MaterialWarehouse", "MaterialWarehouse")
+                    b.HasOne("PromiData.Models.Order", "Order")
+                        .WithMany("OrderServices")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("PromiData.Models.Product", "Product")
+                        .WithMany("OrderServices")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("PromiData.Models.Service", "Service")
+                        .WithMany("OrderServices")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Service");
+                });
+
+            modelBuilder.Entity("PromiData.Models.ProductMaterial", b =>
+                {
+                    b.HasOne("PromiData.Models.MaterialWarehouse", "MaterialWarehouse")
                         .WithMany("ProductMaterials")
                         .HasForeignKey("MaterialWarehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PromiCRM.Models.Order", "Order")
+                    b.HasOne("PromiData.Models.Order", "Order")
                         .WithMany("ProductMaterials")
                         .HasForeignKey("OrderId");
 
-                    b.HasOne("PromiCRM.Models.Product", "Product")
+                    b.HasOne("PromiData.Models.Product", "Product")
                         .WithMany("ProductMaterials")
                         .HasForeignKey("ProductId");
 
@@ -869,15 +907,15 @@ namespace PromiCRM.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.RecentWork", b =>
+            modelBuilder.Entity("PromiData.Models.RecentWork", b =>
                 {
-                    b.HasOne("PromiCRM.Models.Product", "Product")
+                    b.HasOne("PromiData.Models.Product", "Product")
                         .WithMany("RecentWorks")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PromiCRM.Models.User", "User")
+                    b.HasOne("PromiData.Models.User", "User")
                         .WithMany("RecentWorks")
                         .HasForeignKey("UserId");
 
@@ -886,9 +924,9 @@ namespace PromiCRM.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.SalesChannel", b =>
+            modelBuilder.Entity("PromiData.Models.SalesChannel", b =>
                 {
-                    b.HasOne("PromiCRM.Models.User", "User")
+                    b.HasOne("PromiData.Models.User", "User")
                         .WithMany("SalesChannels")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -897,9 +935,9 @@ namespace PromiCRM.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.User", b =>
+            modelBuilder.Entity("PromiData.Models.User", b =>
                 {
-                    b.HasOne("PromiCRM.Models.UserType", "UserType")
+                    b.HasOne("PromiData.Models.UserType", "UserType")
                         .WithMany("Users")
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -908,9 +946,34 @@ namespace PromiCRM.Migrations
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.WarehouseCounting", b =>
+            modelBuilder.Entity("PromiData.Models.UserService", b =>
                 {
-                    b.HasOne("PromiCRM.Models.Order", "Order")
+                    b.HasOne("PromiData.Models.Order", "Order")
+                        .WithMany("UserServices")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("PromiData.Models.OrderService", "OrderService")
+                        .WithMany("UserServices")
+                        .HasForeignKey("OrderServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PromiData.Models.User", "User")
+                        .WithMany("UserServices")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("OrderService");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PromiData.Models.WarehouseCounting", b =>
+                {
+                    b.HasOne("PromiData.Models.Order", "Order")
                         .WithMany("WarehouseCountings")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -919,9 +982,9 @@ namespace PromiCRM.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.WeeklyWorkSchedule", b =>
+            modelBuilder.Entity("PromiData.Models.WeeklyWorkSchedule", b =>
                 {
-                    b.HasOne("PromiCRM.Models.User", "User")
+                    b.HasOne("PromiData.Models.User", "User")
                         .WithMany("WeeklyWorkSchedules")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -930,48 +993,59 @@ namespace PromiCRM.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Country", b =>
+            modelBuilder.Entity("PromiData.Models.Country", b =>
                 {
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Currency", b =>
+            modelBuilder.Entity("PromiData.Models.Customer", b =>
                 {
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Customer", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("PromiCRM.Models.MaterialWarehouse", b =>
+            modelBuilder.Entity("PromiData.Models.MaterialWarehouse", b =>
                 {
                     b.Navigation("ProductMaterials");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Order", b =>
+            modelBuilder.Entity("PromiData.Models.Order", b =>
                 {
+                    b.Navigation("OrderServices");
+
                     b.Navigation("ProductMaterials");
+
+                    b.Navigation("UserServices");
 
                     b.Navigation("WarehouseCountings");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Product", b =>
+            modelBuilder.Entity("PromiData.Models.OrderService", b =>
+                {
+                    b.Navigation("UserServices");
+                });
+
+            modelBuilder.Entity("PromiData.Models.Product", b =>
                 {
                     b.Navigation("Order");
+
+                    b.Navigation("OrderServices");
 
                     b.Navigation("ProductMaterials");
 
                     b.Navigation("RecentWorks");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.Shipment", b =>
+            modelBuilder.Entity("PromiData.Models.Service", b =>
+                {
+                    b.Navigation("OrderServices");
+                });
+
+            modelBuilder.Entity("PromiData.Models.Shipment", b =>
                 {
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.User", b =>
+            modelBuilder.Entity("PromiData.Models.User", b =>
                 {
                     b.Navigation("Bonus");
 
@@ -981,10 +1055,12 @@ namespace PromiCRM.Migrations
 
                     b.Navigation("SalesChannels");
 
+                    b.Navigation("UserServices");
+
                     b.Navigation("WeeklyWorkSchedules");
                 });
 
-            modelBuilder.Entity("PromiCRM.Models.UserType", b =>
+            modelBuilder.Entity("PromiData.Models.UserType", b =>
                 {
                     b.Navigation("Users");
                 });

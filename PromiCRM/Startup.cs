@@ -35,7 +35,13 @@ namespace PromiCRM
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DatabaseContext>(
+<<<<<<< Updated upstream
                options => options.UseSqlServer(Configuration.GetConnectionString("abdoConnection")));
+=======
+               options => options.UseSqlServer(
+                   Configuration.GetConnectionString("abdoConnection"),
+                   b => b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
+>>>>>>> Stashed changes
 
 
             services.AddAuthentication();
