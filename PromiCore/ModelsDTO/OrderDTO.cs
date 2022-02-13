@@ -56,12 +56,7 @@ namespace PromiCore.ModelsDTO
         public DateTime MinOrderFinishDate { get; set; }
         public int WeekNumber { get; set; }
         //done time
-        public int DoneBondingTime { get; set; }
-        public int DoneCollectionTime { get; set; }
-        public int DoneLaserTime { get; set; }
-        public int DoneMilingTime { get; set; }
-        public int DonePaintingTime { get; set; }
-        public int DonePackingTime { get; set; }
+     
 
         public UserDTO User { get; set; }
         public ProductDTO Product { get; set; }

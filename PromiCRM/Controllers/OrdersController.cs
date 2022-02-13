@@ -260,11 +260,12 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedOrdersTime()
         {
-            var orders = await _database.Orders.Include(o => o.Product)
+            var orders = await _database.Orders.Include(o => o.Product).ThenInclude(p => p.OrderServices).Include(u => u.UserServices)
                 .Where(o => o.Status == false)
                 .GroupBy(o => new { o.Status })
-                .Select(o => new OrderDTO
+                .Select(o => new WorkTimeDTO
                 {
+                    
                     /*LaserTime = o.Sum(o => o.LaserTime * o.Quantity),
                     BondingTime = o.Sum(o => o.BondingTime * o.Quantity),
                     CollectionTime = o.Sum(o => o.CollectionTime * o.Quantity),

@@ -19,6 +19,8 @@ namespace PromiData.Models
         public DbSet<MaterialWarehouse> MaterialsWarehouse { get; set; }
         public DbSet<ProductMaterial> ProductMaterials { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderService> OrderServices { get; set; }
+        public DbSet<UserService> UserServices { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<RecentWork> RecentWorks { get; set; }
         public DbSet<Service> Services { get; set; }
