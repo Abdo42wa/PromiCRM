@@ -33,6 +33,6 @@ namespace PromiData.Models
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<OrderService> OrderServices { get; set; }
 
-        public virtual ICollection<ProductService> ProductServices { get; set; }
+        /*public virtual ICollection<ProductService> ProductServices { get; set; }*/
     }
 }

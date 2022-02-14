@@ -22,9 +22,9 @@ namespace PromiData.Models
         public virtual Order Order { get; set; }
         public DateTime CompletionDate { get; set; }
 
-        [ForeignKey(nameof(ProductService))]
+        /*[ForeignKey(nameof(ProductService))]
         public int? ProductServiceId { get; set; }
 
-        public virtual ProductService ProductService { get; set; }
+        public virtual ProductService ProductService { get; set; }*/
     }
 }

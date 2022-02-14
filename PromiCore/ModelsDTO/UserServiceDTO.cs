@@ -20,7 +20,7 @@ namespace PromiCore.ModelsDTO
         public UserDTO User { get; set; }
         public OrderDTO Order { get; set; }
 
-        public  ProductServiceDTO ProductService { get; set; }
+        /*public  ProductServiceDTO ProductService { get; set; }*/
     }
 
 }

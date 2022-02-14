@@ -10,8 +10,8 @@ using PromiData.Models;
 namespace PromiData.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220213142907_UpdateDatabase1")]
-    partial class UpdateDatabase1
+    [Migration("20220214105220_restoredProductIdOrderServices")]
+    partial class restoredProductIdOrderServices
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -168,7 +168,7 @@ namespace PromiData.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 2, 13, 16, 29, 6, 117, DateTimeKind.Local).AddTicks(1424),
+                            LastAdittion = new DateTime(2022, 2, 14, 12, 52, 19, 311, DateTimeKind.Local).AddTicks(8077),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -674,7 +674,7 @@ namespace PromiData.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$qqwjVA4mr1pzo3Y/GgHd8uwJi7PzYyvUeIKjJS5ba7dxQUqKCJeDK",
+                            Password = "$2a$11$9MrygBBeAMKPq9uNWcsgOuMD0CHLJOwdbO2X9v9HL2.OilfN9goEi",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -815,7 +815,7 @@ namespace PromiData.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 2, 13, 16, 29, 6, 112, DateTimeKind.Local).AddTicks(654),
+                            Date = new DateTime(2022, 2, 14, 12, 52, 19, 308, DateTimeKind.Local).AddTicks(3557),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
@@ -874,7 +874,7 @@ namespace PromiData.Migrations
                         .WithMany("OrderServices")
                         .HasForeignKey("OrderId");
 
-                    b.HasOne("PromiData.Models.Product", null)
+                    b.HasOne("PromiData.Models.Product", "Product")
                         .WithMany("OrderServices")
                         .HasForeignKey("ProductId");
 
@@ -885,6 +885,8 @@ namespace PromiData.Migrations
                         .IsRequired();
 
                     b.Navigation("Order");
+
+                    b.Navigation("Product");
 
                     b.Navigation("Service");
                 });

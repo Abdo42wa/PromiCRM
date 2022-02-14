@@ -9,7 +9,7 @@ namespace PromiData.Models
 {
     public class ProductService
     {
-        public int Id { get; set; }
+        /*public int Id { get; set; }
         [ForeignKey(nameof(Product))]
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
@@ -19,7 +19,7 @@ namespace PromiData.Models
         public virtual Service Service { get; set; }
         public int TimeConsumption { get; set; }
 
-        public virtual ICollection<UserService> UserServices { get; set; }
+        public virtual ICollection<UserService> UserServices { get; set; }*/
 
 
     }

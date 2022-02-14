@@ -10,8 +10,8 @@ using PromiData.Models;
 namespace PromiData.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220213140853_updateDatabase")]
-    partial class updateDatabase
+    [Migration("20220214091436_cretedDB")]
+    partial class cretedDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -168,7 +168,7 @@ namespace PromiData.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 2, 13, 16, 8, 52, 761, DateTimeKind.Local).AddTicks(5923),
+                            LastAdittion = new DateTime(2022, 2, 14, 11, 14, 35, 730, DateTimeKind.Local).AddTicks(5291),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -460,7 +460,7 @@ namespace PromiData.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("productServices");
+                    b.ToTable("ProductServices");
                 });
 
             modelBuilder.Entity("PromiData.Models.RecentWork", b =>
@@ -674,7 +674,7 @@ namespace PromiData.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$F4PEe5jay1pvTkcHdKNau.ntLz2C4kYM6Jf4xE6qRgHDL8/mVQ0TO",
+                            Password = "$2a$11$N3woBsRBB/8KiwkG8hZap.2POCJYRE82lhXCrDx.YE5rKzlBF0PGO",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -815,7 +815,7 @@ namespace PromiData.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 2, 13, 16, 8, 52, 756, DateTimeKind.Local).AddTicks(6887),
+                            Date = new DateTime(2022, 2, 14, 11, 14, 35, 724, DateTimeKind.Local).AddTicks(6412),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
@@ -844,7 +844,7 @@ namespace PromiData.Migrations
                         .HasForeignKey("CustomerId");
 
                     b.HasOne("PromiData.Models.Product", "Product")
-                        .WithMany("Order")
+                        .WithMany("Orders")
                         .HasForeignKey("ProductId");
 
                     b.HasOne("PromiData.Models.Shipment", "Shipment")
@@ -1056,7 +1056,7 @@ namespace PromiData.Migrations
 
             modelBuilder.Entity("PromiData.Models.Product", b =>
                 {
-                    b.Navigation("Order");
+                    b.Navigation("Orders");
 
                     b.Navigation("OrderServices");
 

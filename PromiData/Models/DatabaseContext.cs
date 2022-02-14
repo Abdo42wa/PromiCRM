@@ -27,7 +27,7 @@ namespace PromiData.Models
         public DbSet<Shipment> Shipments { get; set; }
         public DbSet<WarehouseCounting> WarehouseCountings { get; set; }
         public DbSet<WeeklyWorkSchedule> WeeklyWorkSchedules { get; set; }
-        public DbSet<ProductService> ProductServices { get; set; }
+        /*public DbSet<ProductService> ProductServices { get; set; }*/
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

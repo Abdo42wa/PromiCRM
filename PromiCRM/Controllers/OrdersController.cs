@@ -260,15 +260,66 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedOrdersTime()
         {
-            var mx = 1;
-            var orders = await _database.Orders.Include(o => o.Product).ThenInclude(u => u.ProductServices)
-                .Where(o => o.Status == false)
-                .GroupBy(o => new { o.Status, Enumerable = o.Product.ProductServices.Select(x=>x.ServiceId) })
-                .Select(o => new WorkTimeDTO
+            var orders = await _database.Orders.
+                Include(o => o.Product).
+                ThenInclude(u => u.OrderServices).
+                Where(o => o.Status == false).
+                Select(o => new WorkTimeDTO
                 {
-                    LaserTime = o.Sum(o => (o.Quantity) * o.Product.ProductServices.Where(x => x.ServiceId == 1))
-
+                    LaserTime = o.Product != null ?
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity:0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 1) != null? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity:0,
+                    MilingTime = o.Product != null ?
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 2) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 2) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
+                    PaintingTime = o.Product != null ?
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 3) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 3) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
+                    GrindingTime = o.Product != null ?
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 4) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 4) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
+                    BondingTime = o.Product != null ?
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 5) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 5) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
+                    CollectionTime = o.Product != null ?
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 6) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 6) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
+                    PackingTime = o.Product != null ?
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 7) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 7) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
+                    DoneLaserTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity: 0,
+                    DoneMilingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 2) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
+                    DonePaintingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 3) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
+                    DoneGrindingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 4) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
+                    DoneBondingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 5) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
+                    DoneCollectionTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 6) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
+                    DonePackingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 7) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
                 }).ToListAsync();
+
+            /*var orders = _database.Orders.
+                Include(o => o.Product).
+                ThenInclude(u => u.ProductServices).
+                Where(o => o.Status == false).
+                GroupBy(o => new { o.Status }).
+                Select(o => new WorkTimeDTO
+                {
+                    BondingTime = 10,
+                    LaserTime = o.Sum(o => o.Product.ProductServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption),
+                    Quantity = o.Sum(o => o.Quantity)
+                }).ToListAsync();*/
+
+            /*var orders = await _database.Orders.
+                 Include(o => o.Product).
+                 ThenInclude(u => u.ProductServices).
+                 Where(o => o.Status == false).
+                 *//*GroupBy(o => new { o.Status}).*//*
+                 Select(o => new WorkTimeDTO
+                 {
+                     BondingTime = 10,
+                     LaserTime = o.Product.ProductServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption,
+                     Quantity = o.Quantity
+                 }).
+                 ToListAsync();*/
             return Ok(orders);
         }
         [HttpGet("warehouseUncompleted")]

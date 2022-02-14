@@ -9,9 +9,9 @@ namespace PromiData.Models
         [Key]
         public int Id { get; set; }
 
-       /* [ForeignKey(nameof(Product))]
+        [ForeignKey(nameof(Product))]
         public int? ProductId { get; set; }
-        public virtual Product Product { get; set; }*/
+        public virtual Product Product { get; set; }
 
         [ForeignKey(nameof(Order))]
         public int? OrderId { get; set; }

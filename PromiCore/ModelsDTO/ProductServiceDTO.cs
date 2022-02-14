@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PromiCore.ModelsDTO
 {
- public  class CreateProductServiceDTO
+/* public  class CreateProductServiceDTO
     {
 
         public int ProductId { get; set; }
@@ -26,6 +26,6 @@ namespace PromiCore.ModelsDTO
         public virtual ProductDTO Product { get; set; }
         public virtual ServiceDTO Service { get; set; }
         public virtual IList<UserServiceDTO> UserServices { get; set; }
-    }
+    }*/
 
 }
