@@ -2,18 +2,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using PromiCRM.Models;
-using PromiCRM.ModelsDTO;
+using PromiCore.ModelsDTO;
 using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PromiCRM
 {
@@ -42,7 +37,7 @@ namespace PromiCRM
             //getting key that i set with Command Line
             var key = Environment.GetEnvironmentVariable("KEY");
 
-/*            var issuer = Environment.GetEnvironmentVariable("Issuer");*/
+            /*            var issuer = Environment.GetEnvironmentVariable("Issuer");*/
 
             //basically adding authentication to app. and default scheme that i want  is JWT
             //when somebody tires to authenticate check for bearer token
