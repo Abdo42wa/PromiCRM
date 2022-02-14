@@ -166,7 +166,7 @@ namespace PromiData.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 2, 14, 14, 38, 20, 859, DateTimeKind.Local).AddTicks(3834),
+                            LastAdittion = new DateTime(2022, 2, 14, 22, 30, 33, 484, DateTimeKind.Local).AddTicks(50),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -647,7 +647,7 @@ namespace PromiData.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$Yi2.Z8843HLked1B/yJVRu9AyDYusIZV5/k94rFvJBq9ZO3dPrbYW",
+                            Password = "$2a$11$JgWRjgeXUKF2ZQKDN2e4Oefy.HY8jTWDQc3R1UMuxFgPaBFtJacy6",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -783,7 +783,7 @@ namespace PromiData.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 2, 14, 14, 38, 20, 852, DateTimeKind.Local).AddTicks(7960),
+                            Date = new DateTime(2022, 2, 14, 22, 30, 33, 479, DateTimeKind.Local).AddTicks(1801),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")

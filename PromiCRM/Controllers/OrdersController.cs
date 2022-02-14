@@ -322,6 +322,32 @@ namespace PromiCRM.Controllers
                  ToListAsync();*/
             return Ok(orders);
         }
+
+
+        /// <summary>
+        /// Neisiustu siuntiniu lentele
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("unsended")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUnsendedOrders()
+        {
+            var orders = await _database.Orders
+                .Where(o => o.Status == true)
+                .Where(o => o.ShippingNumber == null)
+                .GroupBy(o => new { o.Quantity, o.ProductCode, o.OrderFinishDate, o.OrderNumber })
+                .Select(o => new OrderDTO
+                {
+                    ProductCode = o.Key.ProductCode,
+                    Quantity = o.Key.Quantity,
+                    OrderNumber = o.Key.OrderNumber,
+                    OrderFinishDate = o.Key.OrderFinishDate
+                }).ToListAsync();
+            return Ok(orders);
+        }
+
+
         [HttpGet("warehouseUncompleted")]
         /*        [Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
