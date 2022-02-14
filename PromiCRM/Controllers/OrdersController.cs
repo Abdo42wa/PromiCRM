@@ -229,7 +229,15 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetNotStandartOrdersForClients()
         {
-            var orders = await _unitOfWork.Orders.GetAll(o => o.OrderType == "Ne-standartinis" && o.Status == false, includeProperties: "Customer,User", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
+            /*var orders = await _unitOfWork.Orders.GetAll(o => o.OrderType == "Ne-standartinis" && o.Status == false, includeProperties: "Customer,User", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));*/
+            var orders = await _database.Orders.
+                Include(o => o.Customer).
+                Include(o => o.User).
+                Include(o => o.OrderServices).
+                Where(o => o.OrderType == "Ne-standartinis").
+                Where(o => o.Status == false).
+                ToListAsync();
+            
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
@@ -295,31 +303,6 @@ namespace PromiCRM.Controllers
                     DoneCollectionTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 6) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
                     DonePackingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 7) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
                 }).ToListAsync();
-
-            /*var orders = _database.Orders.
-                Include(o => o.Product).
-                ThenInclude(u => u.ProductServices).
-                Where(o => o.Status == false).
-                GroupBy(o => new { o.Status }).
-                Select(o => new WorkTimeDTO
-                {
-                    BondingTime = 10,
-                    LaserTime = o.Sum(o => o.Product.ProductServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption),
-                    Quantity = o.Sum(o => o.Quantity)
-                }).ToListAsync();*/
-
-            /*var orders = await _database.Orders.
-                 Include(o => o.Product).
-                 ThenInclude(u => u.ProductServices).
-                 Where(o => o.Status == false).
-                 *//*GroupBy(o => new { o.Status}).*//*
-                 Select(o => new WorkTimeDTO
-                 {
-                     BondingTime = 10,
-                     LaserTime = o.Product.ProductServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption,
-                     Quantity = o.Quantity
-                 }).
-                 ToListAsync();*/
             return Ok(orders);
         }
         [HttpGet("warehouseUncompleted")]
