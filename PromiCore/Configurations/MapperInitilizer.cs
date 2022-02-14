@@ -67,6 +67,7 @@ namespace PromiCore.Configurations
             CreateMap<UserService, UserServiceDTO>().ReverseMap();
             CreateMap<UserService, CreateUserServiceDTO>().ReverseMap();
             CreateMap<UserService, UpdateUserServiceDTO>().ReverseMap();
+            CreateMap<UserService, UserMadeServicesDTO>().ReverseMap();
 
             CreateMap<SalesChannel, SalesChannelDTO>().ReverseMap();
             CreateMap<SalesChannel, CreateSalesChannelDTO>().ReverseMap();

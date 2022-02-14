@@ -23,4 +23,14 @@ namespace PromiCore.ModelsDTO
         /*public  ProductServiceDTO ProductService { get; set; }*/
     }
 
+    public class UserMadeServicesDTO : CreateUserServiceDTO
+    {
+        public int Quantity { get; set; }
+        public OrderServiceDTO OrderService { get; set; }
+        public UserDTO User { get; set; }
+        public OrderDTO Order { get; set; }
+
+        /*public  ProductServiceDTO ProductService { get; set; }*/
+    }
+
 }
