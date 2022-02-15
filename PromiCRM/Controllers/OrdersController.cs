@@ -387,8 +387,29 @@ namespace PromiCRM.Controllers
         {
             DateTime today = DateTime.Now;
             DateTime monthBefore = today.AddDays(-30);
+            var users = await _unitOfWork.Users.GetAll();
+            var usersDTOs = _mapper.Map<IList<UserDTO>>(users);
             var userServices = await _database.UserServices.
                 Include(x => x.Order).
+                Where(x => x.CompletionDate.Date > monthBefore.Date).
+                Where(x => x.OrderService.ServiceId == 7).
+                GroupBy(x => x.UserId, x => x.Order.Quantity,
+                (userId, quantity) => new UserMadeServicesDTO
+                {
+                    UserId = userId,
+                    Quantity = quantity.Sum()
+                }).ToListAsync();
+            foreach(UserMadeServicesDTO service in userServices)
+            {
+                service.User = usersDTOs.SingleOrDefault(x => x.Id == service.UserId);
+            }
+            return Ok(userServices);
+
+            /*DateTime today = DateTime.Now;
+            DateTime monthBefore = today.AddDays(-30);
+            var userServices = await _database.UserServices.
+                Include(x => x.Order).
+                Include(x => User).
                 Where(x => x.CompletionDate.Date > monthBefore.Date).
                 GroupBy(x => x.UserId, x => x.Order.Quantity,
                 (userId, quantity) => new UserMadeServicesDTO
@@ -398,7 +419,7 @@ namespace PromiCRM.Controllers
                 }).
                 OrderByDescending(x => x.Quantity).
                 ToListAsync();
-            return Ok(userServices);
+            return Ok(userServices);*/
         }
 
         /// <summary>
