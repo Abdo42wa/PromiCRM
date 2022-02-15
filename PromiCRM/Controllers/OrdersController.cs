@@ -301,31 +301,6 @@ namespace PromiCRM.Controllers
                     DoneCollectionTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 6) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
                     DonePackingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 7) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
                 }).ToListAsync();
-
-            /*var orders = _database.Orders.
-                Include(o => o.Product).
-                ThenInclude(u => u.ProductServices).
-                Where(o => o.Status == false).
-                GroupBy(o => new { o.Status }).
-                Select(o => new WorkTimeDTO
-                {
-                    BondingTime = 10,
-                    LaserTime = o.Sum(o => o.Product.ProductServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption),
-                    Quantity = o.Sum(o => o.Quantity)
-                }).ToListAsync();*/
-
-            /*var orders = await _database.Orders.
-                 Include(o => o.Product).
-                 ThenInclude(u => u.ProductServices).
-                 Where(o => o.Status == false).
-                 *//*GroupBy(o => new { o.Status}).*//*
-                 Select(o => new WorkTimeDTO
-                 {
-                     BondingTime = 10,
-                     LaserTime = o.Product.ProductServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption,
-                     Quantity = o.Quantity
-                 }).
-                 ToListAsync();*/
             return Ok(orders);
         }
 
@@ -420,7 +395,9 @@ namespace PromiCRM.Controllers
                 {
                     UserId = userId,
                     Quantity = quantity.Sum()
-                }).ToListAsync();
+                }).
+                OrderByDescending(x => x.Quantity).
+                ToListAsync();
             return Ok(userServices);
         }
 
