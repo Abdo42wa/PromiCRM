@@ -674,11 +674,11 @@ namespace PromiCRM.Controllers
             }
 
             _mapper.Map(orderDTO, order);
-            _unitOfWork.Orders.Update(order);
-            if (order.OrderServices.Count > 0)
-                _unitOfWork.OrderServices.UpdateRange(order.OrderServices);
+            if(order.OrderServices.Count > 0)
+                _database.OrderServices.UpdateRange(order.OrderServices);
+            _database.Orders.Update(order);
             await _unitOfWork.Save();
-            return NoContent();
+            return Ok(order.OrderServices);
         }
 
 
