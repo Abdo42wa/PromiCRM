@@ -229,7 +229,13 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetNotStandartOrdersForClients()
         {
-            var orders = await _unitOfWork.Orders.GetAll(o => o.OrderType == "Ne-standartinis" && o.Status == false, includeProperties: "Customer,User", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
+            var orders = await _database.Orders.
+                Include(o => o.Customer).
+                Include(o => o.User).
+                Include(o => o.OrderServices).
+                Where(o => o.OrderType == "Ne-standartinis").
+                Where(o => o.Status == false).
+                ToListAsync();
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
