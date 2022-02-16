@@ -115,6 +115,16 @@ namespace PromiCRM.Controllers
             var result = _mapper.Map<OrderDTO>(order);
             return Ok(result);
         }
+
+        [HttpGet("biggest/orderNumber")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetOrderWithBiggestOrderNumber()
+        {
+            var order = await _database.Orders.OrderByDescending(x => x.OrderNumber).FirstOrDefaultAsync();
+            var result = _mapper.Map<OrderDTO>(order);
+            return Ok(result.OrderNumber);
+        }
         /// <summary>
         /// Laukiantys gaminiai. all orders that are not completed
         /// </summary>
