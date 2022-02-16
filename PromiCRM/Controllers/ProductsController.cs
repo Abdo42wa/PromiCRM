@@ -8,6 +8,8 @@ using PromiCore.IRepository;
 using PromiCore.ModelsDTO;
 using PromiCore.Services;
 using PromiData.Models;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
@@ -40,6 +42,7 @@ namespace PromiCRM.Controllers
         {
             /*var products = await _unitOfWork.Products.GetAll(includeProperties: "MaterialWarehouse");*/
             var products = await _database.Products.Include(p => p.ProductMaterials).ThenInclude(d => d.MaterialWarehouse).Include(p => p.OrderServices).ThenInclude(e => e.Service).AsNoTracking().ToListAsync();
+            var results = _mapper.Map<IList<ProductDTO>>(products);
             return Ok(products);
         }
 
@@ -112,7 +115,7 @@ namespace PromiCRM.Controllers
         [HttpPut("{id:int}")]
         [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDTO productDTO, int id)
         {
@@ -130,11 +133,14 @@ namespace PromiCRM.Controllers
 
 
             _mapper.Map(productDTO, product);
-            _unitOfWork.Products.Update(product);
             if (product.OrderServices.Count > 0)
                 _unitOfWork.OrderServices.UpdateRange(product.OrderServices);
+            _unitOfWork.Products.Update(product);
             await _unitOfWork.Save();
-            return NoContent();
+
+            var orderServices = await _database.OrderServices.Where(x => x.ProductId == id).AsNoTracking().ToListAsync();
+            var results = _mapper.Map<IList<OrderServiceDTO>>(orderServices);
+            return Ok(results);
         }
         /// <summary>
         /// PUT request when passing object with image to update
@@ -168,13 +174,14 @@ namespace PromiCRM.Controllers
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateProductWithImage)}");
                 return BadRequest("Submited invalid data");
             }
-
-
             _mapper.Map(productDTO, product);
-            _unitOfWork.Products.Update(product);
             if (product.OrderServices.Count > 0)
                 _unitOfWork.OrderServices.UpdateRange(product.OrderServices);
+            _unitOfWork.Products.Update(product);
             await _unitOfWork.Save();
+
+            var orderServices = await _database.OrderServices.Where(x => x.ProductId == id).AsNoTracking().ToListAsync();
+            product.OrderServices = orderServices;
             return Ok(product);
         }
 
