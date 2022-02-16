@@ -13,7 +13,8 @@ namespace PromiData.Configurations.Entities
                 {
                     Id = 1,
                     Name = "Lithuania",
-                    ShortName = "LT"
+                    ShortName = "LT",
+                    Continent = "Europe"
                 }
             );
         }
