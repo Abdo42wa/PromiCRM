@@ -6,13 +6,12 @@ namespace PromiCore.ModelsDTO
     {
 
         public string Name { get; set; }
-
         public string ShortName { get; set; }
         public string Continent { get; set; }
 
     }
 
-    public class UpdateCountryDTO
+    public class UpdateCountryDTO: CreateCountryDTO
     {
 
     }
