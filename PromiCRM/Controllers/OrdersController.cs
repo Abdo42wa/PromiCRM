@@ -229,7 +229,13 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetNotStandartOrdersForClients()
         {
-            var orders = await _unitOfWork.Orders.GetAll(o => o.OrderType == "Ne-standartinis" && o.Status == false, includeProperties: "Customer,User", orderBy: o => o.OrderByDescending(o => o.OrderFinishDate));
+            var orders = await _database.Orders.
+                Include(o => o.Customer).
+                Include(o => o.User).
+                Include(o => o.OrderServices).
+                Where(o => o.OrderType == "Ne-standartinis").
+                Where(o => o.Status == false).
+                ToListAsync();
             var results = _mapper.Map<IList<OrderDTO>>(orders);
             return Ok(results);
         }
@@ -295,31 +301,6 @@ namespace PromiCRM.Controllers
                     DoneCollectionTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 6) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
                     DonePackingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 7) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
                 }).ToListAsync();
-
-            /*var orders = _database.Orders.
-                Include(o => o.Product).
-                ThenInclude(u => u.ProductServices).
-                Where(o => o.Status == false).
-                GroupBy(o => new { o.Status }).
-                Select(o => new WorkTimeDTO
-                {
-                    BondingTime = 10,
-                    LaserTime = o.Sum(o => o.Product.ProductServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption),
-                    Quantity = o.Sum(o => o.Quantity)
-                }).ToListAsync();*/
-
-            /*var orders = await _database.Orders.
-                 Include(o => o.Product).
-                 ThenInclude(u => u.ProductServices).
-                 Where(o => o.Status == false).
-                 *//*GroupBy(o => new { o.Status}).*//*
-                 Select(o => new WorkTimeDTO
-                 {
-                     BondingTime = 10,
-                     LaserTime = o.Product.ProductServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption,
-                     Quantity = o.Quantity
-                 }).
-                 ToListAsync();*/
             return Ok(orders);
         }
 
@@ -368,6 +349,79 @@ namespace PromiCRM.Controllers
 
             return Ok(orders);
         }
+
+        /// <summary>
+        /// getting all completed orders in past Month(30 days).
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("monthOrders")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetMonthOrders()
+        {
+            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+            Calendar cal = dfi.Calendar;
+            DateTime today = DateTime.Now;
+            DateTime monthBefore = today.AddDays(-30);
+            //group by completion date. so for example each order of 2022/01/29 will be counted seper
+            var orders = await _database.Orders.Where(o => o.Status == true).
+                Where(o => o.CompletionDate.Value.Date > monthBefore.Date).
+                Where(o => o.OrderType != "Ne-standartinis").
+                GroupBy(o => o.CompletionDate.Value.Date).Select(x => new OrderDTO
+                {
+                    Quantity = x.Sum(x => x.Quantity),
+                    Id = x.Min(p => p.Id),
+                    CompletionDate = x.Key,
+                }).OrderByDescending(o => o.Quantity).ToListAsync();
+            return Ok(orders);
+        }
+
+        /// <summary>
+        /// Employee made orders through whole month
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("employee/products")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetEmployeeOrders()
+        {
+            DateTime today = DateTime.Now;
+            DateTime monthBefore = today.AddDays(-30);
+            var users = await _unitOfWork.Users.GetAll();
+            var usersDTOs = _mapper.Map<IList<UserDTO>>(users);
+            var userServices = await _database.UserServices.
+                Include(x => x.Order).
+                Where(x => x.CompletionDate.Date > monthBefore.Date).
+                Where(x => x.OrderService.ServiceId == 7).
+                GroupBy(x => x.UserId, x => x.Order.Quantity,
+                (userId, quantity) => new UserMadeServicesDTO
+                {
+                    UserId = userId,
+                    Quantity = quantity.Sum()
+                }).ToListAsync();
+            foreach(UserMadeServicesDTO service in userServices)
+            {
+                service.User = usersDTOs.SingleOrDefault(x => x.Id == service.UserId);
+            }
+            return Ok(userServices);
+
+            /*DateTime today = DateTime.Now;
+            DateTime monthBefore = today.AddDays(-30);
+            var userServices = await _database.UserServices.
+                Include(x => x.Order).
+                Include(x => User).
+                Where(x => x.CompletionDate.Date > monthBefore.Date).
+                GroupBy(x => x.UserId, x => x.Order.Quantity,
+                (userId, quantity) => new UserMadeServicesDTO
+                {
+                    UserId = userId,
+                    Quantity = quantity.Sum()
+                }).
+                OrderByDescending(x => x.Quantity).
+                ToListAsync();
+            return Ok(userServices);*/
+        }
+
         /// <summary>
         /// getting all completed orders. thats completed orders in past 5 weeks
         /// only completed "Standartinis" or "Ne-standartinis"
@@ -405,31 +459,7 @@ namespace PromiCRM.Controllers
             return Ok(orders);
         }
 
-        /// <summary>
-        /// getting all completed orders in past Month(30 days).
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("monthOrders")]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetMonthOrders()
-        {
-            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
-            Calendar cal = dfi.Calendar;
-            DateTime today = DateTime.Now;
-            DateTime fiveWeeksBefore = today.AddDays(-30);
-            //group by completion date. so for example each order of 2022/01/29 will be counted seper
-            var orders = await _database.Orders.Where(o => o.Status == true).
-                Where(o => o.CompletionDate.Value.Date > fiveWeeksBefore.Date).
-                Where(o => o.OrderType != "Ne-standartinis").
-                GroupBy(o => o.CompletionDate.Value.Date).Select(x => new OrderDTO
-                {
-                    Quantity = x.Sum(x => x.Quantity),
-                    Id = x.Min(p => p.Id),
-                    CompletionDate = x.Key,
-                }).OrderByDescending(o => o.Quantity).ToListAsync();
-            return Ok(orders);
-        }
+       
 
         [HttpGet("urgent")]
         [Authorize]
@@ -644,11 +674,11 @@ namespace PromiCRM.Controllers
             }
 
             _mapper.Map(orderDTO, order);
-            _unitOfWork.Orders.Update(order);
-            if (order.OrderServices.Count > 0)
-                _unitOfWork.OrderServices.UpdateRange(order.OrderServices);
+            if(order.OrderServices.Count > 0)
+                _database.OrderServices.UpdateRange(order.OrderServices);
+            _database.Orders.Update(order);
             await _unitOfWork.Save();
-            return NoContent();
+            return Ok(order.OrderServices);
         }
 
 
