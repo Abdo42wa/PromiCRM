@@ -36,7 +36,7 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetBonuses()
         {
-            var bonuses = await _unitOfWork.Bonus.GetAll(includeProperties: "User");
+            var bonuses = await _unitOfWork.Bonuses.GetAll(includeProperties: "UserBonuses");
             var results = _mapper.Map<IList<BonusDTO>>(bonuses);
             return Ok(results);
         }
@@ -51,23 +51,8 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetBonus(int id)
         {
-            var bonus = await _unitOfWork.Bonus.Get(b => b.Id == id, includeProperties: "User");
+            var bonus = await _unitOfWork.Bonuses.Get(b => b.Id == id, includeProperties: "UserBonuses");
             var result = _mapper.Map<BonusDTO>(bonus);
-            return Ok(result);
-        }
-        /// <summary>
-        /// Get all records from bonus table by userId. Convert to dto
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("user/{id:Guid}")]
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetBonusByUserId(Guid id)
-        {
-            var bonuses = await _unitOfWork.Bonus.GetAll(b => b.UserId == id);
-            var result = _mapper.Map<IList<BonusDTO>>(bonuses);
             return Ok(result);
         }
         /// <summary>
@@ -88,9 +73,9 @@ namespace PromiCRM.Controllers
                 return BadRequest("Submited data is invalid");
             }
             var bonus = _mapper.Map<Bonus>(bonusDTO);
-            await _unitOfWork.Bonus.Insert(bonus);
+            await _unitOfWork.Bonuses.Insert(bonus);
             await _unitOfWork.Save();
-            var createdBonus = await _unitOfWork.Bonus.Get(x => x.Id == bonus.Id, includeProperties: "User");
+            var createdBonus = await _unitOfWork.Bonuses.Get(x => x.Id == bonus.Id, includeProperties: "UserBonuses");
             var result = _mapper.Map<BonusDTO>(createdBonus);
             return Ok(result);
         }
@@ -113,7 +98,7 @@ namespace PromiCRM.Controllers
                 return BadRequest("Submited data is invalid");
             }
 
-            var bonus = await _unitOfWork.Bonus.Get(b => b.Id == id);
+            var bonus = await _unitOfWork.Bonuses.Get(b => b.Id == id);
             if (bonus == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateBonus)}");
@@ -121,7 +106,7 @@ namespace PromiCRM.Controllers
             }
             //convert bonusDTO to bonus model. Put all values from bonusDTO to bonus
             _mapper.Map(bonusDTO, bonus);
-            _unitOfWork.Bonus.Update(bonus);
+            _unitOfWork.Bonuses.Update(bonus);
             await _unitOfWork.Save();
 
             return NoContent();
@@ -138,13 +123,13 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeleteBonus(int id)
         {
-            var bonus = _unitOfWork.Bonus.Get(b => b.Id == id);
+            var bonus = _unitOfWork.Bonuses.Get(b => b.Id == id);
             if (bonus == null)
             {
                 _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteBonus)}");
                 return BadRequest("Submited data is invalid");
             }
-            await _unitOfWork.Bonus.Delete(id);
+            await _unitOfWork.Bonuses.Delete(id);
             await _unitOfWork.Save();
             return NoContent();
         }

@@ -12,7 +12,8 @@ namespace PromiCore.Repository
         private IGenericRepository<UserType> _userTypes;
         private IGenericRepository<User> _users;
         private IGenericRepository<SalesChannel> _salesChannels;
-        private IGenericRepository<Bonus> _bonus;
+        private IGenericRepository<Bonus> _bonuses;
+        private IGenericRepository<UserBonus> _userBonuses;
         private IGenericRepository<Country> _countries;
         private IGenericRepository<Customer> _customers;
         private IGenericRepository<MaterialWarehouse> _materialsWarehouse;
@@ -34,7 +35,8 @@ namespace PromiCore.Repository
         public IGenericRepository<UserType> UserTypes => _userTypes ??= new GenericRepository<UserType>(_context);
         public IGenericRepository<User> Users => _users ??= new GenericRepository<User>(_context);
         public IGenericRepository<SalesChannel> SalesChannels => _salesChannels ??= new GenericRepository<SalesChannel>(_context);
-        public IGenericRepository<Bonus> Bonus => _bonus ??= new GenericRepository<Bonus>(_context);
+        public IGenericRepository<Bonus> Bonuses => _bonuses ??= new GenericRepository<Bonus>(_context);
+        public IGenericRepository<UserBonus> UserBonuses => _userBonuses ??= new GenericRepository<UserBonus>(_context);
         public IGenericRepository<Country> Countries => _countries ??= new GenericRepository<Country>(_context);
         public IGenericRepository<Customer> Customers => _customers ??= new GenericRepository<Customer>(_context);
         public IGenericRepository<MaterialWarehouse> MaterialsWarehouse => _materialsWarehouse ??= new GenericRepository<MaterialWarehouse>(_context);

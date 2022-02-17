@@ -10,8 +10,8 @@ using PromiData.Models;
 namespace PromiData.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220214123821_deletedProductServices")]
-    partial class deletedProductServices
+    [Migration("20220217183738_addedUserServices")]
+    partial class addedUserServices
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,30 +31,15 @@ namespace PromiData.Migrations
                     b.Property<int>("Accumulated")
                         .HasColumnType("int");
 
-                    b.Property<int>("Bonusas")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Bonus");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Accumulated = 100,
-                            Bonusas = 600,
-                            Quantity = 1000,
-                            UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
-                        });
+                    b.ToTable("Bonuses");
                 });
 
             modelBuilder.Entity("PromiData.Models.Country", b =>
@@ -81,6 +66,7 @@ namespace PromiData.Migrations
                         new
                         {
                             Id = 1,
+                            Continent = "Europe",
                             Name = "Lithuania",
                             ShortName = "LT"
                         });
@@ -168,7 +154,7 @@ namespace PromiData.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 2, 14, 14, 38, 20, 859, DateTimeKind.Local).AddTicks(3834),
+                            LastAdittion = new DateTime(2022, 2, 17, 20, 37, 37, 61, DateTimeKind.Local).AddTicks(571),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -649,11 +635,39 @@ namespace PromiData.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$Yi2.Z8843HLked1B/yJVRu9AyDYusIZV5/k94rFvJBq9ZO3dPrbYW",
+                            Password = "$2a$11$ZCxJndqlQqIWxet28fNqZubGOo3clvhkBII0lxNN36I19cDrevpgm",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
                         });
+                });
+
+            modelBuilder.Entity("PromiData.Models.UserBonus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BonusId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Reward")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BonusId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserBonuses");
                 });
 
             modelBuilder.Entity("PromiData.Models.UserService", b =>
@@ -785,22 +799,11 @@ namespace PromiData.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 2, 14, 14, 38, 20, 852, DateTimeKind.Local).AddTicks(7960),
+                            Date = new DateTime(2022, 2, 17, 20, 37, 37, 54, DateTimeKind.Local).AddTicks(5557),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
                         });
-                });
-
-            modelBuilder.Entity("PromiData.Models.Bonus", b =>
-                {
-                    b.HasOne("PromiData.Models.User", "User")
-                        .WithMany("Bonus")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PromiData.Models.Order", b =>
@@ -923,6 +926,21 @@ namespace PromiData.Migrations
                     b.Navigation("UserType");
                 });
 
+            modelBuilder.Entity("PromiData.Models.UserBonus", b =>
+                {
+                    b.HasOne("PromiData.Models.Bonus", null)
+                        .WithMany("UserBonuses")
+                        .HasForeignKey("BonusId");
+
+                    b.HasOne("PromiData.Models.User", "User")
+                        .WithMany("UserBonuses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PromiData.Models.UserService", b =>
                 {
                     b.HasOne("PromiData.Models.Order", "Order")
@@ -968,6 +986,11 @@ namespace PromiData.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PromiData.Models.Bonus", b =>
+                {
+                    b.Navigation("UserBonuses");
                 });
 
             modelBuilder.Entity("PromiData.Models.Country", b =>
@@ -1024,13 +1047,13 @@ namespace PromiData.Migrations
 
             modelBuilder.Entity("PromiData.Models.User", b =>
                 {
-                    b.Navigation("Bonus");
-
                     b.Navigation("Orders");
 
                     b.Navigation("RecentWorks");
 
                     b.Navigation("SalesChannels");
+
+                    b.Navigation("UserBonuses");
 
                     b.Navigation("UserServices");
 

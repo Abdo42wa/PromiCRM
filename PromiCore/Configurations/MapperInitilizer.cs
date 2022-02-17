@@ -21,6 +21,10 @@ namespace PromiCore.Configurations
             CreateMap<Bonus, CreateBonusDTO>().ReverseMap();
             CreateMap<Bonus, UpdateBonusDTO>().ReverseMap();
 
+            CreateMap<UserBonus, UserBonusDTO>().ReverseMap();
+            CreateMap<UserBonus, CreateUserBonusDTO>().ReverseMap();
+            CreateMap<UserBonus, UpdateUserBonusDTO>().ReverseMap();
+
             CreateMap<Country, CountryDTO>().ReverseMap();
             CreateMap<Country, CreateCountryDTO>().ReverseMap();
             CreateMap<Country, UpdateCountryDTO>().ReverseMap();

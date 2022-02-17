@@ -18,11 +18,11 @@ namespace PromiData.Models
         public int TypeId { get; set; }
         public virtual UserType UserType { get; set; }
         public byte[] UserPhoto { get; set; }
-        public virtual ICollection<Bonus> Bonus { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<WeeklyWorkSchedule> WeeklyWorkSchedules { get; set; }
         public virtual ICollection<SalesChannel> SalesChannels { get; set; }
         public virtual ICollection<RecentWork> RecentWorks { get; set; }
         public virtual ICollection<UserService> UserServices { get; set; }
+        public virtual ICollection<UserBonus> UserBonuses { get; set; }
     }
 }

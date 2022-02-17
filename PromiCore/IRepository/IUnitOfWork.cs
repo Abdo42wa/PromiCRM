@@ -9,7 +9,8 @@ namespace PromiCore.IRepository
         IGenericRepository<UserType> UserTypes { get; }
         IGenericRepository<User> Users { get; }
         IGenericRepository<SalesChannel> SalesChannels { get; }
-        IGenericRepository<Bonus> Bonus { get; }
+        IGenericRepository<Bonus> Bonuses { get; }
+        IGenericRepository<UserBonus> UserBonuses { get; }
         IGenericRepository<Country> Countries { get; }
         IGenericRepository<Customer> Customers { get; }
         IGenericRepository<MaterialWarehouse> MaterialsWarehouse { get; }

@@ -3,10 +3,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PromiData.Migrations
 {
-    public partial class cretedDB : Migration
+    public partial class addedUserServices : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Bonuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Accumulated = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bonuses", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
@@ -131,33 +146,6 @@ namespace PromiData.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductServices",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    ServiceId = table.Column<int>(type: "int", nullable: false),
-                    TimeConsumption = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductServices", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductServices_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductServices_Services_ServiceId",
-                        column: x => x.ServiceId,
-                        principalTable: "Services",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -177,28 +165,6 @@ namespace PromiData.Migrations
                         name: "FK_Users_UserTypes_TypeId",
                         column: x => x.TypeId,
                         principalTable: "UserTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Bonus",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    Accumulated = table.Column<int>(type: "int", nullable: false),
-                    Bonusas = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bonus", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Bonus_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -332,6 +298,34 @@ namespace PromiData.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserBonuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BonusId = table.Column<int>(type: "int", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Reward = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserBonuses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserBonuses_Bonuses_BonusId",
+                        column: x => x.BonusId,
+                        principalTable: "Bonuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserBonuses_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WeeklyWorkSchedules",
                 columns: table => new
                 {
@@ -359,10 +353,10 @@ namespace PromiData.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductId = table.Column<int>(type: "int", nullable: true),
                     OrderId = table.Column<int>(type: "int", nullable: true),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
-                    TimeConsumption = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
+                    TimeConsumption = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -454,8 +448,7 @@ namespace PromiData.Migrations
                     OrderServiceId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: true),
-                    CompletionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProductServiceId = table.Column<int>(type: "int", nullable: true)
+                    CompletionDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -473,12 +466,6 @@ namespace PromiData.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserServices_ProductServices_ProductServiceId",
-                        column: x => x.ProductServiceId,
-                        principalTable: "ProductServices",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_UserServices_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
@@ -489,7 +476,7 @@ namespace PromiData.Migrations
             migrationBuilder.InsertData(
                 table: "Countries",
                 columns: new[] { "Id", "Continent", "Name", "ShortName" },
-                values: new object[] { 1, null, "Lithuania", "LT" });
+                values: new object[] { 1, "Europe", "Lithuania", "LT" });
 
             migrationBuilder.InsertData(
                 table: "Customers",
@@ -499,7 +486,7 @@ namespace PromiData.Migrations
             migrationBuilder.InsertData(
                 table: "MaterialsWarehouse",
                 columns: new[] { "Id", "DeliveryTime", "ImageName", "ImagePath", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
-                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 2, 14, 11, 14, 35, 730, DateTimeKind.Local).AddTicks(5291), "cm", 22500, "Fanera 3mm", 40 });
+                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 2, 17, 20, 37, 37, 61, DateTimeKind.Local).AddTicks(571), "cm", 22500, "Fanera 3mm", 40 });
 
             migrationBuilder.InsertData(
                 table: "Products",
@@ -548,22 +535,12 @@ namespace PromiData.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$N3woBsRBB/8KiwkG8hZap.2POCJYRE82lhXCrDx.YE5rKzlBF0PGO", "860855183", "Admin", 1, null });
-
-            migrationBuilder.InsertData(
-                table: "Bonus",
-                columns: new[] { "Id", "Accumulated", "Bonusas", "Quantity", "UserId" },
-                values: new object[] { 1, 100, 600, 1000, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$ZCxJndqlQqIWxet28fNqZubGOo3clvhkBII0lxNN36I19cDrevpgm", "860855183", "Admin", 1, null });
 
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
                 columns: new[] { "Id", "Date", "Description", "Done", "UserId" },
-                values: new object[] { 1, new DateTime(2022, 2, 14, 11, 14, 35, 724, DateTimeKind.Local).AddTicks(6412), "Supildyti frezavimo laiko lentele", false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bonus_UserId",
-                table: "Bonus",
-                column: "UserId");
+                values: new object[] { 1, new DateTime(2022, 2, 17, 20, 37, 37, 54, DateTimeKind.Local).AddTicks(5557), "Supildyti frezavimo laiko lentele", false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CountryId",
@@ -621,16 +598,6 @@ namespace PromiData.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductServices_ProductId",
-                table: "ProductServices",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductServices_ServiceId",
-                table: "ProductServices",
-                column: "ServiceId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RecentWorks_ProductId",
                 table: "RecentWorks",
                 column: "ProductId");
@@ -643,6 +610,16 @@ namespace PromiData.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_SalesChannels_UserId",
                 table: "SalesChannels",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserBonuses_BonusId",
+                table: "UserBonuses",
+                column: "BonusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserBonuses_UserId",
+                table: "UserBonuses",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -668,11 +645,6 @@ namespace PromiData.Migrations
                 column: "OrderServiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserServices_ProductServiceId",
-                table: "UserServices",
-                column: "ProductServiceId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserServices_UserId",
                 table: "UserServices",
                 column: "UserId");
@@ -691,9 +663,6 @@ namespace PromiData.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Bonus");
-
-            migrationBuilder.DropTable(
                 name: "ProductMaterials");
 
             migrationBuilder.DropTable(
@@ -701,6 +670,9 @@ namespace PromiData.Migrations
 
             migrationBuilder.DropTable(
                 name: "SalesChannels");
+
+            migrationBuilder.DropTable(
+                name: "UserBonuses");
 
             migrationBuilder.DropTable(
                 name: "UserServices");
@@ -715,10 +687,10 @@ namespace PromiData.Migrations
                 name: "MaterialsWarehouse");
 
             migrationBuilder.DropTable(
-                name: "OrderServices");
+                name: "Bonuses");
 
             migrationBuilder.DropTable(
-                name: "ProductServices");
+                name: "OrderServices");
 
             migrationBuilder.DropTable(
                 name: "Orders");

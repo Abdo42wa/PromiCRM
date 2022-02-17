@@ -12,7 +12,8 @@ namespace PromiData.Models
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<SalesChannel> SalesChannels { get; set; }
-        public DbSet<Bonus> Bonus { get; set; }
+        public DbSet<Bonus> Bonuses { get; set; }
+        public DbSet<UserBonus> UserBonuses { get; set; }
         public DbSet<Country> Countries { get; set; }
         /*public DbSet<Currency> Currencies { get; set; }*/
         public DbSet<Customer> Customers { get; set; }
@@ -36,7 +37,6 @@ namespace PromiData.Models
             builder.Entity<User>(entity => { entity.HasIndex(e => e.Email).IsUnique(); });
             builder.ApplyConfiguration(new UserTypesConfiguration());
             builder.ApplyConfiguration(new UsersConfiguration());
-            builder.ApplyConfiguration(new BonusConfiguration());
             builder.ApplyConfiguration(new CountriesConfiguration());
             builder.ApplyConfiguration(new CustomerConfiguration());
             builder.ApplyConfiguration(new ServicesConfiguration());
