@@ -286,30 +286,30 @@ namespace PromiCRM.Controllers
                     o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
                     : o.OrderServices.SingleOrDefault(p => p.ServiceId == 1) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
                     MilingTime = o.Product != null ?
-                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 2) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
-                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 2) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 2) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 2).TimeConsumption * o.Quantity : 0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 2) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 2).TimeConsumption * o.Quantity : 0,
                     PaintingTime = o.Product != null ?
-                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 3) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
-                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 3) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 3) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 3).TimeConsumption * o.Quantity : 0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 3) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 3).TimeConsumption * o.Quantity : 0,
                     GrindingTime = o.Product != null ?
-                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 4) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
-                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 4) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 4) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 4).TimeConsumption * o.Quantity : 0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 4) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 4).TimeConsumption * o.Quantity : 0,
                     BondingTime = o.Product != null ?
-                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 5) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
-                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 5) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 5) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 5).TimeConsumption * o.Quantity : 0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 5) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 5).TimeConsumption * o.Quantity : 0,
                     CollectionTime = o.Product != null ?
-                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 6) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
-                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 6) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 6) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 6).TimeConsumption * o.Quantity : 0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 6) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 6).TimeConsumption * o.Quantity : 0,
                     PackingTime = o.Product != null ?
-                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 7) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0
-                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 7) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 1).TimeConsumption * o.Quantity : 0,
+                    o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 7) != null ? o.Product.OrderServices.SingleOrDefault(p => p.ServiceId == 7).TimeConsumption * o.Quantity : 0
+                    : o.OrderServices.SingleOrDefault(p => p.ServiceId == 7) != null ? o.OrderServices.SingleOrDefault(p => p.ServiceId == 7).TimeConsumption * o.Quantity : 0,
                     DoneLaserTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
-                    DoneMilingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 2) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
-                    DonePaintingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 3) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
-                    DoneGrindingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 4) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
-                    DoneBondingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 5) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
-                    DoneCollectionTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 6) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
-                    DonePackingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 7) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 1).OrderService.TimeConsumption * o.Quantity : 0,
+                    DoneMilingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 2) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 2).OrderService.TimeConsumption * o.Quantity : 0,
+                    DonePaintingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 3) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 3).OrderService.TimeConsumption * o.Quantity : 0,
+                    DoneGrindingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 4) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 4).OrderService.TimeConsumption * o.Quantity : 0,
+                    DoneBondingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 5) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 5).OrderService.TimeConsumption * o.Quantity : 0,
+                    DoneCollectionTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 6) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 6).OrderService.TimeConsumption * o.Quantity : 0,
+                    DonePackingTime = o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 7) != null ? o.UserServices.SingleOrDefault(p => p.OrderService.ServiceId == 7).OrderService.TimeConsumption * o.Quantity : 0,
                 }).ToListAsync();
             return Ok(orders);
         }
