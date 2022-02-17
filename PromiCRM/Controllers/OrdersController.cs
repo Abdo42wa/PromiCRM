@@ -339,6 +339,27 @@ namespace PromiCRM.Controllers
         }
 
 
+        /// <summary>
+        /// Rekomenduojama gaminti
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("recommendedforproduction")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetRecommendedForProductionOrders()
+        {
+            var orders = await _database.Orders
+                .Where(o => o.Status == false)
+                .GroupBy(o => new { o.Quantity, o.ProductCode })
+                .Select(o => new OrderDTO
+                {
+                    ProductCode = o.Key.ProductCode,
+                    Quantity = o.Sum(x =>x.Quantity)
+                }).ToListAsync();
+            return Ok(orders);
+        }
+
+
         [HttpGet("warehouseUncompleted")]
         /*        [Authorize]*/
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
