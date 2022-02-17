@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PromiCore.IRepository;
 using PromiCore.ModelsDTO;
@@ -14,24 +15,27 @@ namespace PromiCRM.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserBonuses : ControllerBase
+    public class UserBonusesController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<UserBonuses> _logger;
+        private readonly ILogger<UserBonusesController> _logger;
+        private readonly DatabaseContext _database;
 
-        public UserBonuses(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UserBonuses> logger)
+        public UserBonusesController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UserBonusesController> logger, DatabaseContext database)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _database = database;
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUsersBonuses()
         {
-            var usersBonuses = await _unitOfWork.UserBonuses.GetAll();
+            var today = DateTime.Now;
+            var usersBonuses = await _database.UserBonuses.Where(x => x.Date.Year == today.Year).Where(x => x.Date.Month == today.Month).ToListAsync();
             var results = _mapper.Map<IList<UserBonusDTO>>(usersBonuses);
             return Ok(results);
         }

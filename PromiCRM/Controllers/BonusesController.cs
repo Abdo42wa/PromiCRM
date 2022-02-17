@@ -2,30 +2,36 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PromiCore.IRepository;
 using PromiCore.ModelsDTO;
 using PromiData.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BonusController : ControllerBase
+    public class BonusesController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<BonusController> _logger;
+        private readonly ILogger<BonusesController> _logger;
+        private readonly DatabaseContext _database;
 
-        public BonusController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<BonusController> logger)
+        public BonusesController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<BonusesController> logger, DatabaseContext database)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _database = database;
         }
+
+
         /// <summary>
         /// GET all records from bonuses table. Map/convert to DTO's
         /// </summary>
@@ -36,7 +42,8 @@ namespace PromiCRM.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetBonuses()
         {
-            var bonuses = await _unitOfWork.Bonuses.GetAll(includeProperties: "UserBonuses");
+            var today = DateTime.Now;
+            var bonuses = await _database.Bonuses.Include(x => x.UserBonuses).Where(x => x.Date.Year == today.Year).Where(x => x.Date.Month == today.Month).ToListAsync();
             var results = _mapper.Map<IList<BonusDTO>>(bonuses);
             return Ok(results);
         }
