@@ -122,8 +122,10 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetOrderWithBiggestOrderNumber()
         {
             var order = await _database.Orders.OrderByDescending(x => x.OrderNumber).FirstOrDefaultAsync();
-            var result = _mapper.Map<OrderDTO>(order);
-            return Ok(result.OrderNumber);
+            if (order == null)
+                return Ok(0);
+            else
+                return Ok(order.OrderNumber);
         }
         /// <summary>
         /// Laukiantys gaminiai. all orders that are not completed
