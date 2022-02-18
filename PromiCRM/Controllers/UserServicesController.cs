@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PromiCore.IRepository;
 using PromiCore.ModelsDTO;
 using PromiData.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PromiCRM.Controllers
@@ -17,12 +20,14 @@ namespace PromiCRM.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<UserServicesController> _logger;
+        private readonly DatabaseContext _database;
 
-        public UserServicesController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UserServicesController> logger)
+        public UserServicesController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UserServicesController> logger, DatabaseContext database)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _database = database;
         }
 
         [HttpGet]
@@ -33,6 +38,29 @@ namespace PromiCRM.Controllers
             var userServices = await _unitOfWork.UserServices.GetAll();
             var results = _mapper.Map<IList<UserServiceDTO>>(userServices);
             return Ok(results);
+        }
+
+        [HttpGet("month/madeProducts")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetMonthMadeProducts()
+        {
+            var today = DateTime.Now;
+            var userServices = await _database.UserServices.
+                Include(s => s.Order).
+                Include(s => s.OrderService).
+                Where(s => s.CompletionDate.Year == today.Year).
+                Where(s => s.CompletionDate.Month == today.Month).
+                Where(s => s.OrderService.ServiceId == 7).
+                GroupBy(
+                service => service.CompletionDate.Month,
+                service => service.Order.Quantity,
+                (month, quantities) => new UserMadeServicesDTO
+                {
+                    Month = month,
+                    Quantity = quantities.Sum()
+                }).ToListAsync();
+            return Ok(userServices);
         }
 
         [HttpGet("{id:int}", Name = "GetUserServiceById")]
