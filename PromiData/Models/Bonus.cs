@@ -13,6 +13,7 @@ namespace PromiData.Models
         public DateTime Date { get; set; }
         //how many bonuses have in this month. maybe goal was 1000 but team made 2000. then accumulated will be 2
         public int Accumulated { get; set; }
+        public int Reward { get; set; }
         public virtual ICollection<UserBonus> UserBonuses { get; set; }
     }
 }
