@@ -78,8 +78,8 @@ namespace PromiCRM.Controllers
             await _unitOfWork.UserBonuses.Insert(userBonus);
             await _unitOfWork.Save();
             var createdBonus = await _unitOfWork.UserBonuses.Get(x => x.Id == userBonus.Id, includeProperties: "User");
-            var result = _mapper.Map<UserBonusDTO>(userBonus);
-            return Ok(userBonus);
+            var result = _mapper.Map<UserBonusDTO>(createdBonus);
+            return Ok(result);
         }
 
         [HttpPut("{id:int}")]
