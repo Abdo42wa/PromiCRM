@@ -32,6 +32,9 @@ namespace PromiData.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("IndividualBonusQuantity")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -155,7 +158,7 @@ namespace PromiData.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 2, 18, 14, 2, 5, 809, DateTimeKind.Local).AddTicks(588),
+                            LastAdittion = new DateTime(2022, 2, 19, 14, 40, 52, 624, DateTimeKind.Local).AddTicks(9044),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -636,7 +639,7 @@ namespace PromiData.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$Yq/cMDU9oOJE3l4FSTioS.8bE51JJkYTSiV9ZMOQXT8QaJoyhNEYu",
+                            Password = "$2a$11$orcvp66WHdVYDqTAflrQlONZUVwoV0w9x5.OBwfycdjJtiTD6QgPK",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -800,7 +803,7 @@ namespace PromiData.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 2, 18, 14, 2, 5, 805, DateTimeKind.Local).AddTicks(3049),
+                            Date = new DateTime(2022, 2, 19, 14, 40, 52, 619, DateTimeKind.Local).AddTicks(2189),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")
