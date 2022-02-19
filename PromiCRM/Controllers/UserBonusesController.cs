@@ -29,13 +29,17 @@ namespace PromiCRM.Controllers
             _logger = logger;
             _database = database;
         }
+        /// <summary>
+        /// getting only this month user bonuses
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUsersBonuses()
         {
             var today = DateTime.Now;
-            var usersBonuses = await _database.UserBonuses.Where(x => x.Date.Year == today.Year).Where(x => x.Date.Month == today.Month).ToListAsync();
+            var usersBonuses = await _database.UserBonuses.Include(b => b.User).Where(x => x.Date.Year == today.Year).Where(x => x.Date.Month == today.Month).ToListAsync();
             var results = _mapper.Map<IList<UserBonusDTO>>(usersBonuses);
             return Ok(results);
         }
@@ -62,7 +66,7 @@ namespace PromiCRM.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateUserBonus([FromBody]CreateUserBonusDTO userBonusDTO)
         {
             if (!ModelState.IsValid)
@@ -73,7 +77,9 @@ namespace PromiCRM.Controllers
             var userBonus = _mapper.Map<UserBonus>(userBonusDTO);
             await _unitOfWork.UserBonuses.Insert(userBonus);
             await _unitOfWork.Save();
-            return CreatedAtRoute("GetUserBonusById", new { id = userBonus.Id }, userBonus);
+            var createdBonus = await _unitOfWork.UserBonuses.Get(x => x.Id == userBonus.Id, includeProperties: "User");
+            var result = _mapper.Map<UserBonusDTO>(userBonus);
+            return Ok(userBonus);
         }
 
         [HttpPut("{id:int}")]

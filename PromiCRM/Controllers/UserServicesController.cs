@@ -63,6 +63,32 @@ namespace PromiCRM.Controllers
             return Ok(userServices);
         }
 
+        [HttpGet("month/madeOperations")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUsersMonthOperations()
+        {
+            var today = DateTime.Now;
+            var userServices = await _database.UserServices.
+                Include(s => s.Order).
+                Where(s => s.CompletionDate.Year == today.Year).
+                Where(s => s.CompletionDate.Month == today.Month).
+                GroupBy(
+                service => service.UserId,
+                service => service.Order.Quantity,
+                (userId, quantities) => new UserMadeServicesDTO
+                {
+                    UserId = userId,
+                    Quantity = quantities.Sum()
+                }).ToListAsync();
+            foreach(UserMadeServicesDTO userService in userServices)
+            {
+                var user = await _unitOfWork.Users.Get(u => u.Id == userService.UserId);
+                userService.FullName = user.Name + " " + user.Surname;
+            }
+            return Ok(userServices);
+        }
+
         [HttpGet("{id:int}", Name = "GetUserServiceById")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
