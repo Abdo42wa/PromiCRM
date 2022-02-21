@@ -363,7 +363,7 @@ namespace PromiCRM.Controllers
 
 
         [HttpGet("warehouseUncompleted")]
-        /*        [Authorize]*/
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompletedOrdersForWarehouse()
@@ -688,7 +688,7 @@ namespace PromiCRM.Controllers
         }
 
         [HttpPut("nonstandart/{id:int}")]
-        /*        [Authorize(Roles = "ADMINISTRATOR")]*/
+        [Authorize(Roles = "ADMINISTRATOR")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

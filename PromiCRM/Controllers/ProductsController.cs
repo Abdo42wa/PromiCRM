@@ -8,7 +8,9 @@ using PromiCore.IRepository;
 using PromiCore.ModelsDTO;
 using PromiCore.Services;
 using PromiData.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -76,7 +78,7 @@ namespace PromiCRM.Controllers
         /// <param name="productDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        /*[Authorize]*/
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -87,14 +89,14 @@ namespace PromiCRM.Controllers
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateProduct)}");
                 return BadRequest("Submited invalid data");
             }
-            /* if (productDTO.File == null || productDTO.File.Length < 1)
-             {
-                 return BadRequest("Submited invalid data. Didnt get image");
-             }*/
-            /*            var fileName = Guid.NewGuid() + Path.GetExtension(productDTO.File.FileName);
-                        var imageUrl = await _blobService.UploadBlob(fileName, productDTO.File, "products");
-                        productDTO.ImageName = fileName;
-                        productDTO.ImagePath = imageUrl;*/
+            if (productDTO.File == null || productDTO.File.Length < 1)
+            {
+                return BadRequest("Submited invalid data. Didnt get image");
+            }
+            var fileName = Guid.NewGuid() + Path.GetExtension(productDTO.File.FileName);
+            var imageUrl = await _blobService.UploadBlob(fileName, productDTO.File, "products");
+            productDTO.ImageName = fileName;
+            productDTO.ImagePath = imageUrl;
 
             var product = _mapper.Map<Product>(productDTO);
             await _unitOfWork.Products.Insert(product);
@@ -161,12 +163,12 @@ namespace PromiCRM.Controllers
                 return BadRequest("Submited invalid data");
             }
             //FOR NOW WE DONT NEED THIS
-            /*if (productDTO.File == null || productDTO.File.Length < 1)
+            if (productDTO.File == null || productDTO.File.Length < 1)
             {
                 return BadRequest("Submited invalid data. Didnt get image");
             }
             var imageUrl = await _blobService.UploadBlob(productDTO.ImageName, productDTO.File, "products");
-            productDTO.ImagePath = imageUrl;*/
+            productDTO.ImagePath = imageUrl;
             //get product by id
             var product = await _unitOfWork.Products.Get(c => c.Id == id);
             if (product == null)
