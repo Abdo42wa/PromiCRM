@@ -51,6 +51,7 @@ namespace PromiCore.Configurations
             CreateMap<Order, CreateOrderDTO>().ReverseMap();
             CreateMap<Order, UpdateOrderDTO>().ReverseMap();
             CreateMap<Order, WorkTimeDTO>().ReverseMap();
+            CreateMap<Order, LastMonthSoldOrderDTO>().ReverseMap();
 
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<Product, CreateProductDTO>().ReverseMap();
