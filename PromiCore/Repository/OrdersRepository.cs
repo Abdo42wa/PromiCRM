@@ -429,5 +429,24 @@ namespace PromiCore.Repository
             return orders;
         }
 
+        //getting orders grouped by platforms in specified period of time(between to dates)
+        public async Task<IList<OrderDTO>> GetCompletedPlatformsOrdersByTime(DateTime dateFrom, DateTime dateTo)
+        {
+            var orders = await _database.Orders.
+                Where(o => o.Status == true).
+                Where(o => o.OrderFinishDate >= dateFrom).
+                Where(o => o.OrderFinishDate <= dateTo).
+                GroupBy(o => new { o.Platforma }).
+                Select(o => new OrderDTO
+                {
+                    Platforma = o.Key.Platforma,
+                    Quantity = o.Sum(o => o.Quantity),
+                    Price = (int)o.Sum(o => o.Quantity * o.Price)
+                }).
+                OrderByDescending(o => o.Price).
+                ToListAsync();
+            return orders;
+        }
+
     }
 }

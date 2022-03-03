@@ -296,7 +296,7 @@ namespace PromiCRM.Controllers
 
         /// ATASKAITOS - REPORTS - --------------------------------------
 
-        [HttpGet("last-month/sold")]
+        [HttpGet("reports/last-month/sold")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetLastMonthSoldProducts()
@@ -306,13 +306,25 @@ namespace PromiCRM.Controllers
             var results = standartOrders.Concat(nonStandartOrders);
             return Ok(results);
         }
-
+        //Atvaizdavimas pagal platforma kiek uzsakyta ir labiausiai veluojantys is tu eiles tvarka
         [HttpGet("uncompleted/by-platform")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUncompleteOrdersByPlatforms()
         {
             var orders = await _ordersRepository.GetUncompletedOrdersByPlatforms();
+            return Ok(orders);
+        }
+
+        //getting orders grouped by platforms in specified period of time(between to dates)
+        [HttpGet("reports/completed/platforms")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCompletedPlatformsOrdersByTime([FromQuery]string dateFrom, [FromQuery]string dateTo)
+        {
+            var fromDate = DateTime.Parse(dateFrom);
+            var toDate = DateTime.Parse(dateTo);
+            var orders = await _ordersRepository.GetCompletedPlatformsOrdersByTime(fromDate,toDate);
             return Ok(orders);
         }
 
