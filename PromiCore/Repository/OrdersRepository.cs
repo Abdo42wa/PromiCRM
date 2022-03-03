@@ -367,6 +367,7 @@ namespace PromiCore.Repository
 
 
         //REPORTS - ATASKAITOS
+
         public async Task<IList<LastMonthSoldOrderDTO>> GetLastMonthSoldProducts()
         {
             //Getting only standart. select products with same code. and get prices
@@ -406,6 +407,26 @@ namespace PromiCore.Repository
                     CustomerLastName = o.Key.LastName
                 }).ToListAsync();
             return nonStandartOrders;
+        }
+        //most popular products in selected period of time
+        public async Task<IList<OrderDTO>> GetUncompletedOrdersByPlatforms()
+        {
+            //grouping all orders by platforma and orderFinish date so if platforma and date are same
+            //it will group it to one then ordering from lowest date to highest.
+            //becouse we need first to show those that are more late
+            var orders = await _database.Orders.
+                Where(o => o.Status == false).
+                GroupBy(o => new { o.Platforma, o.OrderFinishDate.Date }).
+                Select(o => new OrderDTO
+                {
+                    Platforma = o.Key.Platforma,
+                    Quantity = o.Sum(o => o.Quantity),
+                    Price = (int)o.Sum(o => o.Quantity * o.Price),
+                    OrderFinishDate = o.Key.Date
+                }).
+                OrderBy(o => o.OrderFinishDate).
+                ToListAsync();
+            return orders;
         }
 
     }

@@ -307,6 +307,15 @@ namespace PromiCRM.Controllers
             return Ok(results);
         }
 
+        [HttpGet("uncompleted/by-platform")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUncompleteOrdersByPlatforms()
+        {
+            var orders = await _ordersRepository.GetUncompletedOrdersByPlatforms();
+            return Ok(orders);
+        }
+
         /// <summary>
         /// Create image. generate its name, get created image url from storage
         /// only then save order record to db

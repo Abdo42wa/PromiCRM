@@ -56,5 +56,7 @@ namespace PromiCore.IRepository
         //ATASKAITOS - REPORTS
         Task<IList<LastMonthSoldOrderDTO>> GetLastMonthSoldProducts();
         Task<IList<LastMonthSoldOrderDTO>> GetLastMonthNonStandartSoldProducts();
+        //most popular products in selected period of time
+        Task<IList<OrderDTO>> GetUncompletedOrdersByPlatforms(); 
     }
 }
