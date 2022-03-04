@@ -372,19 +372,19 @@ namespace PromiCore.Repository
         {
             //Getting only standart. select products with same code. and get prices
             var today = DateTime.Now;
+            var lastMonth = today.AddMonths(-1).Date;
             var standartOrders = await _database.Orders.
                 Where(o => o.Status == true).
-                Where(o => o.CompletionDate.Value.Year == today.Year).
-                Where(o => o.CompletionDate.Value.Month == today.Month).
+                Where(o => o.CompletionDate.Value.Year == lastMonth.Year).
+                Where(o => o.CompletionDate.Value.Month == lastMonth.Month).
                 Where(o => o.OrderType == "Standartinis").
-                GroupBy(o => new { o.ProductCode, o.Product.ImagePath, o.Product.Name }).
+                GroupBy(o => new { o.ProductCode, o.Product.ImagePath }).
                 Select(o => new LastMonthSoldOrderDTO
                 {
                     ProductCode = o.Key.ProductCode,
                     ImagePath = o.Key.ImagePath,
                     Price = (int)o.Sum(o => o.Price * o.Quantity),
                     Quantity = o.Sum(o => o.Quantity),
-                    Name = o.Key.Name
                 }).ToListAsync();
             return standartOrders;
         }
@@ -393,10 +393,11 @@ namespace PromiCore.Repository
             //Getting only non-standart. select products with same code. and get prices
             //getting by customers. 
             var today = DateTime.Now;
+            var lastMonth = today.AddMonths(-1).Date;
             var nonStandartOrders = await _database.Orders.
                 Where(o => o.Status == true).
-                Where(o => o.CompletionDate.Value.Year == today.Year).
-                Where(o => o.CompletionDate.Value.Month == today.Month).
+                Where(o => o.CompletionDate.Value.Year == lastMonth.Year).
+                Where(o => o.CompletionDate.Value.Month == lastMonth.Month).
                 Where(o => o.OrderType == "Ne-standartinis").
                 GroupBy(o => new { o.Status, o.Customer.Name, o.Customer.LastName}).
                 Select(o => new LastMonthSoldOrderDTO
