@@ -28,7 +28,7 @@ namespace PromiCRM
         {
             services.AddDbContext<DatabaseContext>(
                options => options.UseSqlServer(
-                   Configuration.GetConnectionString("abdoConnection"),
+                   Configuration.GetConnectionString("lukasConnection"),
                    b => b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
 
@@ -49,6 +49,7 @@ namespace PromiCRM
             // Add autoMapper. For type providing MapperInitializer that i created in Configurations
             services.AddAutoMapper(typeof(MapperInitilizer));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
             //adding new serivice. IAuthManager mapped to AuthManager. AuthManager has methods implementation.
             services.AddScoped<IAuthManager, AuthManager>();
             // add service as singleton becouse i dont want to renew it everytime
