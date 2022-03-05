@@ -418,6 +418,7 @@ namespace PromiCore.Repository
             //becouse we need first to show those that are more late
             var orders = await _database.Orders.
                 Where(o => o.Status == false).
+                Where(o => o.OrderType != "Sandelis").
                 GroupBy(o => new { o.Platforma, o.OrderFinishDate.Date }).
                 Select(o => new OrderDTO
                 {
