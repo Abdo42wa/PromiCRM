@@ -438,6 +438,7 @@ namespace PromiCore.Repository
                 Where(o => o.Status == true).
                 Where(o => o.OrderFinishDate >= dateFrom).
                 Where(o => o.OrderFinishDate <= dateTo).
+                Where(o => o.OrderType != "Sandelis").
                 GroupBy(o => new { o.Platforma }).
                 Select(o => new OrderDTO
                 {
@@ -445,7 +446,7 @@ namespace PromiCore.Repository
                     Quantity = o.Sum(o => o.Quantity),
                     Price = (int)o.Sum(o => o.Quantity * o.Price)
                 }).
-                OrderByDescending(o => o.Price).
+                OrderByDescending(o => o.Quantity).
                 ToListAsync();
             return orders;
         }
