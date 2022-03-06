@@ -10,8 +10,8 @@ using PromiData.Models;
 namespace PromiData.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220305195215_createDatabase")]
-    partial class createDatabase
+    [Migration("20220306131524_createdDB")]
+    partial class createdDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -160,7 +160,7 @@ namespace PromiData.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 3, 5, 21, 52, 15, 335, DateTimeKind.Local).AddTicks(7818),
+                            LastAdittion = new DateTime(2022, 3, 6, 15, 15, 23, 782, DateTimeKind.Local).AddTicks(700),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -201,6 +201,12 @@ namespace PromiData.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Defective")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("DefectiveNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("Device")
                         .HasColumnType("nvarchar(max)");
@@ -641,7 +647,7 @@ namespace PromiData.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$lawO1CnAlk/fIEanNzkaW.dORw3rE3u8XyGyahI3MHxjy6OGXurTG",
+                            Password = "$2a$11$dBLR7jVOWMCWbNzWZfdIg.SWjPz2q0zy.2ovqxV5M7/Tv5wHIqA66",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -805,7 +811,7 @@ namespace PromiData.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 3, 5, 21, 52, 15, 331, DateTimeKind.Local).AddTicks(1608),
+                            Date = new DateTime(2022, 3, 6, 15, 15, 23, 766, DateTimeKind.Local).AddTicks(8016),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")

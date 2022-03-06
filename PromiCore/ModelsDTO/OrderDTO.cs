@@ -7,6 +7,8 @@ namespace PromiCore.ModelsDTO
     public class CreateOrderDTO
     {
         public Guid UserId { get; set; }
+        public bool Defective { get; set; }
+        public int DefectiveNumber { get; set; }
         public string CountryName { get; set; }
         public string CurrencyName { get; set; }
         public string OrderType { get; set; }

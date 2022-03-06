@@ -9,6 +9,8 @@ namespace PromiData.Models
     {
         [Key]
         public int Id { get; set; }
+        public bool Defective { get; set; }
+        public int DefectiveNumber { get; set; }
         public string CountryName { get; set; }
         public string CurrencyName { get; set; }
         // we need to conect the user table some how with the order tab
