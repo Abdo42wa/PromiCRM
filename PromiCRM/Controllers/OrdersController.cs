@@ -274,7 +274,7 @@ namespace PromiCRM.Controllers
         public async Task<IActionResult> GetUrgentOrders()
         {
             var orders = await _unitOfWork.Orders.GetAll(o => o.Status == false, o => o.OrderByDescending(o => o.OrderFinishDate).
-            OrderBy(o => o.ProductCode), includeProperties: "Product,User,Shipment,Customer,Country,Currency");
+            OrderBy(o => o.ProductCode), includeProperties: "Product,User,Shipment,Customer,Country");
             /*var orders = _database.Orders.Where(o => o.Status == false).
                 OrderByDescending(o => o.OrderFinishDate).OrderBy(o => o.ProductCode).ToList();*/
             var results = _mapper.Map<IList<OrderDTO>>(orders);
