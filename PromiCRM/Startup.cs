@@ -28,7 +28,7 @@ namespace PromiCRM
         {
             services.AddDbContext<DatabaseContext>(
                options => options.UseSqlServer(
-                   Configuration.GetConnectionString("lukasConnection"),
+                   Configuration.GetConnectionString("abdoConnection"),
                    b => b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
 
