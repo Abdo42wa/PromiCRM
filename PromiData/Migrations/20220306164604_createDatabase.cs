@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PromiData.Migrations
 {
-    public partial class createdDB : Migration
+    public partial class createDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -490,7 +490,7 @@ namespace PromiData.Migrations
             migrationBuilder.InsertData(
                 table: "MaterialsWarehouse",
                 columns: new[] { "Id", "DeliveryTime", "ImageName", "ImagePath", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
-                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 3, 6, 15, 15, 23, 782, DateTimeKind.Local).AddTicks(700), "cm", 22500, "Fanera 3mm", 40 });
+                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 3, 6, 18, 46, 3, 963, DateTimeKind.Local).AddTicks(3507), "cm", 22500, "Fanera 3mm", 40 });
 
             migrationBuilder.InsertData(
                 table: "Products",
@@ -539,12 +539,12 @@ namespace PromiData.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$dBLR7jVOWMCWbNzWZfdIg.SWjPz2q0zy.2ovqxV5M7/Tv5wHIqA66", "860855183", "Admin", 1, null });
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$53BIrxqnmAWvdaAIo7jTPOfquNqqR76zpGkSRSRYX/aoPMZeaWMLe", "860855183", "Admin", 1, null });
 
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
                 columns: new[] { "Id", "Date", "Description", "Done", "UserId" },
-                values: new object[] { 1, new DateTime(2022, 3, 6, 15, 15, 23, 766, DateTimeKind.Local).AddTicks(8016), "Supildyti frezavimo laiko lentele", false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
+                values: new object[] { 1, new DateTime(2022, 3, 6, 18, 46, 3, 957, DateTimeKind.Local).AddTicks(8674), "Supildyti frezavimo laiko lentele", false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CountryId",

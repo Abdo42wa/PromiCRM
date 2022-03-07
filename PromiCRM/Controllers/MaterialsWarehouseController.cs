@@ -71,14 +71,14 @@ namespace PromiCRM.Controllers
                 _logger.LogError($"Invalid CREATE attempt in {nameof(CreateMaterial)}");
                 return BadRequest("Submited invalid data");
             }
-            if (warehouseMaterialForm.File == null || warehouseMaterialForm.File.Length < 1)
+           /* if (warehouseMaterialForm.File == null || warehouseMaterialForm.File.Length < 1)
             {
                 return BadRequest("Submited invalid data. Didnt get image");
-            }
-            var fileName = Guid.NewGuid() + Path.GetExtension(warehouseMaterialForm.File.FileName);
+            }*/
+           /* var fileName = Guid.NewGuid() + Path.GetExtension(warehouseMaterialForm.File.FileName);
             var imageUrl = await _blobService.UploadBlob(fileName, warehouseMaterialForm.File, "materials");
             warehouseMaterialForm.ImageName = fileName;
-            warehouseMaterialForm.ImagePath = imageUrl;
+            warehouseMaterialForm.ImagePath = imageUrl;*/
             var material = _mapper.Map<MaterialWarehouse>(warehouseMaterialForm);
             await _unitOfWork.MaterialsWarehouse.Insert(material);
             await _unitOfWork.Save();

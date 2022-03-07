@@ -10,8 +10,8 @@ using PromiData.Models;
 namespace PromiData.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220306131524_createdDB")]
-    partial class createdDB
+    [Migration("20220306164604_createDatabase")]
+    partial class createDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -160,7 +160,7 @@ namespace PromiData.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 3, 6, 15, 15, 23, 782, DateTimeKind.Local).AddTicks(700),
+                            LastAdittion = new DateTime(2022, 3, 6, 18, 46, 3, 963, DateTimeKind.Local).AddTicks(3507),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -647,7 +647,7 @@ namespace PromiData.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$dBLR7jVOWMCWbNzWZfdIg.SWjPz2q0zy.2ovqxV5M7/Tv5wHIqA66",
+                            Password = "$2a$11$53BIrxqnmAWvdaAIo7jTPOfquNqqR76zpGkSRSRYX/aoPMZeaWMLe",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -811,7 +811,7 @@ namespace PromiData.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 3, 6, 15, 15, 23, 766, DateTimeKind.Local).AddTicks(8016),
+                            Date = new DateTime(2022, 3, 6, 18, 46, 3, 957, DateTimeKind.Local).AddTicks(8674),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")

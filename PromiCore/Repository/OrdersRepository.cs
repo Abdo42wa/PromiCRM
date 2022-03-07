@@ -492,5 +492,8 @@ namespace PromiCore.Repository
             return orders;
         }
 
+        //Deziu kiekis likes sandelyje ir vidutiniskai kiek laiko dar uzteks esancio kiekio
+       
+
     }
 }

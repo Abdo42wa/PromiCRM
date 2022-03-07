@@ -328,6 +328,31 @@ namespace PromiCRM.Controllers
             return Ok(orders);
         }
 
+        //Ataskaita pagal pasirinkta salis ir laikotarpi
+        [HttpGet("reports/completed/countrys")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCompletedCountryOrdersByTime([FromQuery] string dateFrom, [FromQuery] string dateTo)
+        {
+            var fromDate = DateTime.Parse(dateFrom);
+            var toDate = DateTime.Parse(dateTo);
+            var orders = await _ordersRepository.GetOrdersByTimeAndCountry(fromDate, toDate);
+            return Ok(orders);
+        }
+
+
+        //Populiariausiu prekiu ataskaita per pasirinkta laikas
+        [HttpGet("reports/popular/product")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetPopularProductByTime([FromQuery] string dateFrom, [FromQuery] string dateTo)
+        {
+            var fromDate = DateTime.Parse(dateFrom);
+            var toDate = DateTime.Parse(dateTo);
+            var orders = await _ordersRepository.GetPopularProductByTime(fromDate, toDate);
+            return Ok(orders);
+        }
+
         /// <summary>
         /// Create image. generate its name, get created image url from storage
         /// only then save order record to db
