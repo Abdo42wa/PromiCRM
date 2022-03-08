@@ -26,6 +26,8 @@ namespace PromiCore.ModelsDTO
 
         [Required]
         public bool Done { get; set; }
+
+        public DateTime Date { get; set; }
     }
     public class WeeklyWorkScheduleDTO : CreateWeeklyWorkScheduleDTO
     {
