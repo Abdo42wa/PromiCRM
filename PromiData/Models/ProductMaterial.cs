@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PromiData.Models
@@ -22,7 +23,7 @@ namespace PromiData.Models
         [ForeignKey(nameof(MaterialWarehouse))]
         public int MaterialWarehouseId { get; set; }
         public virtual MaterialWarehouse MaterialWarehouse { get; set; }
-
+        public DateTime RegisterDate { get; set; }
 
     }
 }

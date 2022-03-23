@@ -158,7 +158,7 @@ namespace PromiData.Migrations
                             Id = 1,
                             DeliveryTime = 5,
                             Info = "viena plokste 1,5x1,5m =22500",
-                            LastAdittion = new DateTime(2022, 3, 6, 18, 46, 3, 963, DateTimeKind.Local).AddTicks(3507),
+                            LastAdittion = new DateTime(2022, 3, 16, 11, 10, 6, 490, DateTimeKind.Local).AddTicks(3511),
                             MeasuringUnit = "cm",
                             Quantity = 22500,
                             Title = "Fanera 3mm",
@@ -414,6 +414,9 @@ namespace PromiData.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("RegisterDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MaterialWarehouseId");
@@ -430,7 +433,8 @@ namespace PromiData.Migrations
                             Id = 1,
                             MaterialWarehouseId = 1,
                             ProductId = 1,
-                            Quantity = 2
+                            Quantity = 2,
+                            RegisterDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -645,7 +649,7 @@ namespace PromiData.Migrations
                             Id = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"),
                             Email = "promiadmin@gmail.com",
                             Name = "Adminas",
-                            Password = "$2a$11$53BIrxqnmAWvdaAIo7jTPOfquNqqR76zpGkSRSRYX/aoPMZeaWMLe",
+                            Password = "$2a$11$6nyy2L.yNmazUCiJ/5iTOevbww8QuRR6/5/x0wc20CXkg..jgUXVi",
                             PhoneNumber = "860855183",
                             Surname = "Admin",
                             TypeId = 1
@@ -809,7 +813,7 @@ namespace PromiData.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 3, 6, 18, 46, 3, 957, DateTimeKind.Local).AddTicks(8674),
+                            Date = new DateTime(2022, 3, 16, 11, 10, 6, 484, DateTimeKind.Local).AddTicks(507),
                             Description = "Supildyti frezavimo laiko lentele",
                             Done = false,
                             UserId = new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e")

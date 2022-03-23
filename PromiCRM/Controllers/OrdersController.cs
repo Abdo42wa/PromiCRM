@@ -353,6 +353,16 @@ namespace PromiCRM.Controllers
             return Ok(orders);
         }
 
+
+        [HttpGet("box/number")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAmountOfBox()
+        {
+            var orders = await _ordersRepository.GetAmountOfBox();
+            return Ok(orders);
+        }
+
         /// <summary>
         /// Create image. generate its name, get created image url from storage
         /// only then save order record to db

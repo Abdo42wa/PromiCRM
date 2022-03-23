@@ -493,7 +493,27 @@ namespace PromiCore.Repository
         }
 
         //Deziu kiekis likes sandelyje ir vidutiniskai kiek laiko dar uzteks esancio kiekio
-       
+        public async Task<IList<ProductMaterialDTO>> GetAmountOfBox()
+        {
+            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+            Calendar cal = dfi.Calendar;
+            DateTime today = DateTime.Now;
+            DateTime monthBefore = today.AddDays(-30);
+            //group by completion date. so for example each order of 2022/01/29 will be counted seper
+            var ProductMaterials = await _database.ProductMaterials.Where(o => o.MaterialWarehouse.Title == "Deze").
+                Where(o => o.RegisterDate.Date > monthBefore.Date).
+                GroupBy(o => o.RegisterDate.Date).Select(x => new ProductMaterialDTO
+                {
+                    Quantity = x.Sum(x => x.Quantity),
+                    Id = x.Min(p => p.Id),
+                    RegisterDate = x.Key,
+                }).OrderByDescending(o => o.Quantity).ToListAsync();
+            return ProductMaterials;
+        }
 
+        /*Task<IList<ProductMaterialDTO>> IOrdersRepository.GetAmountOfBox()
+        {
+            throw new NotImplementedException();
+        }*/
     }
 }

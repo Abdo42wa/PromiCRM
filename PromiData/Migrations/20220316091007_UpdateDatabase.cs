@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PromiData.Migrations
 {
-    public partial class createDatabase : Migration
+    public partial class UpdateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -394,7 +394,8 @@ namespace PromiData.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: true),
-                    MaterialWarehouseId = table.Column<int>(type: "int", nullable: false)
+                    MaterialWarehouseId = table.Column<int>(type: "int", nullable: false),
+                    RegisterDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -490,7 +491,7 @@ namespace PromiData.Migrations
             migrationBuilder.InsertData(
                 table: "MaterialsWarehouse",
                 columns: new[] { "Id", "DeliveryTime", "ImageName", "ImagePath", "Info", "LastAdittion", "MeasuringUnit", "Quantity", "Title", "UseDays" },
-                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 3, 6, 18, 46, 3, 963, DateTimeKind.Local).AddTicks(3507), "cm", 22500, "Fanera 3mm", 40 });
+                values: new object[] { 1, 5, null, null, "viena plokste 1,5x1,5m =22500", new DateTime(2022, 3, 16, 11, 10, 6, 490, DateTimeKind.Local).AddTicks(3511), "cm", 22500, "Fanera 3mm", 40 });
 
             migrationBuilder.InsertData(
                 table: "Products",
@@ -533,18 +534,18 @@ namespace PromiData.Migrations
 
             migrationBuilder.InsertData(
                 table: "ProductMaterials",
-                columns: new[] { "Id", "MaterialWarehouseId", "OrderId", "ProductId", "Quantity" },
-                values: new object[] { 1, 1, null, 1, 2 });
+                columns: new[] { "Id", "MaterialWarehouseId", "OrderId", "ProductId", "Quantity", "RegisterDate" },
+                values: new object[] { 1, 1, null, 1, 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "Password", "PhoneNumber", "Surname", "TypeId", "UserPhoto" },
-                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$53BIrxqnmAWvdaAIo7jTPOfquNqqR76zpGkSRSRYX/aoPMZeaWMLe", "860855183", "Admin", 1, null });
+                values: new object[] { new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e"), "promiadmin@gmail.com", "Adminas", "$2a$11$6nyy2L.yNmazUCiJ/5iTOevbww8QuRR6/5/x0wc20CXkg..jgUXVi", "860855183", "Admin", 1, null });
 
             migrationBuilder.InsertData(
                 table: "WeeklyWorkSchedules",
                 columns: new[] { "Id", "Date", "Description", "Done", "UserId" },
-                values: new object[] { 1, new DateTime(2022, 3, 6, 18, 46, 3, 957, DateTimeKind.Local).AddTicks(8674), "Supildyti frezavimo laiko lentele", false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
+                values: new object[] { 1, new DateTime(2022, 3, 16, 11, 10, 6, 484, DateTimeKind.Local).AddTicks(507), "Supildyti frezavimo laiko lentele", false, new Guid("c9490c27-1b89-4e39-8f2e-99b48dcc709e") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CountryId",

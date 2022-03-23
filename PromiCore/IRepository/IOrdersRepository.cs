@@ -62,5 +62,6 @@ namespace PromiCore.IRepository
         Task<IList<OrderDTO>> GetCompletedPlatformsOrdersByTime(DateTime dateFrom, DateTime dateTo);
         Task<IList<OrderDTO>> GetOrdersByTimeAndCountry(DateTime dateFrom, DateTime dateTo);
         Task<IList<OrderDTO>> GetPopularProductByTime(DateTime dateFrom, DateTime dateTo);
+        Task<IList<ProductMaterialDTO>> GetAmountOfBox();
     }
 }

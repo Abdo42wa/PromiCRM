@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PromiCore.ModelsDTO
 {
@@ -8,6 +9,7 @@ namespace PromiCore.ModelsDTO
         public int Quantity { get; set; }
         public int? OrderId { get; set; }
         public int? ProductId { get; set; }
+        public DateTime RegisterDate { get; set; }
         [Required]
         public int MaterialWarehouseId { get; set; }
     }
