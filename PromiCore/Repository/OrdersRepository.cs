@@ -511,9 +511,6 @@ namespace PromiCore.Repository
             return ProductMaterials;
         }
 
-        /*Task<IList<ProductMaterialDTO>> IOrdersRepository.GetAmountOfBox()
-        {
-            throw new NotImplementedException();
-        }*/
+        
     }
 }
